@@ -1,5 +1,4 @@
-from flask import Flask
-from flask import request
+from flask import Flask, request, send_from_directory
 
 from viewer import viewer
 from writer import writer
@@ -41,6 +40,11 @@ def rules():
 @app.route('/about')
 def about():
     return p.mk(p.html("about"))
+
+
+@app.route('/raw/<path:filename>')
+def base_static(filename):
+        return send_from_directory(app.root_path + '/threads/', filename)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
