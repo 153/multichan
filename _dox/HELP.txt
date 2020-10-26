@@ -1,0 +1,24 @@
+# Deploy server at 127.0.0.1:5000
+python -m flask run
+
+app.py:
+	Flask entry point;
+	home for front page,
+	rules page, and about page.
+
+settings.py:
+	Configure a few things.
+
+utils.py:
+	A few simple utilities. 
+
+viewer.py:
+	 * List boards
+	 * List threads
+	 * List all threads
+	 * Display a thread
+
+writer.py:
+	 * Create a thread
+	 * Reply to a thread
+	 * Update the board

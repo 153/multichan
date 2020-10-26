@@ -1,0 +1,38 @@
+1. pip3 install flask
+2. python3 -m flask run
+3. python3 app.py # Alternative method
+4. ./Multich.sh # Alternative method 
+
+# Basic info
+Script runs by default at 127.0.0.1 port 5000. Using nginx or lighttpd,
+it's fairly simple to point a domain name and port 80 or 443 at the
+server.
+
+Modify settings.py setting "name" to set the name of your board;
+add boards you want to link with in the "friends" part of the configuration.
+
+Moderation tool to come that does the following:
+- blacklist certain terms
+- delete thread / post 
+- delete all posts by IP
+- ban IP address
+- ban IP range
+
+# Directory structure
+```
+in ./threads/ :
+
+./site/threads/######/head
+	title \n tag
+	
+./site/threads/######/op
+./site/threads/######/local
+./site/threads/######/sitename
+	time<>name<>comment
+	
+./site/threads/######/list
+	shortname time count
+
+./site/list
+	optime lastreply localreplies allreplies title
+```
