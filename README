@@ -1,7 +1,8 @@
 1. pip3 install flask
-2. python3 -m flask run
-3. python3 app.py # Alternative method
-4. ./Multich.sh # Alternative method 
+2. pip3 install captcha
+3. python3 -m flask run
+4. python3 app.py # Alternative method
+5. ./Multich.sh # Alternative method 
 
 # Basic info
 Script runs by default at 127.0.0.1 port 5000. Using nginx or lighttpd,

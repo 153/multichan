@@ -2,6 +2,7 @@ from flask import Flask, request, send_from_directory
 
 from viewer import viewer
 from writer import writer
+from secure import secure
 import pagemaker as p
 import settings as s
 
@@ -12,6 +13,7 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 app.register_blueprint(viewer)
 app.register_blueprint(writer)
+app.register_blueprint(secure)
 
 @app.errorhandler(404)
 def not_found(e):
@@ -40,7 +42,6 @@ def rules():
 @app.route('/about')
 def about():
     return p.mk(p.html("about"))
-
 
 @app.route('/raw/<path:filename>')
 def base_static(filename):
