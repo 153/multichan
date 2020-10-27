@@ -1,4 +1,5 @@
 name = "00chan"
+log = "./ips.txt"
 
 friends = {
     "homeboard": "https://homeboard.net",
