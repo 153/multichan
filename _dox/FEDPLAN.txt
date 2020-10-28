@@ -1,0 +1,38 @@
+mkthread(board, thread)
+mkboard(board)
+mktag(board)
+mkall()
+
+Reserved names:
+	 list, head, local, tags
+
+/raw/
+	friends.txt
+		List of boards being followed by primary board.
+		Threads and replies to threads will be carried over.
+	list.txt
+		Index of threads showing board, creation time,
+		last reply time, local replies, total replies, and
+		thread title.
+	tags.txt
+		Index of allowed tags and threads associated with them.
+	list.board-example.old
+		Local copy of remote board's list.txt . (When syncing,
+		list.board-example.new is downloaded; it is renamed when
+		the sync is complete.)
+
+/raw/board-example/
+	list.txt
+		Index of threads originating on (boardname). 
+	tags.txt
+		Index of tags and their threads on (boardname).
+
+/raw/board-example/thread-example/
+	head.txt
+		Thread title and tags.
+	list.txt
+		List of all replies to thread by time.
+	local.txt
+		Local board's replies to thread.
+	board-example.txt
+		Another board's replies to thread.
