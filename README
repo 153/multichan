@@ -13,11 +13,11 @@ Modify settings.py setting "name" to set the name of your board;
 add boards you want to link with in the "friends" part of the configuration.
 
 Moderation tool to come that does the following:
-- blacklist certain terms
-- delete thread / post 
-- delete all posts by IP
-- ban IP address
-- ban IP range
+* blacklist certain terms
+* delete thread / post 
+* delete all posts by IP
+* ban IP address
+* ban IP range
 
 # Directory structure
 ```
