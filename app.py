@@ -6,6 +6,7 @@ from secure import secure
 import pagemaker as p
 import settings as s
 
+_port = s._port
 app = Flask(__name__,
             static_url_path = "",
             static_folder = "static",)
@@ -48,7 +49,7 @@ def base_static(filename):
         return send_from_directory(app.root_path + '/threads/', filename)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=_port, debug=True)
     print(request.headers)
 
 app.run(debug=True)
