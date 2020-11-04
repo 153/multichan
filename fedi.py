@@ -10,17 +10,16 @@ def ldsing(board, thread, sub):
 
 def mkthread(board, thread):
     d = ["head.txt", "list.txt"]
-    threads = {}
-    posts = []    
     tdir = "./threads/" + board + "/" + thread
     reps = os.listdir(tdir)
     reps = [r for r in reps if r not in d]
     reps = [r.split(".")[0] for r in reps]
     reps = [r for r in reps if len(r)]
-    
+    threads = {}
+    posts = []        
     for r in reps:
         threads[r] = ldsing(board, thread, r)
-        print(r, ":", len(threads[r]))
+
     for r in threads:
         for p in threads[r]:
             posts.append([r, p])

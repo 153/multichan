@@ -3,6 +3,7 @@ import os
 import random
 import string
 import settings as s
+import time
 from flask import Blueprint
 from flask import request
 from captcha.image import ImageCaptcha
@@ -11,6 +12,7 @@ secure = Blueprint("secure", __name__)
 image = ImageCaptcha(fonts=['droid.ttf'])
 conf = s.log
 klen = 5
+tnow = int(time.time())
 
 def get_ip():
     return request.headers.get('X-Forwarded-For', request.remote_addr)
@@ -24,21 +26,25 @@ def ldlog():
     with open(conf, "r") as log:
         log = log.read().splitlines()
     log = [i.split(" ") for i in log]
-    log = {i[0] : i[1] for i in log}
+    log = {i[1] : i for i in log}
     return log
 
 def addlog(ip):
-    pair = [ip, randstr(klen)]
+    entry = [str(tnow), ip, randstr(klen)]
     log = ldlog()
     if ip not in log:
-        log[pair[0]] = pair[1]
+        log[entry[1]] = entry
+    for x in log:
+        print(" ".join(log[x]))
+#    log = "\n".join([" ".join(log[x]) for x in log])
     return log
 
 @secure.route('/captcha/')
-def test():
-    ipaddr = get_ip()
+def show_captcha():
+    ipaddr = "123" #get_ip()
     mylog = addlog(ipaddr)
     logtxt = json.dumps(mylog)
     key = mylog[ipaddr]
-    image.write(key, './static/secure.png')
-    return f"{ipaddr} <p> <img src='/secure.png'><p> {logtxt}"
+    image.write(key, f'./static/{ipaddr}.png')
+    return f"{ipaddr} <p> <img src='{ipaddr}.png'><p> {logtxt}"
+print(show_captcha())
