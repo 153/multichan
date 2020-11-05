@@ -22,11 +22,10 @@ def boardlist(li=0):
     boards2 = boards
     boards =[]
     for x in boards2:
-        boards.append(f"<a href='/threads/{x}'>{x}</a>")
-#    boards = [f"<a href='/threads/{x}'>{x}</a>" for x in boards]
-    boards.insert(0, "<a href='/threads/'>Global</a>")
-    boards = "Boards: " + " &diams; ".join(boards) + "<hr>"
-    boards = "<div style='text-align: right'>" + boards + "</div>"
+        boards.append(f"\n<a href='/threads/{x}'>{x}</a>")
+    boards.insert(0, "\n<a href='/threads/'>Global</a>")
+    boards = "\nBoards: " + " \n&diams; ".join(boards) + "<hr>"
+    boards = "<div style='text-align: right'>" + boards + "\n</div>"
     return boards
 
 def tlist(board=''):
