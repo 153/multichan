@@ -1,0 +1,35 @@
+ldsing(board, thread, sub)
+mkthread(board, thread)
+
+ldboard(board)
+mkboard(board)
+pullboard(board)
+
+syncthread(board, thread)
+syncboard(board)
+
+# Class 1
+* ldsing(board, thread, sub)
+    Simply loads a reply list from a single board in the given
+    thread.
+
+* mkthread(board, thread)
+    Creates a new reply timeline for a given thread.
+
+# Class 2
+* ldboard(board)
+    Composes a new board index, based on reply timelines.
+
+* mkboard(board)
+    Writes a new board index, based on reply timelines.
+    Applies mkthread() to all threads.
+
+* pullboard(board)
+    Sync remote board's threads with local copy.
+
+# Class 3
+* syncthread(board, thread)
+    Sync replies to thread from all friends.
+
+* syncboard(board)
+    Sync all replies to board's threads from all friends.
