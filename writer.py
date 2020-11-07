@@ -31,20 +31,20 @@ def mk_op(title="", tags=["random"], author="Anonymous", msg=""):
 
     with open(files["head"], "w") as headf:
         headf.write("\n".join(head))
-    with open(files["list"], "w") as listf:
-        listf.write(f"local {tnow}\n")
+    with open(files["list"], "r+") as listf:
+        li = li.read().splitlines()
+        li.append(f"local {tnow}")
+        li = "\n".join(li) + "\n"
+        listf.write(li)
     with open(files["op"], "w") as opf:
         opf.write("<>".join([tnow, author, msg]) + "\n")
         
     with open(b_pat + "list.txt", "r") as bind:
         bind = bind.read().splitlines()
-    print(bind)
     upd = [t_loc[1], t_loc[1], "1 1", title]
-    print(" ".join(upd))
     bindex = [b for b in bind if len(b) > 4]
     bindex.append(" ".join(upd))
     bindex = "\n".join(bindex)
-    print(bindex)
     with open(b_pat + "list.txt", "w") as bind:
         bind.write(bindex)
 

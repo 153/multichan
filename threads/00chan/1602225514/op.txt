@@ -1,2 +1,0 @@
-1602225514<>Anonymous<>A fake remote thread to test multi-board features.
-1602226064<>Anonymous<>Another fake reply.

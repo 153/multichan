@@ -1,4 +1,5 @@
 import time
+import urllib.request
 
 tstring = "%Y-%m-%d %H:%M"
 
@@ -15,5 +16,14 @@ def lines(filen):
 def pclean(post):
     post = post.split("<br>")
 
+def wget(url, fn, w=1):
+    page = urllib.request.urlopen(url)
+    page = page.read().decode('utf-8')
+    if not w:
+        return page
+    with open(fn, "w") as fn:
+        fn.write(page)
+    return page
+        
 
 #print(otnow, unix2hum(tnow))
