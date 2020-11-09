@@ -1,6 +1,5 @@
 ldsing(board, thread, sub)
 mkthread(board, thread)
-addthread(board, thread)
 
 ldboard(board, write)
 mkboard(board)
@@ -17,8 +16,9 @@ syncboard(board)
 * mkthread(board, thread)
     Creates a new reply timeline for a given thread.
 
-* addthread(board, thread)
-    Add thread to board's index if it's not present.
+* pullthread(board, thread, sub)
+    Pulls latest reply list to a thread from specified remote host.
+    If sub is False, all remote boards will be checked.
 
 # Class 2
 * ldboard(board)

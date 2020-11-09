@@ -1,0 +1,27 @@
+ a {
+     color: darkmagenta;
+ }
+ body {
+     max-width: 550px;
+     background-color: #a6ffbb;
+ }
+
+ .post {
+     background-color: #6eff90;
+     padding-bottom: 4px;
+     border-bottom: 4px;
+ }
+ .meta {
+     border-bottom: 2px solid black;
+     padding: 4px;
+     background-color: #ebffef;
+ }
+ .msg {
+     padding-left: 12px;
+     padding-right: 8px;
+     text-align: justify;
+ }
+ img {
+     max-width: 500px;
+     text-align: center;
+ }

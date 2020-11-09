@@ -35,15 +35,6 @@ def mkthread(board, thread):
     with open(lf, "w") as lf:
         lf.write(posts)
 
-def addthread(board, thread):
-    bpath = "/".join(["./threads", board, "list.txt"])
-    tpath = "/".join(["./threads", board, thread])
-    tlist = tpath + "list.txt"
-    thead = tpath + "head.txt"
-    with open(path, "r") as ind:
-        ind = ind.read().splitlines()
-    threads = [x.split(" ")[0] for x in ind]
-    
 def ldboard(board, write=0):
     # Generate new board index based on existing thread indexes.
     meta = ["head.txt", "list.txt"]
