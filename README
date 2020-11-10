@@ -26,14 +26,28 @@ in ./threads/ :
 ./site/threads/######/head
 	title \n tag
 	
-./site/threads/######/op
 ./site/threads/######/local
 ./site/threads/######/sitename
 	time<>name<>comment
 	
 ./site/threads/######/list
-	shortname time count
+	shortname time
 
 ./site/list
 	optime lastreply localreplies allreplies title
+
+./site/tags
+	tagname optime optime optime
+./list
+	board optime lastreply localreplies allreplies title
+
+./tags
+	tagname board-optime board-optime
+
+./friends
+	shortname url
+	shortname url
+	shortname url
+
+
 ```
