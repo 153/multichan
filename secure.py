@@ -11,14 +11,15 @@ from captcha.image import ImageCaptcha
 secure = Blueprint("secure", __name__)
 image = ImageCaptcha(fonts=['droid.ttf'])
 conf = s.log
-klen = 5
+klen = 4
 tnow = int(time.time())
 
 def get_ip():
     return request.headers.get('X-Forwarded-For', request.remote_addr)
 
 def randstr(length):
-    letters = string.ascii_lowercase
+#    letters = string.ascii_lowercase
+    letters = "bcefgkmopswxz"
     key = "".join(list(random.choice(letters) for i in range(length)))
     return key
 
@@ -41,10 +42,10 @@ def addlog(ip):
 
 @secure.route('/captcha/')
 def show_captcha():
-    ipaddr = "123" #get_ip()
+    ipaddr = get_ip()
+#    ipaddr = "123" #get_ip()
     mylog = addlog(ipaddr)
     logtxt = json.dumps(mylog)
-    key = mylog[ipaddr]
+    key = mylog[ipaddr][-1]
     image.write(key, f'./static/{ipaddr}.png')
-    return f"{ipaddr} <p> <img src='{ipaddr}.png'><p> {logtxt}"
-print(show_captcha())
+    return f"{ipaddr} <p> <img src='/{ipaddr}.png'><p> {logtxt}"

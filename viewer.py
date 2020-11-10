@@ -33,7 +33,7 @@ def tlist(board=''):
     linkl = []
     if not board: 
         all_index()
-    if  board not in s.friends:
+    if board not in s.friends:
         all_index()
 #    if board and board in s.friends:
     with open(f"./threads/{board}/list.txt", "r") as toplist:

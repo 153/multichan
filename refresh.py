@@ -63,7 +63,7 @@ def ldboard(board, write=0):
         ind.write(bind)
 
 def mkboard(board):
-    tdir = "/".join(["./threads", + board])
+    tdir = "/".join(["./threads", board])
     threads = [x.name for x in os.scandir(tdir) if x.is_dir()]
     for thread in threads:
         mkthread(board, thread)
@@ -80,8 +80,11 @@ def pullboard(board):
     newp = [x.split(" ") for x in
            u.wget(indurl, fn).splitlines()
            if x.strip()]
-    with open(old, "r") as oldp:
-        oldp = [x.split(" ") for x in
+    if not os.path.exists(old):
+        oldp = []
+    else:     
+        with open(old, "r") as oldp:
+            oldp = [x.split(" ") for x in
                oldp.read().splitlines()
                if x.strip()]
     diff = [x[0] for x in newp if x not in oldp]
@@ -103,6 +106,7 @@ def pullboard(board):
     mkboard(board)
     os.rename(fn, old)
 
+pullboard("11chan")
 # pullboard("00chan")
 #print(ldboard("local"))
 #mkboard("local")
