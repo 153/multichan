@@ -16,7 +16,7 @@ def ldsing(board, thread, sub):
     return tf
 
 def mkthread(board, thread):
-    tdir = "./threads/" + board + "/" + thread
+    tdir = "/".join(["./threads", board, thread])
     reps = os.listdir(tdir)
     reps = [r for r in reps if r.split(".")[0] in s.friends.keys()]
     reps = [r.split(".")[0] for r in reps]
@@ -38,7 +38,7 @@ def mkthread(board, thread):
 def ldboard(board, write=0):
     # Generate new board index based on existing thread indexes.
     meta = ["head.txt", "list.txt"]
-    tdir = "./threads/" + board
+    tdir = "/".join(["./threads", board])
     indpath = "/".join([tdir, meta[1]])
     threads = [x.path for x in os.scandir(tdir) if x.is_dir()]
     bind = [] # first, last, local, total, title
@@ -63,7 +63,7 @@ def ldboard(board, write=0):
         ind.write(bind)
 
 def mkboard(board):
-    tdir = "./threads/" + board
+    tdir = "/".join(["./threads", + board])
     threads = [x.name for x in os.scandir(tdir) if x.is_dir()]
     for thread in threads:
         mkthread(board, thread)
@@ -71,10 +71,10 @@ def mkboard(board):
 
 def pullboard(board):
     f = s.friends
+    if not board in f:
+        return    
     fn = arc + board + ".new"
     old = arc + board 
-    if not board in f:
-        return
     url = "/".join([f[board], "raw", "local"])
     indurl = url + "/list.txt"
     newp = [x.split(" ") for x in
@@ -86,8 +86,8 @@ def pullboard(board):
                if x.strip()]
     diff = [x[0] for x in newp if x not in oldp]
     if not diff:
+        os.remove(fn)
         return
-    print(diff)
     for thread in diff:
         turl = "/".join([url, thread])
         path = "/".join(["./threads", board, thread])
