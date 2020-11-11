@@ -132,6 +132,9 @@ def mkfriends():
         flist.write(f)
 
 def findcomm():
+    furls = {friends[f]: f for f in friends
+             if f is not "local"}
+    print(furls)
     print(friends)
     for f in friends:
         if f is "local":
@@ -139,15 +142,47 @@ def findcomm():
         furl = "/".join([friends[f], "raw", "friends.txt"])
         lurl = "/".join([friends[f], "raw", "list.txt"])
         ffn = arc + "friends." + f
-        nffn = ffn + ".next"
+        if not os.path.exists(ffn):
+            with open(ffn, "w") as fi:
+                fi.write("")
+        nffn = ffn + ".new"
         lfn = arc + "list." + f
-        nlfn = lfn + ".next"
-        print(ffn, furl)
-        print(lfn, lurl)
-        print()
+        if not os.path.exists(lfn):
+            with open(lfn, "w") as fi:
+                fi.write("")
+        nlfn = lfn + ".new"
+        u.wget(furl, nffn)
+        u.wget(lurl, nlfn)
 
-mksite()
-mkfriends()
+# Ideally, a list of [name, op] localreplies
+# is compared against the older version, and
+# if a difference is found, {common}/{thread}/{friend}
+# is downloaded, {common}/{thread} & {common} are then
+# rebuilt. This is contingent on {common} being a common
+# board between client and server. 
+        with open(nffn, "r") as nf:
+            nf = nf.read().splitlines()
+        nf = [x.split(" ") for x in nf]
+        nfurls = {x[1]: x[0] for x in nf}
+        common = {nfurls[x]: furls[x] for x in nfurls if x in furls}
+        with open(lfn, "r") as oldl:
+            oldl = [o.split(" ") for o in oldl.read().splitlines()]
+        with open(nlfn, "r") as newl:
+            newl = [n.split(" ") for n in newl.read().splitlines()]
+        newl = [[common[n[0]], n[1], n[3]] for n in newl
+                if n[0] in common and int(n[3])]
+        print("="*20)
+        print(f)
+        print(nfurls)
+        print(common)
+        
+        print(oldl)
+        print(newl)
+        
+
+#mksite()
+#mkfriends()
+#pullboard("11chan")
 findcomm()
 #mksite()
 #pullboard("0chan")
