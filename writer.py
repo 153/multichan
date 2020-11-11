@@ -3,6 +3,7 @@ import time
 from flask import Blueprint
 from flask import request
 import pagemaker as p
+import refresh
 
 writer = Blueprint("writer", __name__)
 tdir = "threads"
@@ -51,6 +52,7 @@ def mk_op(title="", tags=["random"], author="Anonymous", msg=""):
     bindex = "\n".join(bindex)
     with open(b_pat + "list.txt", "w") as bind:
         bind.write(bindex)
+    refresh.mksite()
 
 def rep_t(board, thread, now, author, msg):
     # open board/thread/local
@@ -84,7 +86,8 @@ def update_board(board, thread, now, wr=1):
     newl = "\n".join([" ".join(t) for t in newl])
     if wr:
         with open(tpath, "w") as tpath:
-            tpath.write(newl)        
+            tpath.write(newl)
+        refresh.mksite()
     print(newl)
     
 #@writer.route('/create', methods=['POST', 'GET'])

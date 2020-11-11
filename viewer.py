@@ -8,6 +8,7 @@ import pagemaker as p
 import writer
 
 viewer = Blueprint("viewer", __name__)
+friends = s.friends
 
 with open("templ/post.t", "r") as postt:
     postt = postt.read()
@@ -119,13 +120,24 @@ def view_t(board, thread):
     for p in sorted(tdb.keys()):
         p = tdb[p]
         p.append(p[0])
-        if p[0] in [board, "op"]:
+        if p[0] == board:
             pnum += 1
             psub = 0
             p[0] = str(pnum)
+            if p[4] != "local":
+                p[4] = f"&#127758; <a href='{friends[p[4]]}'>"
+                p[4] += "host</a>"
+
+            else:
+                p[4] = "host"
         else:
+            if p[4] != "local":
+                p[4] = f"&#127758; <a href='{friends[p[4]]}'>{p[4]}</a>"
+            else:
+                p[4] = ""
             psub += 1
             p[0] = ",".join([str(pnum), str(psub)])
+        print(p)
         p[1] = u.unix2hum(p[1])
         p = postt.format(*p)
         threadp.append(p)

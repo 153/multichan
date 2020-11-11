@@ -1,4 +1,4 @@
-0chan 1605057498 1605057498 0 1 Hello 0chan
+0chan 1605057498 1605076281 1 3 Hello 0chan
 11chan 1605047654 1605047654 0 1 Gungchan is up
 local 1604803366 1604803366 1 1 Progress on the board thread
 local 1602486430 1604766611 3 3 testing another newthread tweak

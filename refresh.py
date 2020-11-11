@@ -134,8 +134,6 @@ def mkfriends():
 def findcomm():
     furls = {friends[f]: f for f in friends
              if f is not "local"}
-    print(furls)
-    print(friends)
     for f in friends:
         if f is "local":
             continue
@@ -165,25 +163,49 @@ def findcomm():
         nf = [x.split(" ") for x in nf]
         nfurls = {x[1]: x[0] for x in nf}
         common = {nfurls[x]: furls[x] for x in nfurls if x in furls}
+        common2 = {common[f]: f for f in common}
         with open(lfn, "r") as oldl:
             oldl = [o.split(" ") for o in oldl.read().splitlines()]
         with open(nlfn, "r") as newl:
             newl = [n.split(" ") for n in newl.read().splitlines()]
-        newl = [[common[n[0]], n[1], n[3]] for n in newl
-                if n[0] in common and int(n[3])]
-        print("="*20)
-        print(f)
-        print(nfurls)
-        print(common)
+        changes = []
+        for n in newl:
+            if n[0] not in common.keys():
+                continue
+            if not int(n[3]):
+                continue
+            if n in oldl:
+                continue
+            n = [common[n[0]], n[1], n[3]]
+            changes.append(n)
         
-        print(oldl)
-        print(newl)
-        
+# 11chan 0chan 1605057498
+# http://xn--uxea.net/raw/0chan/1605057498/local.txt
 
+        for c in changes:
+            url = "/".join([friends[f], "raw", common2[c[0]],
+                           c[1], "local.txt"])
+            local = "/".join(["./threads", c[0], c[1], f + ".txt"])
+
+#            u.wget(url, local)
+#            mkthread(c[0], c[1])
+        boards = set([c[0] for c in changes])
+        for b in boards:
+            if b == f:
+                continue
+            print(f, b)
+            mkboard(b)
+    mksite()
+#        os.rename(nffn, ffn)
+#        os.rename(nlfn, lfn)
+                    
+
+if __name__ == "__main__":
+    findcomm()
 #mksite()
 #mkfriends()
 #pullboard("11chan")
-findcomm()
+
 #mksite()
 #pullboard("0chan")
 #pullboard("11chan")
