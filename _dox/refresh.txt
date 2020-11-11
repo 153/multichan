@@ -5,6 +5,8 @@ ldboard(board, write)
 mkboard(board)
 pullboard(board)
 
+mkfriends()
+mksite()
 syncthread(board, thread)
 syncboard(board)
 
@@ -32,6 +34,8 @@ syncboard(board)
     Sync remote board's threads with local copy.
 
 # Class 3
+* mksite()
+    Compile all board indexes from all boards into a single sitelist.
 * syncthread(board, thread)
     Sync replies to thread from all friends.
 

@@ -3,6 +3,7 @@ import settings as s
 import utils as u
 
 arc = s.archive
+friends = s.friends
 
 def ldsing(board, thread, sub):
     error = ["list", "head"]
@@ -106,7 +107,34 @@ def pullboard(board):
     mkboard(board)
     os.rename(fn, old)
 
-pullboard("11chan")
+def mksite():
+    fnames = list(friends.keys())
+    threads = []
+    for f in fnames:
+        tfn = "/".join(["./threads", f, "list.txt"])
+        with open(tfn, "r") as tind:
+            tind = tind.read().splitlines()
+        tind = [t.split(" ") for t in tind]
+        tind = [[f, *t[0:4], " ".join(t[4:])] for t in tind]
+        threads.append(tind)
+    threads = sum(threads, [])
+    threads = sorted(threads, key=lambda x: x[2], reverse=1)
+    tf = "\n".join([" ".join(t) for t in threads])
+    with open("./threads/list.txt", "w") as site:
+        site.write(tf)
+#    print(fnames)
+#    print(furls)
+
+def mkfriends():
+    fs = [[f, friends[f]] for f in friends.keys()]
+    f = "\n".join([" ".join(f) for f in fs])
+    with open("./threads/friends.txt", "w") as flist:
+        flist.write(f)
+
+mkfriends()
+#mksite()
+#pullboard("0chan")
+#pullboard("11chan")
 # pullboard("00chan")
 #print(ldboard("local"))
 #mkboard("local")
