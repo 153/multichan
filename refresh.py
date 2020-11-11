@@ -185,10 +185,11 @@ def findcomm():
         for c in changes:
             url = "/".join([friends[f], "raw", common2[c[0]],
                            c[1], "local.txt"])
-            local = "/".join(["./threads", c[0], c[1], f + ".txt"])
-
-#            u.wget(url, local)
-#            mkthread(c[0], c[1])
+            ldir = "/".join(["./threads", c[0], c[1]])
+            local = "/".join([ldir, f + ".txt"])
+            os.mkdir(ldir)
+            u.wget(url, local)
+            mkthread(c[0], c[1])
         boards = set([c[0] for c in changes])
         for b in boards:
             if b == f:
