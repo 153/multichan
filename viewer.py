@@ -64,7 +64,7 @@ def all_index():
         t[4] = " ".join(t[4:-1])
         t[0] = f"/threads/{t[-1]}/{t[0]}/"
         if t[-1] == "local":
-            t[-1] = "&emsp;"
+            t[-1] = "local &emsp;"
         else:
             t[-1] = f"({t[-1]}) :"
         linkl.append(linkf.format(t[0], t[4], t[3], t[-1]))
@@ -125,8 +125,7 @@ def view_t(board, thread):
             psub = 0
             p[0] = str(pnum)
             if p[4] != "local":
-                p[4] = f"&#127758; <a href='{friends[p[4]]}'>"
-                p[4] += "host</a>"
+                p[4] = f"&#127758; <a href='{friends[p[4]]}'>{p[4]}</a>"
 
             else:
                 p[4] = "host"
