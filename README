@@ -23,31 +23,25 @@ Moderation tool to come that does the following:
 ```
 in ./threads/ :
 
-./site/threads/######/head
-	title \n tag
+./site/######/head
+	title
+	tag1 tag2 tag3 ...
 	
-./site/threads/######/local
-./site/threads/######/sitename
+./site/######/local
+./site/######/sitename
 	time<>name<>comment
 	
-./site/threads/######/list
-	shortname time
+./site/######/list
+	site time
 
 ./site/list
 	optime lastreply localreplies allreplies title
 
-./site/tags
-	tagname optime optime optime
-./list
-	board optime lastreply localreplies allreplies title
 
-./tags
-	tagname board-optime board-optime
+./list
+	site optime lastreply localreplies allreplies title
 
 ./friends
-	shortname url
-	shortname url
-	shortname url
-
+	site url
 
 ```
