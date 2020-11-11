@@ -46,6 +46,12 @@ def ldboard(board, write=0):
     for thread in threads:
         info = "/".join([thread, meta[0]])
         replies = "/".join([thread, meta[1]])
+        if not os.path.isfile(info):
+            t = thread.split("/")[-1]
+            orig = "/".join([friends[board], "raw",
+                             "local", t, "head.txt"])
+            u.wget(orig, info)
+                                                            
         with open(info, "r") as info:
             info = info.read().splitlines()[0]
         with open(replies, "r") as replies:
@@ -132,8 +138,8 @@ def mkfriends():
         flist.write(f)
 
 def findcomm():
-    furls = {friends[f]: f for f in friends
-             if f is not "local"}
+    furls = {friends[f]: f for f in friends}
+#             if f is not "local"}
     for f in friends:
         if f is "local":
             continue
@@ -187,18 +193,19 @@ def findcomm():
                            c[1], "local.txt"])
             ldir = "/".join(["./threads", c[0], c[1]])
             local = "/".join([ldir, f + ".txt"])
-            os.mkdir(ldir)
+            if not os.path.isdir(ldir):
+                os.mkdir(ldir)
             u.wget(url, local)
             mkthread(c[0], c[1])
         boards = set([c[0] for c in changes])
         for b in boards:
             if b == f:
                 continue
-            print(f, b)
+            print(b, f)
             mkboard(b)
+        os.rename(nffn, ffn)
+        os.rename(nlfn, lfn)
     mksite()
-#        os.rename(nffn, ffn)
-#        os.rename(nlfn, lfn)
                     
 
 if __name__ == "__main__":
