@@ -64,7 +64,7 @@ def all_index():
         t[4] = " ".join(t[4:-1])
         t[0] = f"/threads/{t[-1]}/{t[0]}/"
         if t[-1] == "local":
-            t[-1] = ""
+            t[-1] = "&emsp;"
         else:
             t[-1] = f"({t[-1]}) :"
         linkl.append(linkf.format(t[0], t[4], t[3], t[-1]))
