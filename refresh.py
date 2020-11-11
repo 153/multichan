@@ -137,9 +137,8 @@ def mkfriends():
     with open("./threads/friends.txt", "w") as flist:
         flist.write(f)
 
-def findcomm():
+def linksites():
     furls = {friends[f]: f for f in friends}
-#             if f is not "local"}
     for f in friends:
         if f is "local":
             continue
@@ -212,7 +211,7 @@ def findcomm():
                     
 
 if __name__ == "__main__":
-    findcomm()
+    linksites()
 #mksite()
 #mkfriends()
 #pullboard("11chan")

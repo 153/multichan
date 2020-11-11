@@ -128,7 +128,7 @@ def view_t(board, thread):
                 p[4] = f"&#127758; <a href='{friends[p[4]]}'>{p[4]}</a>"
 
             else:
-                p[4] = "host"
+                p[4] = ""
         else:
             if p[4] != "local":
                 p[4] = f"&#127758; <a href='{friends[p[4]]}'>{p[4]}</a>"
