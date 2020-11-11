@@ -36,6 +36,10 @@ syncboard(board)
 # Class 3
 * mksite()
     Compile all board indexes from all boards into a single sitelist.
+
+* mkfriends()
+    Make a friendslist.
+    
 * syncthread(board, thread)
     Sync replies to thread from all friends.
 

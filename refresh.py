@@ -131,7 +131,18 @@ def mkfriends():
     with open("./threads/friends.txt", "w") as flist:
         flist.write(f)
 
+def findcomm():
+    print(friends)
+    for f in friends:
+        furl = "/".join([friends[f], "raw", "friends.txt"])
+        fn = "friends." + friends[f]
+        print(furl)
+        print(fn)
+        print()
+
+mksite()
 mkfriends()
+findcomm()
 #mksite()
 #pullboard("0chan")
 #pullboard("11chan")
