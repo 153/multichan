@@ -143,6 +143,15 @@ def findcomm():
     for f in friends:
         if f is "local":
             continue
+        # furl - remote friendslist url
+        # lurl - remote thread index url
+        # ffn - friendslist filename (friends.board)
+        # nffn - new friendslist filename (friends.board.new)
+        # lfn - thread index filename (list.board)
+        # nlfn - new thread index filename (list.board.new)
+        # changes - threads with new replies from self
+        # boards - boards that need their index rewritten
+        
         furl = "/".join([friends[f], "raw", "friends.txt"])
         lurl = "/".join([friends[f], "raw", "list.txt"])
         ffn = arc + "friends." + f
@@ -158,12 +167,12 @@ def findcomm():
         u.wget(furl, nffn)
         u.wget(lurl, nlfn)
 
-# Ideally, a list of [name, op] localreplies
-# is compared against the older version, and
-# if a difference is found, {common}/{thread}/{friend}
-# is downloaded, {common}/{thread} & {common} are then
-# rebuilt. This is contingent on {common} being a common
-# board between client and server. 
+        # Ideally, a list of [name, op] localreplies
+        # is compared against the older version, and
+        # if a difference is found, {common}/{thread}/{friend}
+        # is downloaded, {common}/{thread} & {common} are then
+        # rebuilt. This is contingent on {common} being a common
+        # board between client and server. 
         with open(nffn, "r") as nf:
             nf = nf.read().splitlines()
         nf = [x.split(" ") for x in nf]
@@ -184,9 +193,6 @@ def findcomm():
                 continue
             n = [common[n[0]], n[1], n[3]]
             changes.append(n)
-        
-# 11chan 0chan 1605057498
-# http://xn--uxea.net/raw/0chan/1605057498/local.txt
 
         for c in changes:
             url = "/".join([friends[f], "raw", common2[c[0]],
@@ -199,9 +205,6 @@ def findcomm():
             mkthread(c[0], c[1])
         boards = set([c[0] for c in changes])
         for b in boards:
-            if b == f:
-                continue
-            print(b, f)
             mkboard(b)
         os.rename(nffn, ffn)
         os.rename(nlfn, lfn)
