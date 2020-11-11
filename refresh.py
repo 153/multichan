@@ -134,10 +134,16 @@ def mkfriends():
 def findcomm():
     print(friends)
     for f in friends:
+        if f is "local":
+            continue
         furl = "/".join([friends[f], "raw", "friends.txt"])
-        fn = "friends." + friends[f]
-        print(furl)
-        print(fn)
+        lurl = "/".join([friends[f], "raw", "list.txt"])
+        ffn = arc + "friends." + f
+        nffn = ffn + ".next"
+        lfn = arc + "list." + f
+        nlfn = lfn + ".next"
+        print(ffn, furl)
+        print(lfn, lurl)
         print()
 
 mksite()
