@@ -44,9 +44,25 @@ def rules():
 def about():
     return p.mk(p.html("about"))
 
+@app.route('/friends')
+def friends():
+    title = "<h1>Friends of " + s.name
+    title += "</h1><h4>" + s.url + "</h4>"
+    title +=  "Friends are other multichan websites that "
+    title += "this server downloads threads and comments from."
+    flist = []
+    fstring = "<li> <a href='{1}'>{0}</a> {1}"
+    for f in s.friends:
+        flist.append(fstring.format(f, s.friends[f]))
+    flist = "<ul>" + "\n".join(flist) + "</ul>"
+    page = title + flist
+    return p.mk(page)
+    
+
 @app.route('/raw/<path:filename>')
 def base_static(filename):
         return send_from_directory(app.root_path + '/threads/', filename)
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=_port, debug=True)
