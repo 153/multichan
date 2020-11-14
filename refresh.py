@@ -26,9 +26,9 @@ def mkthread(board, thread):
     posts = []        
     for r in reps:
         threads[r] = ldsing(board, thread, r)
-    for r in threads:
-        for p in threads[r]:
-            posts.append([r, p])
+    for t in threads:
+        for p in threads[t]:
+            posts.append([t, p])
     posts = sorted(posts, key=lambda x: x[1])
     posts = [" ".join(p) for p in posts]
     posts = "\n".join(posts) + "\n"
@@ -128,8 +128,6 @@ def mksite():
     tf = "\n".join([" ".join(t) for t in threads])
     with open("./threads/list.txt", "w") as site:
         site.write(tf)
-#    print(fnames)
-#    print(furls)
 
 def mkfriends():
     fs = [[f, friends[f]] for f in friends.keys()]
@@ -207,25 +205,15 @@ def linksites():
             mkboard(b)
         os.rename(nffn, ffn)
         os.rename(nlfn, lfn)
-    mksite()
-                    
+    mksite()                    
 
 if __name__ == "__main__":
     linksites()
-#mksite()
-#mkfriends()
-#pullboard("11chan")
 
-#mksite()
-#pullboard("0chan")
-#pullboard("11chan")
-# pullboard("00chan")
-#print(ldboard("local"))
-#mkboard("local")
-#ldboard("local", 1)  
-#ldboard("00chan")
-
-# mkthread("local", "1602486291")
-# print( "=" * 20)
-# threads/00chan/1602225514
-# mkthread("00chan", "1602225514")
+# mkthread(board, thread)
+#    modifies thread's list
+# mkboard(board)
+#    makes board/list.txt from mkboard in all subdirs
+# mksite()
+#    makes /list.txt from all board/list.txt
+    

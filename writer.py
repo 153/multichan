@@ -90,6 +90,7 @@ def update_board(board, thread, now, wr=1):
         refresh.mksite()
     print(newl)
     
+    
 #@writer.route('/create', methods=['POST', 'GET'])
 @writer.route('/create/', methods=['POST', 'GET'])
 def new_thread():
