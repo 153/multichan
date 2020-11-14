@@ -1,7 +1,5 @@
-blank = """
-name = 
-log =
-_port = 
-archive =
-friends = {
-"""
+
+# get settings
+# get friendslist
+# clear archive
+# create null threads
