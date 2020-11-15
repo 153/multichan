@@ -17,8 +17,11 @@ def pclean(post):
     post = post.split("<br>")
 
 def wget(url, fn, w=1):
-    page = urllib.request.urlopen(url)
-    page = page.read().decode('utf-8')
+    try:
+        page = urllib.request.urlopen(url)
+        page = page.read().decode('utf-8')
+    except:
+        page = ""
     if not w:
         return page
     with open(fn, "w") as fn:

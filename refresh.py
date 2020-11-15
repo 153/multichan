@@ -53,7 +53,11 @@ def ldboard(board, write=0):
             u.wget(orig, info)
                                                             
         with open(info, "r") as info:
-            info = info.read().splitlines()[0]
+            info = info.read()
+        if len(info) == 0:
+            info = ""
+        else:
+            info = info.splitlines()[0]
         with open(replies, "r") as replies:
             replies = replies.read().splitlines()
         replies = [r.split(" ") for r in replies]
@@ -79,7 +83,7 @@ def mkboard(board):
 def pullboard(board):
     f = s.friends
     if not board in f:
-        return    
+        return
     fn = arc + board + ".new"
     old = arc + board 
     url = "/".join([f[board], "raw", "local"])
@@ -208,6 +212,11 @@ def linksites():
     mksite()                    
 
 if __name__ == "__main__":
+    for f in friends:
+        if not os.path.isdir("./threads/" + f):
+            os.mkdir("./threads/" + f)
+            pullboard(f)
+    mksite()
     linksites()
 
 # mkthread(board, thread)

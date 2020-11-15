@@ -8,7 +8,7 @@ friends = {
     "11chan": "http://xn--uxea.net",
     "0chan": "http://0chan.vip",
     "52chan": "http://boards.4x13.net",
-    "local": url
+#    "local": url
     }
 
 
