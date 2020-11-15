@@ -1,7 +1,7 @@
 1. pip3 install flask
 2. pip3 install captcha
 3. edit settings.py
-4. rm archive/*
+4. python3 refresh.py
 5. python3 -m flask run
 6. python3 app.py # Alternative method
 7. ./Multich.sh # Alternative method 

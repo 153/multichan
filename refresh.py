@@ -211,7 +211,7 @@ def linksites():
         os.rename(nlfn, lfn)
     mksite()                    
 
-def main()
+def main():
     for f in friends:
         if not os.path.isdir("./threads/" + f):
             os.mkdir("./threads/" + f)
