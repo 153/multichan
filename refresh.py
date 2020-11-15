@@ -211,13 +211,16 @@ def linksites():
         os.rename(nlfn, lfn)
     mksite()                    
 
-if __name__ == "__main__":
+def main()
     for f in friends:
         if not os.path.isdir("./threads/" + f):
             os.mkdir("./threads/" + f)
             pullboard(f)
     mksite()
     linksites()
+    
+if __name__ == "__main__":
+    main()
 
 # mkthread(board, thread)
 #    modifies thread's list
