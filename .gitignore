@@ -4,3 +4,6 @@ __pycache__/
 *.py[cod]
 static/cap/*png
 ips.txt
+settings.txt
+threads/
+archive/
