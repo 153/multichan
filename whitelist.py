@@ -42,13 +42,13 @@ def addlog(ip, ig=0):
         entry = genkey(ip)
         log[ip] = entry
         fi = "\n".join([" ".join(log[x]) for x in log])
-        print(fi)
         with open(conf, "w") as iplog:
             iplog.write(fi)
-#    log = "\n".join([" ".join(log[x]) for x in log])
     return log
 
-def approve(ip, key=""):
+def approve(ip=0, key=""):
+    if not ip:
+        ip = get_ip()
     now = str(int(time.time()))
     log = ldlog()
     if ip in log:
@@ -59,7 +59,6 @@ def approve(ip, key=""):
             newl = [" ".join(log[k]) for k in log]
             with open(conf, "w") as log:
                 log.write("\n".join(newl))
-            print(newl)
             return True
         else:
             return True

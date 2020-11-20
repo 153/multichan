@@ -6,6 +6,7 @@ import utils as u
 import settings as s
 import pagemaker as p
 import writer
+import whitelist
 
 viewer = Blueprint("viewer", __name__)
 friends = s.friends
@@ -153,6 +154,8 @@ def reply_t(board, thread):
                 author = "Anonymous"
             if not message:
                 return "please write a message"
+            if not whitelist.approve():
+                return "please solve <a href='/captcha'>the captcha</a>"
             writer.rep_t(board, thread, now,
                          author, request.form["message"])
         writer.update_board(board, thread, now)

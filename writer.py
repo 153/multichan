@@ -4,6 +4,8 @@ from flask import Blueprint
 from flask import request
 import pagemaker as p
 import refresh
+import whitelist
+
 
 writer = Blueprint("writer", __name__)
 tdir = "threads"
@@ -95,6 +97,8 @@ def update_board(board, thread, now, wr=1):
 @writer.route('/create/', methods=['POST', 'GET'])
 def new_thread():
     if request.method == 'POST':
+        if not whitelist.approve():
+                return "You need to solve <a href='/captcha/'>the captcha</a>"
         if request.form['sub'] == "Create chat":
             mk_op(title=request.form['title'],
                   tags=["random"],

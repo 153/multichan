@@ -138,6 +138,7 @@ def mkfriends():
         flist.write(f)
 
 def linksites():
+    mkfriends()
     furls = {friends[f]: f for f in friends}
     for f in friends:
         if f is "local":

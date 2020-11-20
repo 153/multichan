@@ -6,4 +6,6 @@ static/cap/*png
 ips.txt
 settings.txt
 threads/
+threads/*
 archive/
+archive/*
