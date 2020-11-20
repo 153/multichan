@@ -50,9 +50,9 @@ def addlog(ip):
 
 @whitelist.route('/captcha/')
 def show_captcha():
-#    ip = get_ip()
-    ip = "127.0.0.1"
+    ip = get_ip()
+#    ip = "127.0.0.1"
     mylog = addlog(ip)
     logtxt = json.dumps(mylog)
-    html = pm.html("captcha").format(ip, logtxt, " ".join(mylog[ip]))
+    html = pm.html("captcha").format(mylog[ip][1])
     return pm.mk(html)

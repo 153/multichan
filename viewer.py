@@ -136,7 +136,6 @@ def view_t(board, thread):
                 p[4] = ""
             psub += 1
             p[0] = ",".join([str(pnum), str(psub)])
-        print(p)
         p[1] = u.unix2hum(p[1])
         p = postt.format(*p)
         threadp.append(p)

@@ -51,13 +51,11 @@ def ldboard(board, write=0):
             orig = "/".join([friends[board], "raw",
                              "local", t, "head.txt"])
             u.wget(orig, info)
-                                                            
         with open(info, "r") as info:
             info = info.read()
         if len(info) == 0:
-            info = ""
-        else:
-            info = info.splitlines()[0]
+            continue 
+        info = info.splitlines()[0]
         with open(replies, "r") as replies:
             replies = replies.read().splitlines()
         replies = [r.split(" ") for r in replies]
