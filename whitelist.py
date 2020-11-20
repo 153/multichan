@@ -5,9 +5,9 @@ import string
 import time
 import settings as s
 import pagemaker as pm
+from captcha.image import ImageCaptcha
 from flask import Blueprint
 from flask import request
-from captcha.image import ImageCaptcha
 
 whitelist = Blueprint("whitelist", __name__)
 image = ImageCaptcha(fonts=['droid.ttf'])
@@ -36,9 +36,9 @@ def genkey(ip):
     image.write(entry[2], f'./static/cap/{ip}.png')
     return entry
 
-def addlog(ip):
+def addlog(ip, ig=0):
     log = ldlog()
-    if ip not in log:
+    if ip not in log or ig:
         entry = genkey(ip)
         log[ip] = entry
         fi = "\n".join([" ".join(log[x]) for x in log])
@@ -48,6 +48,24 @@ def addlog(ip):
 #    log = "\n".join([" ".join(log[x]) for x in log])
     return log
 
+def approve(ip, key=""):
+    now = str(int(time.time()))
+    log = ldlog()
+    if ip in log:
+        if len(log[ip]) == 3:
+            if log[ip][2] != key:
+                return False
+            log[ip].append(now)
+            newl = [" ".join(log[k]) for k in log]
+            with open(conf, "w") as log:
+                log.write("\n".join(newl))
+            print(newl)
+            return True
+        else:
+            return True
+    return False
+        
+
 @whitelist.route('/captcha/')
 def show_captcha():
     ip = get_ip()
@@ -56,3 +74,20 @@ def show_captcha():
     logtxt = json.dumps(mylog)
     html = pm.html("captcha").format(mylog[ip][1])
     return pm.mk(html)
+
+@whitelist.route('/captcha/refresh')
+def refresh():
+    ip = get_ip()
+    mylog = addlog(ip, 1)
+    return "<meta http-equiv='refresh' content='0;URL=/captcha'>"
+
+@whitelist.route('/captcha/check', methods=['POST', 'GET'])
+def check():
+    key = request.args.get('key')    
+    ip = get_ip()
+    log = ldlog()
+    out = approve(ip, key)
+    out = json.dumps(out)
+    out = "<pre>" + out + "</pre>"   
+
+    return out
