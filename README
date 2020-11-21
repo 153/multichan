@@ -14,6 +14,8 @@ server.
 Modify settings.py setting "name" to set the name of your board;
 add boards you want to link with in the "friends" part of the configuration.
 
+Users must solve a captcha in order to publish a thread or comment. 
+
 Moderation tool to come that does the following:
 * blacklist certain terms
 * delete thread / post 
