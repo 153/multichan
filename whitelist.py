@@ -19,7 +19,6 @@ def get_ip():
     return request.headers.get('X-Forwarded-For', request.remote_addr)
 
 def randstr(length):
-#    letters = string.ascii_lowercase
     letters = "bcefgkmopswxz"
     key = "".join(list(random.choice(letters) for i in range(length)))
     return key
@@ -68,7 +67,6 @@ def approve(ip=0, key=""):
 @whitelist.route('/captcha/')
 def show_captcha():
     ip = get_ip()
-#    ip = "127.0.0.1"
     mylog = addlog(ip)
     logtxt = json.dumps(mylog)
     html = pm.html("captcha").format(mylog[ip][1])

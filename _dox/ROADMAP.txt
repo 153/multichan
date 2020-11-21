@@ -4,9 +4,9 @@
 - create thread (via web)
 - reply to single thread (via web)
 - reply to remote thread 
-
 - scrape remote thread
 - captcha
+
 - tagging
 - post formatting 
 - ip logging
