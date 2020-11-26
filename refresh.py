@@ -143,6 +143,7 @@ def linksites():
     for f in friends:
         if f is "local":
             continue
+        
         # furl - remote friendslist url
         # lurl - remote thread index url
         # ffn - friendslist filename (friends.board)
