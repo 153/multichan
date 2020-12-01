@@ -214,7 +214,7 @@ def linksites():
 def main():
     for f in friends:
         if f == "local":
-            mkdir("local")
+            mkboard("local")
             continue
         if not os.path.isdir("./threads/" + f):
             os.mkdir("./threads/" + f)
