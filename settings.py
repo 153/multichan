@@ -1,7 +1,7 @@
 name = "multich"
 url = "http://localhost"
 log = "./ips.txt"
-_port = 5250
+_port = 5255
 archive = "./archive/"
 tags = ["random", "life", "nerd", "nsfw", "news", "meta"]
 
