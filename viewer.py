@@ -77,9 +77,9 @@ def view_all():
     tops = all_index()
     tops[0] = f"({len(tops)} discussion) &diams; " \
         + "<a href='/create'>Add new</a><hr>" \
-        + "<h1>All Boards</h1>" \
+        + "<h1>All Boards</h1><ol><li>" \
         + tops[0]
-    page = p.mk(boardlist() + "<br>".join(tops))
+    page = p.mk(boardlist() + "<li>".join(tops) + "</ol>")
     return page
 
 @viewer.route('/threads/<board>/')
@@ -89,13 +89,13 @@ def view(board):
         tops = tlist(board)
         tops[0] = f"({len(tops)} discussion) &diams; " \
         + "<a href='/create'>Add new</a><hr>" \
-        + f"<h1>{board}</h1>" \
+        + f"<h1>{board}</h1><ol><li>" \
         + tops[0]        
     else:
         tops = tlist()
-        tops[0] = "<h1>All Boards</h1>" + tops[0]
+        tops[0] = "<h1>All Boards</h1><ol><li>" + tops[0]
     tops[0] = boardlist() + tops[0]
-    return p.mk("<br>".join(tops))
+    return p.mk("<li>".join(tops) + "</ol>")
 
 #@viewer.route('/threads/<board>/<thread>/')
 def view_t(board, thread):
