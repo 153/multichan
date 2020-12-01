@@ -4,6 +4,7 @@ from viewer import viewer
 from writer import writer
 from whitelist import whitelist
 import time
+import daemon
 import pagemaker as p
 import settings as s
 
@@ -66,8 +67,9 @@ def base_static(filename):
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=_port, debug=True)
+    daemon.run()    
+    app.run(host="0.0.0.0", port=_port, debug=True) 
     print(time.time.now())
     print(request.headers)
 
-app.run(debug=True)
+#app.run(debug=True)

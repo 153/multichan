@@ -90,7 +90,6 @@ def update_board(board, thread, now, wr=1):
         with open(tpath, "w") as tpath:
             tpath.write(newl)
         refresh.mksite()
-    print(newl)
     
     
 #@writer.route('/create', methods=['POST', 'GET'])

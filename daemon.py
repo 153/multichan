@@ -1,10 +1,15 @@
 import time
+import threading
 import refresh
 
-cnt = 0
-while True:
-    cnt += 1
-    print(cnt)
-    
-    time.sleep(60 * 30)
-    refresh.linksites()
+def linker():
+    cnt = 0
+    while True:
+        refresh.linksites()        
+        cnt += 1
+        print(cnt)    
+        time.sleep(60*15)
+
+def run():
+    d = threading.Thread(target=linker)
+    d.start()
