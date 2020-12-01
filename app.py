@@ -18,6 +18,12 @@ app.register_blueprint(viewer)
 app.register_blueprint(writer)
 app.register_blueprint(whitelist)
 
+
+if not os.path.isdir("./static/cap/"):
+    os.mkdir("./static/cap/")
+if not os.path.isdir("./archive/"):
+    os.mkdir("./archive/")
+
 @app.errorhandler(404)
 def not_found(e):
     return e
