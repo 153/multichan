@@ -1,6 +1,7 @@
 import time
 import threading
 import refresh
+import settings
 
 def linker():
     cnt = 0
@@ -8,7 +9,7 @@ def linker():
         refresh.linksites()        
         cnt += 1
         print(cnt)    
-        time.sleep(60*15)
+        time.sleep(settings.refreshtime)
 
 def run():
     d = threading.Thread(target=linker)

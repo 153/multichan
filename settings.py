@@ -1,10 +1,11 @@
 name = "multich"
 url = "http://localhost"
 log = "./ips.txt"
-_port = 5255
+_port = 5250
 archive = "./archive/"
-tags = ["random", "life", "nerd", "nsfw", "news", "meta"]
+tags = ["random", "life", "nerd", "news", "nsfw", "meta"]
 
+refreshtime = 60*15 # Check friend boards every 15 minutes
 friends = {
     "11chan": "http://xn--uxea.net",
     "0chan": "http://0chan.vip",
