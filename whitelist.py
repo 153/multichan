@@ -85,6 +85,13 @@ def check():
     log = ldlog()
     out = approve(ip, key)
     out = json.dumps(out)
-    out = "<pre>" + out + "</pre>"   
+    if out == "false":
+        out = "You have filled the captcha incorrectly."
+        out += "<p>Please <a href='/captcha'>solve the captcha.</a>"
+        out += "<meta http-equiv='refresh' content='4;URL=/captcha'>"
+    if out == "true":
+        out = "You filled out the captcha correctly!"
+        out += "<p>Please <a href='/rules'>review the rules</a> before posting."
+        out += "<meta http-equiv='refresh' content='4;URL=/'>"
 
     return out
