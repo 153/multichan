@@ -4,6 +4,39 @@ import settings as s
 tlist = s.tags
 flist = s.friends
 
+# tags_board("board")
+# tags_load()
+
+# tags_view(["tags"])
+# tags_addthread("num", ["tags"])
+
+def tags_load(board=""):
+    tagp = "/".join(["./threads", board, "tags.txt"])
+    with open(tagp, "r") as tags:
+        tags = tags.read().splitlines()
+    tags = [x.split(" ") for x in tags]
+    tagdb = {}
+    for t in tags:
+        tag = t[0]
+        threads = t[1:]
+        if "-" in threads[0]:
+            threads = [x.split("-") for x in threads]
+        tagdb[tag] = threads
+    return tagdb
+
+def tags_view(tags=[]):
+    db = tags_load()
+    threads = []    
+    tmp = []
+    for t in tags:
+        print(db[t])
+        tmp += db[t]
+    for t in tmp:
+        if t not in threads and len(t):
+            threads.append(t)
+    print(threads)
+    
+    
 def mkboard(board):
     boardp = "/".join(["./threads", board])
     tagp = boardp + "/tags.txt"
@@ -24,7 +57,6 @@ def mkboard(board):
             if t not in tagd:
                 tagd[t] = []
             tagd[t].append(num)
-    print(tagd)
     tagf = [" ".join([t, *tagd[t]]) for t in tagd]
     with open(tagp, "w") as tags:
         tags.write("\n".join(tagf))
@@ -33,9 +65,7 @@ def mkboard(board):
 def mksite():
     tdb = {x: [] for x in tlist}
     for f in flist:
-        print(f)
-        mkboard(f)
-        
+        mkboard(f)        
         tpath = "/".join(["./threads", f, "tags.txt"])
         with open(tpath, "r") as tag:
             tag = tag.read().splitlines()
@@ -44,10 +74,18 @@ def mksite():
         for t in tag:
             tag[t] = [[f, x] for x in tag[t]]
             tdb[t].append(tag[t])
+    tagl = []
     for t in tdb:
         tdb[t] = [y for x in tdb[t] for y in x]
-        print(t, len(tdb[t]))
-#    print(tdb)
+        entry = " ".join(["-".join(x) for x in tdb[t]])
+        tagl.append(" ".join([t, entry]))
+    tagl = "\n".join(tagl)
+    with open("./threads/tags.txt", "w") as tagf:
+        tagf.write(tagl)    
     return
 
-mksite()
+#mksite()
+#print(tags_load())
+tags_view(["meta", "nsfw", "life"])
+#print("\n0chan:")
+#tags_load("0chan")
