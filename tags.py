@@ -29,13 +29,11 @@ def tags_view(tags=[]):
     threads = []    
     tmp = []
     for t in tags:
-        print(db[t])
         tmp += db[t]
     for t in tmp:
         if t not in threads and len(t):
             threads.append(t)
-    print(threads)
-    
+    return threads
     
 def mkboard(board):
     boardp = "/".join(["./threads", board])
@@ -62,10 +60,11 @@ def mkboard(board):
         tags.write("\n".join(tagf))
     return
 
-def mksite():
+def mksite(remake=0):
     tdb = {x: [] for x in tlist}
     for f in flist:
-        mkboard(f)        
+        if remake:
+            mkboard(f)        
         tpath = "/".join(["./threads", f, "tags.txt"])
         with open(tpath, "r") as tag:
             tag = tag.read().splitlines()
