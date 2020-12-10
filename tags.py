@@ -100,7 +100,7 @@ def tag_index():
     sentry = "<li><b><a href='/tags/{0}/'>{0}</a></b> ({1})"
     oentry = "<li><a href='/tags/{0}/'>{0}</a> ({1})"
     result =  ["<h1>Conversation tags</h1>",
-               "Bolded topics are default topics selected by the site admin."]
+               "Bolded tags are the default tags selected by the site admin."]
     links = ["<ul>"]
     site_tags = {t : len(tdb[t]) for t in tlist}
     site_tags = {k: v for k, v in sorted(site_tags.items(),
@@ -123,6 +123,7 @@ def tag_index():
     
 # tags_load() -> db
 # tags_view([]) -> threads
+
 
 #print("\n0chan:")
 #tags_load("0chan")

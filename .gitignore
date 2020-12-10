@@ -3,6 +3,7 @@
 __pycache__/
 *.py[cod]
 static/cap/*png
+log.txt
 ips.txt
 settings.txt
 threads/
