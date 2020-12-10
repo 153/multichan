@@ -36,12 +36,14 @@ def hello_world():
     links = """
 <h2>{0}</h2>
 <hr>
-<center><img src="hands.png"></center>
+<center><a href="/threads/"><img src="hands.png"></a></center>
 <ul>
 <li><a href="/about">About this website</a>
 <li><a href="/rules">Rules of this website</a>
 </ul><p><ul>
 <li><a href="/threads/">Conversation index</a>
+<li><a href="/tags/">Boards (tags/categories)</a>
+<li><a href="https://bitbucket.org/796f/multichan">Source code</a>
 </ul> 
 """.format(s.name)
     return p.mk(links)

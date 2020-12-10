@@ -59,8 +59,6 @@ def mkboard(board):
         except:
             tags = ["random"]
         for t in tags:
-            if t not in tlist:
-                tagd[t] = []
             if t not in tagd:
                 tagd[t] = []
             tagd[t].append(num)
@@ -130,7 +128,8 @@ def tag_page(topic):
     else:
         topic = [topic]
     result.append("<h1> #" + " #".join(topic))
-    result.append("<i>Note: tags can be combined using the + (plus sign)</i>")
+    result.append("<i>Note: tags can be combined using the "
+                  "+ (plus sign) in the URL</i>")
     result.append("<ul>")
     threads = tags_threads(topic)
     with open("./threads/list.txt") as site:

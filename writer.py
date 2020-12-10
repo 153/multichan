@@ -1,10 +1,11 @@
 import os
 import time
-from flask import Blueprint
-from flask import request
+import re
+from flask import Blueprint, request
 import pagemaker as p
 import refresh
 import whitelist
+import tags
 
 
 writer = Blueprint("writer", __name__)
@@ -12,13 +13,17 @@ tdir = "threads"
 with open("templ/newt.t", "r") as newtt:
     newtt = newtt.read()
 
-def mk_op(title="", tags=["random"], author="Anonymous", msg=""):
+def mk_op(title="", tag="random", author="Anonymous", msg=""):
     msg = msg.replace("<", "&lt;").replace("&", "&amp;")    
     msg = msg.replace("\n","<br>").replace("\r","")
     if not title.strip() or not msg.strip():
         return "Please write a message to create a new conversation."
     if not author:
         author = "Anonymous"
+    if len(tag) == 0:
+        tag = "random"
+    pat = re.compile(r'^[ A-Za-z0-9_-]*$')
+    tag = " ".join(list(set(re.findall(r'\w+', tag))))
     # author, tstamp, msg
     tnow = str(int(time.time()))
 
@@ -27,7 +32,7 @@ def mk_op(title="", tags=["random"], author="Anonymous", msg=""):
     t_pat = b_pat + tnow + "/"
     os.mkdir(t_pat)
 
-    head = [title, ", ".join(tags)]
+    head = [title, tag]
     files = {"head": t_pat + "head.txt",
              "list": t_pat + "list.txt",
              "op": t_pat + "local.txt"}
@@ -55,6 +60,8 @@ def mk_op(title="", tags=["random"], author="Anonymous", msg=""):
     with open(b_pat + "list.txt", "w") as bind:
         bind.write(bindex)
     refresh.mksite()
+    tags.mkboard("local")
+    tags.mksite()
 
 def rep_t(board, thread, now, author, msg):
     # open board/thread/local
@@ -100,7 +107,7 @@ def new_thread():
                 return "You need to solve <a href='/captcha/'>the captcha</a>"
         if request.form['sub'] == "Create chat":
             mk_op(title=request.form['title'],
-                  tags=["random"],
+                  tag=request.form['tag'],
                   author=request.form['author'],
                   msg=request.form['message'])
             return "<center><h1>" \
