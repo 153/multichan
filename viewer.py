@@ -26,7 +26,7 @@ def boardlist(li=0):
     for x in boards2:
         boards.append(f"\n<a href='/threads/{x}'>{x}</a>")
     boards.insert(0, "\n<a href='/threads/'>Global</a>")
-    boards = "\nBoards: " + " \n&diams; ".join(boards) + "<hr>"
+    boards = "\nSites: " + " \n&diams; ".join(boards) + "<hr>"
     boards = "<div style='text-align: right'>" + boards + "\n</div>"
     return boards
 
@@ -77,7 +77,7 @@ def view_all():
     tops = all_index()
     tops[0] = f"({len(tops)} discussion) &diams; " \
         + "<a href='/create'>Add new</a><hr>" \
-        + "<h1>All Boards</h1><ol><li>" \
+        + "<h1>All Sites</h1><ol><li>" \
         + tops[0]
     page = p.mk(boardlist() + "<li>".join(tops) + "</ol>")
     return page

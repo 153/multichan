@@ -30,7 +30,7 @@ def tags_load(board=""):
             tagdb[tag] = []
     return tagdb
 
-def tags_view(tags=[]):
+def tags_threads(tags=[]):
     db = tags_load()
     threads = []    
     tmp = []
@@ -101,6 +101,7 @@ def tag_index():
     oentry = "<li><a href='/tags/{0}/'>{0}</a> ({1})"
     result =  ["<h1>Conversation tags</h1>",
                "Bolded tags are the default tags selected by the site admin."]
+    result.append("<br>Tags can be combined with the '+' plus sign in URL.")
     links = ["<ul>"]
     site_tags = {t : len(tdb[t]) for t in tlist}
     site_tags = {k: v for k, v in sorted(site_tags.items(),
@@ -119,11 +120,37 @@ def tag_index():
     result.append("\n".join(links))
     result = p.mk("\n".join(result))
     return result
-    
-    
-# tags_load() -> db
-# tags_view([]) -> threads
 
+@tags.route('/tags/<topic>/')
+def tag_page(topic):
+    line = "<li>({0}) <a href='/threads/{0}/{1}'>{5}</a> ({4} replies)"
+    result = []
+    if "+" in topic:
+        topic = topic.split("+")
+    else:
+        topic = [topic]
+    result.append("<h1> #" + " #".join(topic))
+    result.append("<i>Note: tags can be combined using the + (plus sign)</i>")
+    result.append("<ul>")
+    threads = tags_threads(topic)
+    with open("./threads/list.txt") as site:
+        site = site.read().splitlines()
+    site = [s.split(" ") for s in site]
+    site = [[*s[:5], " ".join(s[5:])] for s in site
+            if [s[0], s[1]] in threads]
+    result[0] += " (" + str(len(site)) + ")</h1>"
+    test = "\n".join([line.format(*t) for t in site])
+#    test = site
+    result.append(test)
+    result.append("</ul>")
+    result = p.mk("\n".join(result))
+    return result
+
+# tags_load() -> db
+# tags_threads([]) -> threads
+# mkboard()
+# mksite()
+# tag_index()
 
 #print("\n0chan:")
 #tags_load("0chan")
