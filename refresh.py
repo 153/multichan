@@ -1,4 +1,5 @@
 import os
+import tags
 import settings as s
 import utils as u
 
@@ -114,6 +115,8 @@ def pullboard(board):
         mkthread(board, thread)
     mkboard(board)
     os.rename(fn, old)
+    tags.mkboard(board)
+    tags.mksite()
 
 def mksite():
     fnames = list(friends.keys())
@@ -130,6 +133,7 @@ def mksite():
     tf = "\n".join([" ".join(t) for t in threads])
     with open("./threads/list.txt", "w") as site:
         site.write(tf)
+    tags.mksite(1)
 
 def mkfriends():
     fs = [[f, friends[f]] for f in friends.keys()]
@@ -209,7 +213,8 @@ def linksites():
             mkboard(b)
         os.rename(nffn, ffn)
         os.rename(nlfn, lfn)
-    mksite()                    
+    mksite()
+    
 
 def main():
     for f in friends:
