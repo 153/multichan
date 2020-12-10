@@ -146,6 +146,9 @@ def tag_page(topic):
     result = p.mk("\n".join(result))
     return result
 
+if __name__ == "__main__":
+    mksite(1)
+
 # tags_load() -> db
 # tags_threads([]) -> threads
 # mkboard()
