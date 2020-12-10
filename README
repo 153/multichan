@@ -1,10 +1,11 @@
-1. pip3 install flask
-2. pip3 install captcha
-3. edit settings.py
-4. python3 refresh.py
-5. python3 -m flask run
-6. python3 app.py # Alternative method
-7. ./Multich.sh # Alternative method 
+1. git clone https://bitbucket.org/796f/multichan
+2. pip3 install flask
+3. pip3 install captcha
+4. edit settings.py
+5. python3 refresh.py
+6. python3 -m flask run
+7. python3 app.py # Alternative method
+8. ./Multich.sh # Alternative method 
 
 # Basic info
 Script runs by default at 127.0.0.1 port 5000. Using nginx or lighttpd,
