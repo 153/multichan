@@ -3,6 +3,7 @@ from flask import Flask, request, send_from_directory
 from viewer import viewer
 from writer import writer
 from whitelist import whitelist
+from tags import tags
 import os
 import time
 import daemon
@@ -18,7 +19,7 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.register_blueprint(viewer)
 app.register_blueprint(writer)
 app.register_blueprint(whitelist)
-
+app.register_blueprint(tags)
 
 if not os.path.isdir("./static/cap/"):
     os.mkdir("./static/cap/")

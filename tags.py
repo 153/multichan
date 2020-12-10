@@ -1,6 +1,9 @@
 import os
+from flask import Blueprint, request
 import settings as s
+import pagemaker as p
 
+tags = Blueprint("tags", __name__)
 tlist = s.tags
 flist = s.friends
 
@@ -21,7 +24,10 @@ def tags_load(board=""):
         threads = t[1:]
         if "-" in threads[0]:
             threads = [x.split("-") for x in threads]
-        tagdb[tag] = threads
+        if len(threads) and threads != [""]:
+            tagdb[tag] = threads
+        else:
+            tagdb[tag] = []
     return tagdb
 
 def tags_view(tags=[]):
@@ -29,7 +35,10 @@ def tags_view(tags=[]):
     threads = []    
     tmp = []
     for t in tags:
-        tmp += db[t]
+        if t in db:
+            tmp += db[t]
+        else:
+            tmp += []
     for t in tmp:
         if t not in threads and len(t):
             threads.append(t)
@@ -51,7 +60,7 @@ def mkboard(board):
             tags = ["random"]
         for t in tags:
             if t not in tlist:
-                continue
+                tagd[t] = []
             if t not in tagd:
                 tagd[t] = []
             tagd[t].append(num)
@@ -72,6 +81,8 @@ def mksite(remake=0):
         tag = {x[0]: x[1:] for x in tag}
         for t in tag:
             tag[t] = [[f, x] for x in tag[t]]
+            if t not in tdb:
+                tdb[t] = []
             tdb[t].append(tag[t])
     tagl = []
     for t in tdb:
@@ -83,8 +94,35 @@ def mksite(remake=0):
         tagf.write(tagl)    
     return
 
-#mksite()
-#print(tags_load())
-tags_view(["meta", "nsfw", "life"])
+@tags.route('/tags/')
+def tag_index():
+    tdb = tags_load()
+    sentry = "<li><b><a href='/tags/{0}/'>{0}</a></b> ({1})"
+    oentry = "<li><a href='/tags/{0}/'>{0}</a> ({1})"
+    result =  ["<h1>Conversation tags</h1>",
+               "Bolded topics are default topics selected by the site admin."]
+    links = ["<ul>"]
+    site_tags = {t : len(tdb[t]) for t in tlist}
+    site_tags = {k: v for k, v in sorted(site_tags.items(),
+                                         key= lambda x: int(x[1]))[::-1]}
+    all_tags = {t : len(tdb[t]) for t in list(tdb.keys()) if t not in tlist}
+    all_tags = {k: v for k, v in sorted(all_tags.items(),
+                                         key= lambda x: int(x[1]))[::-1]}
+    
+
+    for t in site_tags:
+        links.append(sentry.format(t, site_tags[t]))
+    links.append("</ul><ul>")
+    for t in all_tags:
+        links.append(oentry.format(t, all_tags[t]))
+    links.append("</ul>")
+    result.append("\n".join(links))
+    result = p.mk("\n".join(result))
+    return result
+    
+    
+# tags_load() -> db
+# tags_view([]) -> threads
+
 #print("\n0chan:")
 #tags_load("0chan")
