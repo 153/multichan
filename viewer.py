@@ -138,6 +138,7 @@ def view_t(board, thread):
             psub += 1
             p[0] = ",".join([str(pnum), str(psub)])
         p[1] = u.unix2hum(p[1])
+        p[3] = p[3].replace("&amp;", "&")
         p = postt.format(*p)
         threadp.append(p)
     threadp.insert(0, f"<h1>{thed}</h1>")
