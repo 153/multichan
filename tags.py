@@ -95,8 +95,8 @@ def mksite(remake=0):
 @tags.route('/tags/')
 def tag_index():
     tdb = tags_load()
-    sentry = "<li><b><a href='/tags/{0}/'>{0}</a></b> ({1})"
-    oentry = "<li><a href='/tags/{0}/'>{0}</a> ({1})"
+    sentry = "<li><b><a href='/tags/{0}/'>{0}</a></b> ({1} discussions)"
+    oentry = "<li><a href='/tags/{0}/'>{0}</a> ({1} discussions)"
     result =  ["<h1>Conversation tags</h1>",
                "Bolded tags are the default tags selected by the site admin."]
     result.append("<br>Tags can be combined with the '+' plus sign in URL.")

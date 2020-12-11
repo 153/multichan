@@ -75,7 +75,7 @@ def all_index():
 @viewer.route('/threads/')
 def view_all():
     tops = all_index()
-    tops[0] = f"({len(tops)} discussion) &diams; " \
+    tops[0] = f"({len(tops)} discussions) &diams; " \
         + "<a href='/create'>Add new</a><hr>" \
         + "<h1>All Sites</h1><ol><li>" \
         + tops[0]
@@ -87,13 +87,13 @@ def view(board):
     # tlist() takes board input
     if board and board in s.friends:
         tops = tlist(board)
-        tops[0] = f"({len(tops)} discussion) &diams; " \
+        tops[0] = f"({len(tops)} discussions) &diams; " \
         + "<a href='/create'>Add new</a><hr>" \
         + f"<h1>{board}</h1><ol><li>" \
         + tops[0]        
     else:
         tops = tlist()
-        tops[0] = "<h1>All Boards</h1><ol><li>" + tops[0]
+        tops[0] = "<h1>All Sites</h1><ol><li>" + tops[0]
     tops[0] = boardlist() + tops[0]
     return p.mk("<li>".join(tops) + "</ol>")
 
