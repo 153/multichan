@@ -134,8 +134,10 @@ def view_t(board, thread):
             p[4] = ""
         print(p[3])
         p[3] = p[3].split("<br>")
+        print(p[3])
         p[3] = "<br>".join([f"<b class='quote'>{x}</b>"
-                          if x[0] == ">" else x for x in p[3]])
+                          if x[0] == ">" else x for x in p[3]
+                            if len(x)])
         p[1] = u.unix2hum(p[1])
         p[3] = p[3].replace("&amp;", "&")
         p = postt.format(*p)
