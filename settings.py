@@ -1,9 +1,10 @@
 name = "multich"
 url = "http://localhost"
-log = "./ips.txt"
+log = "./log.txt"
+wlist = "./ips.txt"
 _port = 5250
 archive = "./archive/"
-tags = ["random", "life", "nerd", "news", "nsfw", "meta"]
+tags = ["random",  "nsfw"]
 
 refreshtime = 60*15 # Check friend boards every 15 minutes
 friends = {
