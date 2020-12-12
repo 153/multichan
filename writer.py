@@ -2,10 +2,11 @@ import os
 import time
 import re
 from flask import Blueprint, request
-import pagemaker as p
 import refresh
-import whitelist
 import tags
+import whitelist
+import settings as s
+import pagemaker as p
 
 
 writer = Blueprint("writer", __name__)
@@ -13,6 +14,16 @@ tdir = "threads"
 with open("templ/newt.t", "r") as newtt:
     newtt = newtt.read()
 
+def log(board, thread, post):
+    ip = whitelist.get_ip() + "\n"
+    line = " ".join([board, thread, post, ip])
+    iplog = ""
+    with open(s.log, "r") as logger:
+        postlog = logger.read()
+    postlog += line
+    with open(s.log, "w") as logger:    
+        logger.write(postlog)        
+    
 def mk_op(title="", tag="random", author="Anonymous", msg=""):
     msg = msg.replace("<", "&lt;").replace("&", "&amp;")    
     msg = msg.replace("\n","<br>").replace("\r","")
@@ -50,7 +61,6 @@ def mk_op(title="", tag="random", author="Anonymous", msg=""):
         listf.write(li)
     with open(files["op"], "w") as opf:
         opf.write("<>".join([tnow, author, msg]) + "\n")
-        
     with open(b_pat + "list.txt", "r") as bind:
         bind = bind.read().splitlines()
     upd = [t_loc[1], t_loc[1], "1 1", title]
@@ -59,6 +69,8 @@ def mk_op(title="", tag="random", author="Anonymous", msg=""):
     bindex = "\n".join(bindex)
     with open(b_pat + "list.txt", "w") as bind:
         bind.write(bindex)
+    log("local", tnow, "1")
+
     refresh.mksite()
     tags.mkboard("local")
     tags.mksite()
@@ -73,10 +85,15 @@ def rep_t(board, thread, now, author, msg):
     msg = msg.replace("<", "&lt;").replace("&", "&amp;")    
     msg = msg.replace("\n","<br>").replace("\r","")
     rline = "<>".join([tnow, author, msg]) + "\n"
-    with open(tdir + "local.txt", "a") as thread:
-        thread.write(rline)
+    cnt = 0
+    with open(tdir + "local.txt", "a") as t:
+        t.write(rline)
+    with open(tdir + "local.txt", "r") as t:
+        t = t.read().splitlines()
+        cnt = len(t)
     with open(tdir + "list.txt", "a") as tlist:
         tlist.write(f"local {tnow}\n")
+    log(board, thread, str(cnt))
 
 def update_board(board, thread, now, wr=1):
     tpath = f"./threads/{board}/list.txt"

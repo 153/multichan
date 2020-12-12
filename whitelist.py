@@ -11,7 +11,7 @@ from flask import request
 
 whitelist = Blueprint("whitelist", __name__)
 image = ImageCaptcha(fonts=['droid.ttf'])
-conf = s.log
+conf = s.wlist
 klen = 4
 tnow = int(time.time())
 
