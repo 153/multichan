@@ -21,6 +21,10 @@
      padding-right: 8px;
      text-align: justify;
  }
+ .quote {
+     color: #bd0d00;
+ }
+ 
  img {
      max-width: 500px;
      text-align: center;

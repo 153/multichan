@@ -125,18 +125,17 @@ def view_t(board, thread):
             pnum += 1
             psub = 0
             p[0] = str(pnum)
-            if p[4] != "local":
-                p[4] = f"&#127758; <a href='{friends[p[4]]}'>{p[4]}</a>"
-
-            else:
-                p[4] = ""
         else:
-            if p[4] != "local":
-                p[4] = f"&#127758; <a href='{friends[p[4]]}'>{p[4]}</a>"
-            else:
-                p[4] = ""
             psub += 1
             p[0] = ",".join([str(pnum), str(psub)])
+        if p[4] != "local":
+            p[4] = f"&#127758; <a href='{friends[p[4]]}'>{p[4]}</a>"
+        else:
+            p[4] = ""
+        print(p[3])
+        p[3] = p[3].split("<br>")
+        p[3] = "<br>".join([f"<b class='quote'>{x}</b>"
+                          if x[0] == ">" else x for x in p[3]])
         p[1] = u.unix2hum(p[1])
         p[3] = p[3].replace("&amp;", "&")
         p = postt.format(*p)
