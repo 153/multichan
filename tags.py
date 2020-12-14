@@ -121,7 +121,9 @@ def tag_index():
 
 @tags.route('/tags/<topic>/')
 def tag_page(topic):
-    line = "<li>({0}) <a href='/threads/{0}/{1}'>{5}</a> ({4} replies)"
+    line = "<tr><td>{0} " \
+    + "<td><a href='/threads/{0}/{1}'>{5}</a>" \
+    + "<td>{4}"
     result = []
     if "+" in topic:
         topic = topic.split("+")
@@ -130,7 +132,8 @@ def tag_page(topic):
     result.append("<h1> #" + " #".join(topic))
     result.append("<i>Note: tags can be combined using the "
                   "+ (plus sign) in the URL</i>")
-    result.append("<ul>")
+    result.append("<p><table>")
+    result.append("<tr><th>origin<th>title<th>replies")
     threads = tags_threads(topic)
     with open("./threads/list.txt") as site:
         site = site.read().splitlines()
@@ -139,9 +142,8 @@ def tag_page(topic):
             if [s[0], s[1]] in threads]
     result[0] += " (" + str(len(site)) + ")</h1>"
     test = "\n".join([line.format(*t) for t in site])
-#    test = site
     result.append(test)
-    result.append("</ul>")
+    result.append("</table>")
     result = p.mk("\n".join(result))
     return result
 

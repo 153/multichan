@@ -1,4 +1,4 @@
- a {
+ a, .quote {
      color: #001963;
  }
  body {
@@ -22,10 +22,20 @@
      padding-right: 8px;
      text-align: justify;
  }
- .quote {
-     color: #001963;
- }     
+
  img {
      max-width: 500px;
      text-align: center;
+ }
+
+  table {
+     border-collapse: collapse;
+ }
+
+ th, td {
+     padding: 4px;
+     border: 1px solid black;     
+ }
+ th {
+     text-align: right;
  }

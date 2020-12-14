@@ -31,7 +31,7 @@ def ldlog():
     return log
 
 def genkey(ip):
-    entry = [str(tnow), ip, str(randstr(klen))]
+    entry = [str(int(time.time())), ip, str(randstr(klen))]
     image.write(entry[2], f'./static/cap/{ip}.png')
     return entry
 

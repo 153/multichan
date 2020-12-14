@@ -31,7 +31,7 @@ def boardlist(li=0):
     return boards
 
 def tlist(board=''):
-    linkf = "<a href='{0}'>{1}</a> ({2} replies)"
+    linkf = "<td><a href='{0}'>{1}</a><td>{2}"
     linkl = []
     if not board: 
         all_index()
@@ -48,7 +48,7 @@ def tlist(board=''):
     return linkl
 
 def all_index():
-    linkf = "{3} <a href='{0}'>{1}</a> ({2} replies)"
+    linkf = "<td>{3} <td><a href='{0}'>{1}</a><td> {2} "
     linkl = []
     blist = boardlist(1)
     toplist = []
@@ -67,7 +67,7 @@ def all_index():
         if t[-1] == "local":
             t[-1] = "local &emsp;"
         else:
-            t[-1] = f"({t[-1]}) :"
+            t[-1] = f"{t[-1]}"
         linkl.append(linkf.format(t[0], t[4], t[3], t[-1]))
     return linkl
         
@@ -77,9 +77,10 @@ def view_all():
     tops = all_index()
     tops[0] = f"({len(tops)} discussions) &diams; " \
         + "<a href='/create'>Add new</a><hr>" \
-        + "<h1>All Sites</h1><ol><li>" \
-        + tops[0]
-    page = p.mk(boardlist() + "<li>".join(tops) + "</ol>")
+        + "<h1>All Sites</h1><table>" \
+        + "<tr><th>origin<th>title<th>replies" \
+        + "<tr>" + tops[0]
+    page = p.mk(boardlist() + "<tr>".join(tops) + "</table>")
     return page
 
 @viewer.route('/threads/<board>/')
@@ -89,13 +90,14 @@ def view(board):
         tops = tlist(board)
         tops[0] = f"({len(tops)} discussions) &diams; " \
         + "<a href='/create'>Add new</a><hr>" \
-        + f"<h1>{board}</h1><ol><li>" \
-        + tops[0]        
+        + f"<h1>{board}</h1><table>" \
+        + "<tr><th>title<th>replies" \
+        + "<tr>" + tops[0]        
     else:
         tops = tlist()
         tops[0] = "<h1>All Sites</h1><ol><li>" + tops[0]
     tops[0] = boardlist() + tops[0]
-    return p.mk("<li>".join(tops) + "</ol>")
+    return p.mk("<tr>".join(tops) + "</table>")
 
 #@viewer.route('/threads/<board>/<thread>/')
 def view_t(board, thread):
@@ -134,9 +136,9 @@ def view_t(board, thread):
             p[4] = ""
         print(p[3])
         p[3] = p[3].split("<br>")
-        print(p[3])
         p[3] = "<br>".join([f"<b class='quote'>{x}</b>"
-                          if len(x) and x[0] == ">" else x for x in p[3]])
+                          if len(x) and x[0] == ">" else x
+                            for x in p[3]])
         p[1] = u.unix2hum(p[1])
         p[3] = p[3].replace("&amp;", "&")
         p = postt.format(*p)
