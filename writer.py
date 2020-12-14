@@ -26,6 +26,7 @@ def log(board, thread, post):
     
 def mk_op(title="", tag="random", author="Anonymous", msg=""):
     title = title[:s._short]
+    tag = tag[:s_short]
     msg = msg[:s._long]
     msg = msg.replace("<", "&lt;").replace("&", "&amp;")    
     msg = msg.replace("\n","<br>").replace("\r","")

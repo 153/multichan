@@ -42,7 +42,7 @@ def hello_world():
 <li><a href="/rules">Rules of this website</a>
 </ul><p><ul>
 <li><a href="/threads/">Conversation index</a>
-<li><a href="/tags/">Boards (tags/categories)</a>
+<li><a href="/tags/">Tags (categories)</a>
 <li><a href="https://bitbucket.org/796f/multichan">Source code</a>
 </ul> 
 """.format(s.name)
