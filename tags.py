@@ -25,7 +25,11 @@ def tags_load(board=""):
         if "-" in threads[0]:
             threads = [x.split("-") for x in threads]
         if len(threads) and threads != [""]:
-            tagdb[tag] = threads
+            if tag in tagdb:
+                tagdb[tag] += [t for t in threads if t not in tagdb[tag]]
+                print(tagdb[tag])
+            else:
+                tagdb[tag] = threads
         else:
             tagdb[tag] = []
     return tagdb
