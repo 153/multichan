@@ -25,6 +25,8 @@ def log(board, thread, post):
         logger.write(postlog)        
     
 def mk_op(title="", tag="random", author="Anonymous", msg=""):
+    title = title[:s._short]
+    msg = msg[:s._long]
     msg = msg.replace("<", "&lt;").replace("&", "&amp;")    
     msg = msg.replace("\n","<br>").replace("\r","")
     if not title.strip() or not msg.strip():
@@ -80,6 +82,7 @@ def rep_t(board, thread, now, author, msg):
     # append post json
     # update list.txt
     # update board/list
+    msg = msg[:s_long]
     tdir = f"./threads/{board}/{thread}/"
     tnow = now
     msg = msg.replace("<", "&lt;").replace("&", "&amp;")    
@@ -121,7 +124,8 @@ def update_board(board, thread, now, wr=1):
 def new_thread():
     if request.method == 'POST':
         if not whitelist.approve():
-                return "You need to solve <a href='/captcha/'>the captcha</a>"
+                return "You need to solve <a href='/captcha/'>the " \
+                            + "captcha</a> before you can post."
         if request.form['sub'] == "Create chat":
             mk_op(title=request.form['title'],
                   tag=request.form['tag'],

@@ -4,7 +4,7 @@ import random
 import string
 import time
 import settings as s
-import pagemaker as pm
+import pagemaker as p
 from captcha.image import ImageCaptcha
 from flask import Blueprint
 from flask import request
@@ -69,8 +69,8 @@ def show_captcha():
     ip = get_ip()
     mylog = addlog(ip)
     logtxt = json.dumps(mylog)
-    html = pm.html("captcha").format(mylog[ip][1])
-    return pm.mk(html)
+    html = p.html("captcha").format(mylog[ip][1])
+    return p.mk(html)
 
 @whitelist.route('/captcha/refresh')
 def refresh():
