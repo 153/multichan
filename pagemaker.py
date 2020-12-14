@@ -3,7 +3,7 @@ import settings as s
 import utils as u
 
 with open("./html/top.html", "r") as top:
-    top = top.read()
+    top = top.read().format(s.name)
 with open("./html/bottom.html", "r") as bottom:
     bottom = bottom.read()
 

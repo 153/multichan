@@ -83,7 +83,7 @@ def rep_t(board, thread, now, author, msg):
     # append post json
     # update list.txt
     # update board/list
-    msg = msg[:s_long]
+    msg = msg[:s._long]
     tdir = f"./threads/{board}/{thread}/"
     tnow = now
     msg = msg.replace("<", "&lt;").replace("&", "&amp;")    
