@@ -5,6 +5,9 @@ wlist = "./ips.txt"
 _port = 5250
 archive = "./archive/"
 tags = ["random",  "nsfw"]
+_short = 80
+_long = 10000
+
 
 refreshtime = 60*15 # Check friend boards every 15 minutes
 friends = {
