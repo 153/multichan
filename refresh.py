@@ -116,7 +116,6 @@ def pullboard(board):
     mkboard(board)
     os.rename(fn, old)
     tags.mkboard(board)
-    tags.mksite()
 
 def mksite():
     fnames = list(friends.keys())
