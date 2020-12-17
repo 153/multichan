@@ -105,8 +105,13 @@ def view_t(board, thread):
     # Get the list of thread replies and the thread title. 
     with open(tpath + "list.txt", "r") as tind:
         thr = [t.split(" ") for t in tind.read().splitlines()]
-    with open(tpath + "head.txt", "r") as thed:
-        thed = thed.read().splitlines()[0]
+    with open(tpath + "head.txt", "r") as meta:
+        meta = meta.read().splitlines()
+    tlink = "<a href='/tags/{0}/'>#{0}</a>"
+    meta[1] = meta[1].split(" ")
+    meta[1] = " ".join([tlink.format(m) for m in meta[1]])
+    meta[1] = "tags: " + meta[1]
+    
     # Load the replies.
     boards = set([t[0] for t in thr])
     tdb = {}
@@ -143,7 +148,12 @@ def view_t(board, thread):
         p[3] = p[3].replace("&amp;", "&")
         p = postt.format(*p)
         threadp.append(p)
-    threadp.insert(0, f"<h1>{thed}</h1>")
+    threadp.insert(0, f"<h1>{meta[0]}</h1>")
+    if board != "local":
+        threadp[0] += "source: "
+        threadp[0] += "<a href='/threads/{0}/'>{0}</a> &diams; ".format(board)
+    threadp[0] += meta[1]
+
     return "<p>".join(threadp)
 
 @viewer.route('/threads/<board>/<thread>/', methods=['POST', 'GET'])
