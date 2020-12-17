@@ -14,15 +14,29 @@ server.
 
 Modify settings.py setting "name" to set the name of your board;
 add boards you want to link with in the "friends" part of the configuration.
+Then, run `python3 init.py` to federate / prepare to federate.
 
-Users must solve a captcha in order to publish a thread or comment. 
+The script `backup.py` creates a directory, `./bak/`, which contains
+the current site's settings file, whitelist file, post log, and thread
+database. ( settings.py , ips.txt , log.txt , ./threads/ )
 
-Moderation tool to come that does the following:
-* blacklist certain terms
-* delete thread / post 
-* delete all posts by IP
-* ban IP address
-* ban IP range
+Users must solve a captcha in order to publish a thread or comment.
+Users who attempt to solve the captcha are logged in `ips.txt` by
+default; a user who is unable to solve the captcha can have the key
+provided by the administrator or have the test overriden if the user
+provides their IP address.
+
+The file `log.txt` contains a list in the format
+`board thread replynum ipaddress`, which can be used to help block
+spammers. It does not filter spam from remote boards; in the future,
+a list for threads / comments to block from remote boards will be
+available. An expansion of the admin system will include `spam.txt`
+(terms to blacklist), `ban.txt` (IPs to blacklist), and possibly other
+features.
+
+Tags can be manually set by the administrator by modifying the
+`./threads/site/thread/head.txt` file's second line with space seperated
+keywords, and then executing `python3 tags.py` or `python3 init.py`. 
 
 # Directory structure
 ```
@@ -31,24 +45,22 @@ in ./threads/ :
 ./site/######/head
 	title
 	tag1 tag2 tag3 ...
-	
-./site/######/local
 ./site/######/sitename
-	time<>name<>comment
-	
+	time<>name<>comment	
 ./site/######/list
 	site time
 
 ./site/list
 	optime lastreply localreplies allreplies title
-
+./site/tags
+        tag thread thread thread ...	
 
 ./list
 	site optime lastreply localreplies allreplies title
-
 ./friends
 	site url
-
+./tags
+	tag site-thread ...
 ```
 
 # Help! My board is broken!
