@@ -80,7 +80,7 @@ def refresh():
 
 @whitelist.route('/captcha/check', methods=['POST', 'GET'])
 def check():
-    key = request.args.get('key')    
+    key = request.args.get('key').lower()
     ip = get_ip()
     log = ldlog()
     out = approve(ip, key)
