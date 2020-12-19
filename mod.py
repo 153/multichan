@@ -11,7 +11,7 @@ def del_comment(host, thread, site, reply):
     comments[reply][1] = "Deleted"
     comments[reply][2] = "<i>this comment was deleted</i>"
     comments[reply] = "<>".join(comments[reply])
-    comments = "\n".join(comments)
+    comments = "\n".join(comments) + "\n"
     with open(path, "w") as path:
         path.write(comments)
     print(comments)
@@ -29,4 +29,4 @@ def del_thread(thread):
     print(blist)
 
 #del_thread("1608368801")
-del_comment("52chan", "1608311210", "local", 1)
+del_comment("local", "1608368447", "local", 5)
