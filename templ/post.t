@@ -1,5 +1,5 @@
 <div class="post">
-     <div class="meta">  #{0} ))
+     <div class="meta">  {0} ))
        Name: {2}  @ {1}
        <span style="text-align:left">
        {4}

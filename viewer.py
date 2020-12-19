@@ -1,5 +1,6 @@
 import os
 import time
+import re
 from flask import Blueprint
 from flask import request
 import utils as u
@@ -136,13 +137,13 @@ def view_t(board, thread):
             pnum += 1
             psub = 0
             p[0] = f"<a id='{pnum}' href='#{pnum}' " \
-                + f"onclick='quote(\"{pnum}\")'>{str(pnum)}</a>"
+                + f"onclick='quote(\"{pnum}\")'>#{str(pnum)}</a>"
         else:
             psub += 1
             cnt[aname] += 1
             p[0] = ",".join([str(pnum), str(psub)])
             p[0] = f"<a id='{aname}/{cnt[aname]}' href='#{aname}/{cnt[aname]}' " \
-                + f"onclick='quote(\"{aname}/{cnt[aname]}\")'>{p[0]}</a>"
+                + f"onclick='quote(\"{aname}/{cnt[aname]}\")'>#{p[0]}</a>"
         if p[4] != "local":
             p[4] = f"&#127758; <a href='{friends[p[4]]}'>{p[4]}</a>"
         else:
@@ -153,6 +154,34 @@ def view_t(board, thread):
                             for x in p[3]])
         p[1] = u.unix2hum(p[1])
         p[3] = p[3].replace("&amp;", "&")
+        
+        # Set up >>linking
+        fquote = {">>" + friends[f]: f for f in friends}
+        replies = []
+        for f in fquote:
+            if f in p[3]:
+                p[3] = p[3].split(f)
+                for n, x in enumerate(p[3]):
+                    if "</" in x:
+                        x = x.split("</")[0]
+                        replies.append([f, x])
+                p[3] = f.join(p[3])
+        replies = ["".join(x) for x in replies]
+        for r in replies:
+            try:
+                r2 = ">>http://" + r.split("/")[2]
+                r2 = r.replace(r2, ">>" + fquote[r2])
+            except:
+                r2 = r
+            rep = "<a href='#" + r[2:] + "'>" \
+                + r2 + "</a>"
+            p[3] = p[3].replace(r, rep)
+
+        if re.compile(r'>>[\d]').search(p[3]):
+            p[3] = re.sub(r'>>([\d]+)([ ]?)<',
+                          r'<a href="#\1">&gt;&gt;\1</a><',
+                          p[3])
+
         p = postt.format(*p)
         threadp.append(p)
     threadp.insert(0, f"<h1>{meta[0]}</h1>")
