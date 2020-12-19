@@ -180,7 +180,7 @@ def view_t(board, thread):
             p[3] = p[3].replace(r, rep)
 
         if re.compile(r'>>[\d]').search(p[3]):
-            p[3] = re.sub(r'>>([\d\,]+)([\s>]+)',
+            p[3] = re.sub(r'>>([\d\,]+)([\s>]?)',
                           r'<a href="#\1">&gt;&gt;\1</a>\2',
                           p[3])
 
