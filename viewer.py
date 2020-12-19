@@ -23,6 +23,8 @@ def boardlist(li=0):
     if li == 1:
         return boards
     boards2 = boards
+    boards.remove("local")
+    boards.insert(0, "local")
     boards =[]
     for x in boards2:
         boards.append(f"\n<a href='/threads/{x}'>{x}</a>")
