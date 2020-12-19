@@ -90,9 +90,11 @@ def view_all():
 def view(board):
     # tlist() takes board input
     if board and board in s.friends:
+        url = s.friends[board]
         tops = tlist(board)
         tops[0] = f"({len(tops)} discussions) &diams; " \
-        + "<a href='/create'>Add new</a><hr>" \
+        + "<a href='/create'>Add new</a> &diams; " \
+        + f"from <a href='{url}'>{url}</a>" \
         + f"<h1>{board}</h1><table>" \
         + "<tr><th>title<th>replies" \
         + "<tr>" + tops[0]        
@@ -189,9 +191,10 @@ def view_t(board, thread):
         p = postt.format(*p)
         threadp.append(p)
     threadp.insert(0, f"<h1>{meta[0]}</h1>")
+    threadp[0] += "source: "
     if board != "local":
-        threadp[0] += "source: "
-        threadp[0] += "<a href='/threads/{0}/'>{0}</a> &diams; ".format(board)
+        threadp[0] += "&#127758;"
+    threadp[0] += "<a href='/threads/{0}/'>{0}</a> &diams; ".format(board)
     threadp[0] += meta[1]
 
     return "<p>".join(threadp)
