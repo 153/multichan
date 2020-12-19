@@ -142,7 +142,7 @@ def view_t(board, thread):
             psub += 1
             cnt[aname] += 1
             p[0] = ",".join([str(pnum), str(psub)])
-            p[0] = f"<a id='{aname}/{cnt[aname]}' href='#{aname}/{cnt[aname]}' " \
+            p[0] = f"<a id='{aname}/{cnt[aname]}' name='{p[0]}' href='#{aname}/{cnt[aname]}' " \
                 + f"onclick='quote(\"{aname}/{cnt[aname]}\")'>#{p[0]}</a>"
         if p[4] != "local":
             p[4] = f"&#127758; <a href='{friends[p[4]]}'>{p[4]}</a>"
@@ -180,8 +180,8 @@ def view_t(board, thread):
             p[3] = p[3].replace(r, rep)
 
         if re.compile(r'>>[\d]').search(p[3]):
-            p[3] = re.sub(r'>>([\d]+)<',
-                          r'<a href="#\1">&gt;&gt;\1</a><',
+            p[3] = re.sub(r'>>([\d\,]+)([\s>]+)',
+                          r'<a href="#\1">&gt;&gt;\1</a>\2',
                           p[3])
 
         p = postt.format(*p)
