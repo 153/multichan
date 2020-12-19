@@ -164,6 +164,8 @@ def view_t(board, thread):
                 for n, x in enumerate(p[3]):
                     if "</" in x:
                         x = x.split("</")[0]
+                        if " " in x:
+                            x = x.split(" ")[0]
                         replies.append([f, x])
                 p[3] = f.join(p[3])
         replies = ["".join(x) for x in replies]
@@ -178,8 +180,8 @@ def view_t(board, thread):
             p[3] = p[3].replace(r, rep)
 
         if re.compile(r'>>[\d]').search(p[3]):
-            p[3] = re.sub(r'>>([\d]+)([ ]?)<',
-                          r'<a href="#\1">&gt;&gt;\1</a><',
+            p[3] = re.sub(r'>>([\d]+)([\s ]+)',
+                          r'<a href="#\1">&gt;&gt;\1</a>\2',
                           p[3])
 
         p = postt.format(*p)
