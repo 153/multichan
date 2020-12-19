@@ -8,7 +8,7 @@
   &emsp; &emsp;
   <input type="submit" name="sub" value="Reply">
 <tr>
-  <td colspan="2"> <textarea name="message"
+  <td colspan="2"> <textarea name="message" id="reply"
   cols=45 rows=6 placeholder="Your message goes here..." required></textarea>
 </table>  
 </form>  

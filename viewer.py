@@ -119,27 +119,34 @@ def view_t(board, thread):
         bfn = tpath + b + ".txt"
         with open(bfn, "r") as bfn:
             bfn = bfn.read().splitlines()
-        for x in bfn:
+        for n, x in enumerate(bfn):
             x = x.split("<>")
-            tdb[x[0]] = [b, *x]
+            tdb[x[0]] = [b, *x, n]
+
     threadp = []
     pnum = 0
     psub = 0
+    cnt = {friends[x]: 0 for x in boards}
     for p in sorted(tdb.keys()):
         p = tdb[p]
         p.append(p[0])
+        p[4], p[5] = p[5], p[4]
+        aname = friends[p[0]]
         if p[0] == board:
             pnum += 1
             psub = 0
-            p[0] = str(pnum)
+            p[0] = f"<a id='{pnum}' href='#{pnum}' " \
+                + f"onclick='quote(\"{pnum}\")'>{str(pnum)}</a>"
         else:
             psub += 1
+            cnt[aname] += 1
             p[0] = ",".join([str(pnum), str(psub)])
+            p[0] = f"<a id='{aname}/{cnt[aname]}' href='#{aname}/{cnt[aname]}' " \
+                + f"onclick='quote(\"{aname}/{cnt[aname]}\")'>{p[0]}</a>"
         if p[4] != "local":
             p[4] = f"&#127758; <a href='{friends[p[4]]}'>{p[4]}</a>"
         else:
             p[4] = ""
-        print(p[3])
         p[3] = p[3].split("<br>")
         p[3] = "<br>".join([f"<b class='quote'>{x}</b>"
                           if len(x) and x[0] == ">" else x
