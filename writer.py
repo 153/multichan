@@ -5,6 +5,7 @@ from flask import Blueprint, request
 import refresh
 import tags
 import whitelist
+import tripcode
 import settings as s
 import pagemaker as p
 
@@ -14,6 +15,19 @@ tdir = "threads"
 with open("templ/newt.t", "r") as newtt:
     newtt = newtt.read()
 
+def nametrip(name):
+    if "#" in name:
+        name = name.split("#")[:2]
+        if len(name[1]):
+            print(name)
+            name[1] = tripcode.mk(name[1])
+        else:
+            name[1] = " none"
+        if not len(name[0]):
+            name[0] = "Anonymous"
+        name = "<b><a> !".join(name) + "</a></b>"
+    return name
+    
 def log(board, thread, post):
     ip = whitelist.get_ip() + "\n"
     line = " ".join([board, thread, post, ip])
@@ -34,6 +48,7 @@ def mk_op(title="", tag="random", author="Anonymous", msg=""):
         return "Please write a message to create a new conversation."
     if not author:
         author = "Anonymous"
+    author = nametrip(author)
     if len(tag) == 0:
         tag = "random"
     pat = re.compile(r'^[ A-Za-z0-9_-]*$')
@@ -83,6 +98,10 @@ def rep_t(board, thread, now, author, msg):
     # append post json
     # update list.txt
     # update board/list
+    if not author:
+        author = "Anonymous"
+    else:
+        author = nametrip(author)
     msg = msg[:s._long]
     tdir = f"./threads/{board}/{thread}/"
     tnow = now
