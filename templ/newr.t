@@ -1,4 +1,5 @@
-<form action="." method="post">
+<p>
+<form action="." method="post" class="reply">
 <input type="hidden" name="board" value="{0}">
 <input type="hidden" name="thread" value="{1}">
 <table>

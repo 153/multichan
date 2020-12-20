@@ -1,0 +1,80 @@
+a, .quote {
+}
+
+body {
+    background-color: #111;
+    color: #ddd;
+}
+
+a {
+    color: #ccc;
+    font-weight: bold;
+}
+h1 {
+    color: #ddd;
+}    
+td, th {
+    background-color: #999;    
+    color: #000;
+    padding: 0.4em;
+    
+}
+td a {
+    color: #111;
+    font-weight: bold;
+}
+h2 {
+    text-align: center;
+    padding: 1em;
+    background-color: #eee;
+    color: #111;
+}
+.thread-meta {
+    float: right;
+    padding: 1em;
+    background-color: #aaa;
+    border: 3px solid black;
+    color: #000;    
+}
+
+.thread-meta a{    
+    color: #111;
+    font-weight: bold;
+}
+.post {
+    background-color: #eee;
+ }
+.meta {
+    width: auto;
+    padding: 1em;
+    background-color: #aaa;
+    padding-top: 1em;
+    color: #000;
+ }
+ .meta a {
+     color: #111;
+     font-weight: bold;
+ }	  
+ .msg {
+    background-color: #1c1c1c;
+    color: #eee;
+    padding: 1em;
+ }
+ .msg a {
+     color: #aaa;
+ }     
+ .reply td {
+     background-color: #999;
+ }
+ 
+ img {
+ }
+
+ table {
+ }
+
+ th, td {
+ }
+ th {
+ }
+

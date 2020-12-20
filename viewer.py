@@ -16,6 +16,8 @@ with open("templ/post.t", "r") as postt:
     postt = postt.read()
 with open("templ/newr.t", "r") as newr:
     newr = newr.read()
+with open("templ/thread.t", "r") as threadt:
+    threadt = threadt.read()    
 
 def boardlist(li=0):
     boards = [x.path.split("/")[2]for x
@@ -72,8 +74,7 @@ def all_index():
         else:
             t[-1] = f"{t[-1]}"
         linkl.append(linkf.format(t[0], t[4], t[3], t[-1]))
-    return linkl
-        
+    return linkl        
 
 @viewer.route('/threads/')
 def view_all():
@@ -107,6 +108,7 @@ def view(board):
 #@viewer.route('/threads/<board>/<thread>/')
 def view_t(board, thread):
     tpath = f"./threads/{board}/{thread}/"
+    tinfo = {"title":"", "source":"", "tags":"", "messages":""}
     # Get the list of thread replies and the thread title. 
     with open(tpath + "list.txt", "r") as tind:
         thr = [t.split(" ") for t in tind.read().splitlines()]
@@ -115,7 +117,8 @@ def view_t(board, thread):
     tlink = "<a href='/tags/{0}/'>#{0}</a>"
     meta[1] = meta[1].split(" ")
     meta[1] = " ".join([tlink.format(m) for m in meta[1]])
-    meta[1] = "tags: " + meta[1]
+    tinfo["tags"] = meta[1]
+#    meta[1] = "tags: " + meta[1]
     
     # Load the replies.
     boards = set([t[0] for t in thr])
@@ -190,14 +193,17 @@ def view_t(board, thread):
 
         p = postt.format(*p)
         threadp.append(p)
-    threadp.insert(0, f"<h1>{meta[0]}</h1>")
-    threadp[0] += "source: "
+    tinfo["messages"] = "<p>".join(threadp)
+    tinfo["title"] = meta[0]
+#    threadp.insert(0, f"<h1>{meta[0]}</h1>")
+#    threadp[0] += "source: "
     if board != "local":
-        threadp[0] += "&#127758;"
-    threadp[0] += "<a href='/threads/{0}/'>{0}</a> &diams; ".format(board)
-    threadp[0] += meta[1]
-
-    return "<p>".join(threadp)
+        tinfo["source"] += "&#127758;"
+    tinfo["source"] += "<a href='/threads/{0}/'>{0}</a>".format(board)
+    thread = threadt.format(tinfo["title"], tinfo["source"], tinfo["tags"],
+                   tinfo["messages"])    
+    
+    return thread
 
 @viewer.route('/threads/<board>/<thread>/', methods=['POST', 'GET'])
 def reply_t(board, thread):
@@ -224,4 +230,4 @@ def reply_t(board, thread):
             + " before you can post."
     else:
         replf = newr.format(board, thread)
-    return p.mk(str(tpage + "<hr>" + replf))
+    return p.mk(str(tpage + replf))
