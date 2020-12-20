@@ -31,9 +31,10 @@ h2 {
 }
 .thread-meta {
     float: right;
+    display: block;
     padding: 1em;
-    background-color: #aaa;
-    border: 3px solid black;
+    background-color: #666;
+    border-left: 3px solid black;
     color: #000;    
 }
 
@@ -47,7 +48,7 @@ h2 {
 .meta {
     width: auto;
     padding: 1em;
-    background-color: #aaa;
+    background-color: #666;    
     padding-top: 1em;
     color: #000;
  }
@@ -60,8 +61,8 @@ h2 {
     color: #eee;
     padding: 1em;
  }
- .msg a {
-     color: #aaa;
+ .msg a, b {
+     color: #888;
  }     
  .reply td {
      background-color: #999;
