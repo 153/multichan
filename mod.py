@@ -1,32 +1,51 @@
 import os
 import shutil
-import init
+import tags
+import refresh
+import settings
 
 def del_comment(host, thread, site, reply):
     path = "/".join(["./threads", host, thread, site]) + ".txt"
-    with open(path, "r") as comments:
-        comments = comments.read().splitlines()
+    try:
+        with open(path, "r") as comments:
+            comments = comments.read().splitlines()
+    except:
+        return
     reply = int(reply) - 1
     comments[reply] = comments[reply].split("<>")
-    comments[reply][1] = "Deleted"
+    comments[reply][1] = "<b>Deleted</b>"
     comments[reply][2] = "<i>this comment was deleted</i>"
     comments[reply] = "<>".join(comments[reply])
     comments = "\n".join(comments) + "\n"
     with open(path, "w") as path:
         path.write(comments)
-    print(comments)
 
-def del_thread(thread):
-    path = "/".join(["./threads", "local", thread])
-    blistp = "/".join(["./threads", "local", "list"]) + ".txt"
+def del_thread(board, thread):
+    path = "/".join(["./threads", board, thread])
+    blistp = "/".join(["./threads", board, "list"]) + ".txt"
     with open(blistp, "r") as blist:
         blist = blist.read().splitlines()
     blist = [b for b in blist if b.split(" ")[0] != thread]
     blist = "\n".join(blist)
     with open(blistp, "w") as blistp:
         blistp.write(blist)
-    shutil.rmtree(path)
-    print(blist)
+    try:
+        shutil.rmtree(path)
+    except:
+        return
+    refresh.ldboard(board, 1)
+    refresh.mksite()
 
-#del_thread("1608368801")
-del_comment("local", "1608368447", "local", 5)
+def main():
+    with open("./delete.txt", "r") as delete:
+        delete = delete.read().splitlines()
+    delete = [d.split(" ") for d in delete]
+    for d in delete:
+        print(d)
+        if len(d) == 2:
+            del_thread(*d)
+        elif len(d) == 4:
+            del_comment(*d[:3], int(d[3]))
+    tags.mksite(1)
+
+main()
