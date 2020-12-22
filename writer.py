@@ -40,7 +40,8 @@ def log(board, thread, post):
     
 def mk_op(title="", tag="random", author="Anonymous", msg=""):
     title = title[:s._short]
-    tag = tag[:s._short]
+    tag = tag[:s._short].lower()
+    author = author[:s._short]    
     msg = msg[:s._long]
     msg = msg.replace("<", "&lt;").replace("&", "&amp;")    
     msg = msg.replace("\n","<br>").replace("\r","")
@@ -49,10 +50,10 @@ def mk_op(title="", tag="random", author="Anonymous", msg=""):
     if not author:
         author = "Anonymous"
     author = nametrip(author)
-    if len(tag) == 0:
-        tag = "random"
     pat = re.compile(r'^[ A-Za-z0-9_-]*$')
     tag = " ".join(list(set(re.findall(r'\w+', tag))))
+    if len(tag) == 0:
+        tag = "random"    
     # author, tstamp, msg
     tnow = str(int(time.time()))
 
