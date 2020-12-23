@@ -36,7 +36,7 @@ def genkey(ip):
     return entry
 
 def addlog(ip, ig=0):
-    log = ldlog()
+    log = ldlog()        
     if ip not in log or ig:
         entry = genkey(ip)
         log[ip] = entry
@@ -50,6 +50,10 @@ def approve(ip=0, key=""):
         ip = get_ip()
     now = str(int(time.time()))
     log = ldlog()
+    with open(s.bans, "r") as bans:
+        bans = bans.read().splitlines()    
+    if ip in bans:
+        return False
     if ip in log:
         if len(log[ip]) == 3:
             if log[ip][2] != key:

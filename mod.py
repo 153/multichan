@@ -6,14 +6,11 @@ import settings
 
 def del_comment(host, thread, site, reply):
     path = "/".join(["./threads", host, thread, site]) + ".txt"
-    try:
-        with open(path, "r") as comments:
-            comments = comments.read().splitlines()
-    except:
-        return
+    with open(path, "r") as comments:
+        comments = comments.read().splitlines()
     reply = int(reply) - 1
     comments[reply] = comments[reply].split("<>")
-    comments[reply][1] = "<b>Deleted</b>"
+    comments[reply][1] = "Deleted"
     comments[reply][2] = "<i>this comment was deleted</i>"
     comments[reply] = "<>".join(comments[reply])
     comments = "\n".join(comments) + "\n"
@@ -29,10 +26,7 @@ def del_thread(board, thread):
     blist = "\n".join(blist)
     with open(blistp, "w") as blistp:
         blistp.write(blist)
-    try:
-        shutil.rmtree(path)
-    except:
-        return
+    shutil.rmtree(path)
     refresh.ldboard(board, 1)
     refresh.mksite()
 
