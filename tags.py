@@ -112,12 +112,17 @@ def tag_index():
     all_tags = {k: v for k, v in sorted(all_tags.items(),
                                          key= lambda x: int(x[1]))[::-1]}
     
-
     for t in site_tags:
         links.append(sentry.format(t, site_tags[t]))
     links.append("</ul><ul>")
+    cnt = 0
+    last = 0
     for t in all_tags:
+        cnt = int(all_tags[t])
+        if (cnt < last) and (cnt == 1):
+            links.append("</ul><ul>")
         links.append(oentry.format(t, all_tags[t]))
+        last = cnt
     links.append("</ul>")
     result.append("\n".join(links))
     result = p.mk("\n".join(result))
