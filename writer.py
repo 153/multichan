@@ -43,7 +43,9 @@ def mk_op(title="", tag="random", author="Anonymous", msg=""):
     tag = tag[:s._short].lower()
     author = author[:s._short]    
     msg = msg[:s._long]
-    msg = msg.replace("<", "&lt;").replace("&", "&amp;")    
+    title = title.replace("&", "&amp;").replace("<", "&lt;")
+    author = author.replace("&", "&amp;").replace("<", "&lt;")
+    msg = msg.replace("&", "&amp;").replace("<", "&lt;")
     msg = msg.replace("\n","<br>").replace("\r","")
     if not title.strip() or not msg.strip():
         return "Please write a message to create a new conversation."
