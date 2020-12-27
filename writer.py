@@ -105,10 +105,11 @@ def rep_t(board, thread, now, author, msg):
         author = "Anonymous"
     else:
         author = nametrip(author)
+    author = author.replace("&", "&amp;").replace("<", "&lt;")
     msg = msg[:s._long]
     tdir = f"./threads/{board}/{thread}/"
     tnow = now
-    msg = msg.replace("<", "&lt;").replace("&", "&amp;")    
+    msg = msg.replace("&", "&amp;").replace("<", "&lt;")
     msg = msg.replace("\n","<br>").replace("\r","")
     rline = "<>".join([tnow, author, msg]) + "\n"
     cnt = 0
