@@ -1,11 +1,11 @@
 import os
 import shutil
 
-files = ["./settings.py", "./ips.txt", "./log.txt", "./threads/"]
+files = ["./settings.py", "./ips.txt", "./log.txt",
+         "./bans.txt", "./threads/"]
 loc = "./bak/"
 if not os.path.isdir(loc):
-    os.mkdir(loc)
-    
+    os.mkdir(loc)    
 def copy(src, dst):
     try:
         shutil.copytree(src, dst + "threads/")
