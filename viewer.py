@@ -136,26 +136,16 @@ def view_t(board, thread):
     psub = 0
     cnt = {friends[x]: 0 for x in boards}
     for p in sorted(tdb.keys()):
-        # prepare a post for viewing
-        # 0: post number
-        # 1: post datetime
-        # 2: poster name
-        # 3: post message
-        # 4: host board
-        
         p = tdb[p]
         p.append(p[0])
         p[4], p[5] = p[5], p[4]
         aname = friends[p[0]]
         if p[0] == board:
-            # op board gets >>1 >>2 >>3
             pnum += 1
             psub = 0
             p[0] = f"<a id='{pnum}' href='#{pnum}' " \
                 + f"onclick='quote(\"{pnum}\")'>#{str(pnum)}</a>"
         else:
-            # remote boards get >>1,1 >>1,2 >>1,3
-            # and also >>url/1 >>url/2 >>url/3
             psub += 1
             cnt[aname] += 1
             p[0] = ",".join([str(pnum), str(psub)])
@@ -171,19 +161,6 @@ def view_t(board, thread):
                             for x in p[3]])
         p[1] = u.unix2hum(p[1])
         p[3] = p[3].replace("&amp;", "&")
-
-        # autolink URL
-        urls = re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
-                          p[3])
-        for link in urls:
-            if "<" in link:
-                link = link.split("<")[0]
-            if " "in link:
-                link = link.split(" ")[0]
-            p[3] = p[3].replace(link, f"<a target='_blank' href='{link}'>{link}</a>")
-# https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)',
-#                      r'<a href="\0">\0\1</a>',
-#                      p[3])
         
         # Set up >>linking
         fquote = {">>" + friends[f]: f for f in friends}
