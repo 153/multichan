@@ -101,11 +101,11 @@ def rep_t(board, thread, now, author, msg):
     # append post json
     # update list.txt
     # update board/list
-    author = author.replace("&", "&amp;").replace("<", "&lt;")    
     if not author:
         author = "Anonymous"
     else:
         author = nametrip(author)
+    author = author.replace("&", "&amp;").replace("<", "&lt;")
     msg = msg[:s._long]
     tdir = f"./threads/{board}/{thread}/"
     tnow = now
