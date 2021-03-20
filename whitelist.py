@@ -51,8 +51,12 @@ def approve(ip=0, key=""):
     now = str(int(time.time()))
     log = ldlog()
     with open(s.bans, "r") as bans:
-        bans = bans.read().splitlines()    
-    if ip in bans:
+        bans = bans.read().splitlines()
+    bans = [b.split(" ")[0] if " " else b for b in bans]
+    iprange = ".".join(ip.split(".")[:3])
+    print(ip, iprange)
+    
+    if ip in bans or iprange in bans:
         return False
     if ip in log:
         if len(log[ip]) == 3:
