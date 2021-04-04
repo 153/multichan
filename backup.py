@@ -2,8 +2,9 @@ import settings as s
 import os
 import shutil
 
-files = ["./settings.py", s.wlist, s.log, s.bans, "./threads/"]
+files = ["./settings.py", "./threads/", s.wlist, s.log, s.bans, "./html/home.html"]
 loc = "./bak/"
+
 if not os.path.isdir(loc):
     os.mkdir(loc)    
 def copy(src, dst):
