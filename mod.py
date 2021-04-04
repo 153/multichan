@@ -36,10 +36,13 @@ def main():
     delete = [d.split(" ") for d in delete]
     for d in delete:
         print(d)
-        if len(d) == 2:
-            del_thread(*d)
-        elif len(d) == 4:
-            del_comment(*d[:3], int(d[3]))
+        try:
+            if len(d) == 2:
+                del_thread(*d)
+            elif len(d) == 4:
+                del_comment(*d[:3], int(d[3]))
+        except:
+            print("No file", d)
     tags.mksite(1)
 
 main()
