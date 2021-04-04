@@ -1,9 +1,12 @@
 name = "multich"
 url = "http://localhost"
+_port = 5000
+
+archive = "./archive/"
 log = "./log.txt"
 wlist = "./ips.txt"
-_port = 5000
-archive = "./archive/"
+bans = "./bans.txt"
+
 tags = ["random",  "nsfw"]
 _short = 80
 _long = 10000

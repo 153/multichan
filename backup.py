@@ -1,8 +1,8 @@
+import settings as s
 import os
 import shutil
 
-files = ["./settings.py", "./ips.txt", "./log.txt",
-         "./bans.txt", "./threads/"]
+files = ["./settings.py", s.wlist, s.log, s.bans, "./threads/"]
 loc = "./bak/"
 if not os.path.isdir(loc):
     os.mkdir(loc)    
