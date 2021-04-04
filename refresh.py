@@ -222,7 +222,7 @@ def main():
             continue
         if not os.path.isdir("./threads/" + f):
             os.mkdir("./threads/" + f)
-            pullboard(f)
+        pullboard(f)
     mksite()
     linksites()
     
