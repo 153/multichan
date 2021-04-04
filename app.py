@@ -33,20 +33,8 @@ def not_found(e):
 @app.route('/', strict_slashes=False)
 def hello_world():
     print(request.headers)
-    links = """
-<h2>{0}</h2>
-<hr>
-<center><a href="/threads/"><img src="hands.png"></a></center>
-<ul>
-<li><a href="/about">About this website</a>
-<li><a href="/rules">Rules of this website</a>
-</ul><p><ul>
-<li><a href="/threads/">Conversation index</a>
-<li><a href="/tags/">Tags (categories)</a>
-<li><a href="https://bitbucket.org/796f/multichan">Source code</a>
-</ul> 
-""".format(s.name)
-    return p.mk(links)
+#    links = """
+    return p.mk(p.html("home").format(s.name))
 
 @app.route('/rules')
 def rules():
