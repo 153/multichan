@@ -5,7 +5,7 @@
   <td><input type="text" name="title" size=40 required>
 <tr>
   <td> Tag(s):
-  <td><input type="text" name="tag" placeholder="random"> (Space seperated!)
+  <td><input type="text" name="tag" value="{0}"> (Space seperated!)
 <tr>  
   <td> Author:
   <td><input type="text" name="author" placeholder="Anonymous">

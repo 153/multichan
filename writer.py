@@ -101,11 +101,11 @@ def rep_t(board, thread, now, author, msg):
     # append post json
     # update list.txt
     # update board/list
+    author = author.replace("&", "&amp;").replace("<", "&lt;")    
     if not author:
         author = "Anonymous"
     else:
         author = nametrip(author)
-    author = author.replace("&", "&amp;").replace("<", "&lt;")
     msg = msg[:s._long]
     tdir = f"./threads/{board}/{thread}/"
     tnow = now
@@ -145,7 +145,8 @@ def update_board(board, thread, now, wr=1):
     
 #@writer.route('/create', methods=['POST', 'GET'])
 @writer.route('/create/', methods=['POST', 'GET'])
-def new_thread():
+@writer.route('/create/<t>', methods=['POST', 'GET'])
+def new_thread(t="random"):
     if request.method == 'POST':
         if not whitelist.approve():
                 return "You need to solve <a href='/captcha/'>the " \
@@ -158,5 +159,8 @@ def new_thread():
             return "<center><h1>" \
                 + "Posting thread.....<p>" \
                 + "<a href='/threads/'>(back)</a></h1></center>"
-        
-    return p.mk(newtt)
+
+    # if not t=tag , t = random
+    if not len(t):
+        t = "random"
+    return p.mk(newtt.format(t))

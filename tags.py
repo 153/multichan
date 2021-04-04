@@ -134,11 +134,13 @@ def tag_page(topic):
     + "<td><a href='/threads/{0}/{1}'>{5}</a>" \
     + "<td>{4}"
     result = []
+    ot = "".join(topic)
     if "+" in topic:
         topic = topic.split("+")
     else:
         topic = [topic]
-    result.append("<h1> #" + " #".join(topic))
+    result.append("<h1> #" + " #".join(topic) + "</h1>")
+    result.append(" <a href='/create/" + ot + "'>+ create new</a><br>")
     result.append("<i>Note: tags can be combined using the "
                   "+ (plus sign) in the URL</i>")
     result.append("<p><table>")
@@ -149,7 +151,7 @@ def tag_page(topic):
     site = [s.split(" ") for s in site]
     site = [[*s[:5], " ".join(s[5:])] for s in site
             if [s[0], s[1]] in threads]
-    result[0] += " (" + str(len(site)) + ")</h1>"
+    result[0] += " (" + str(len(site)) + " threads)</h1>"
     test = "\n".join([line.format(*t) for t in site])
     result.append(test)
     result.append("</table>")
