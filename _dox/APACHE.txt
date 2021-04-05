@@ -1,0 +1,10 @@
+# for server multich.kuz.lol
+# for port 5000
+
+<VirtualHost *:80>
+  ServerName multich.kuz.lol
+  ProxyPreserveHost On
+  ProxyPassReverse / http://localhost:5000/
+  ProxyPass / http://localhost:5000/
+</VirtualHost>
+
