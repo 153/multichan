@@ -1,0 +1,52 @@
+a, .quote {
+     color: #dcdccc;
+ }
+ body {
+     max-width: 550px;
+     background-color: #3f3f3f;
+     color: #dcdccc;
+
+ }
+hr {
+    border-bottom: 2px solid #cc9393;
+ }
+ .post {
+     background-color: #3f3f3f;
+     padding-bottom: 4px;
+     border-bottom: 4px;
+ }
+ .meta {
+     border-bottom: 2px solid #cc9393;
+     padding: 4px;
+     background-color: #3f3f3f;
+ }
+ .msg {
+     padding-left: 12px;
+     padding-right: 8px;
+     text-align: justify;
+ }
+ 
+ img {
+     max-width: 500px;
+     text-align: center;
+ }
+
+ table {
+     border-collapse: collapse;
+ }
+
+ th, td {
+     padding: 4px;
+     border: 1px solid #cc9393;     
+ }
+ th {
+     text-align: left;
+ }
+ input {
+	 background-color: #c0bed1;
+	 color: #3f3f3f;
+ }
+ textarea {
+	 background-color: #c0bed1;
+	 color: #3f3f3f;
+ }
