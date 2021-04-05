@@ -1,0 +1,48 @@
+a, .quote {
+     color: darkmagenta;
+ }
+ body {
+    width: 765px;
+    margin-left: auto;
+    margin-right: auto;     background-color: #eeeeee;
+ }
+
+ .post {
+     background-color: #dddddd;
+     padding-bottom: 4px;
+     border-bottom: 4px;
+ }
+ .meta {
+     border-bottom: 2px solid black;
+     padding: 4px;
+     background-color: #dddfdf;
+ }
+ .msg {
+     padding-left: 12px;
+     padding-right: 8px;
+     text-align: justify;
+ }
+ 
+ img {
+     max-width: 500px;
+     text-align: center;
+ }
+
+ table {
+     border-collapse: collapse;
+ }
+
+ th, td {
+     padding: 4px;
+     border: 1px solid black;     
+ }
+ th {
+     text-align: right;
+ }
+a {
+color: #ff6600;
+text-decoration: none;
+}
+a:hover {
+color: #ff6600;
+}
