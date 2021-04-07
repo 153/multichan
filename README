@@ -1,9 +1,8 @@
 1. git clone https://bitbucket.org/796f/multichan
-2. pip3 install flask
-3. pip3 install captcha
-4. edit settings.py
-5. python3 refresh.py # This sets up federation / syncing
-6. python3 app.py 
+2. pip3 install -r requirements.txt
+3. edit settings.py
+4. python3 refresh.py # This sets up federation / syncing
+5. python3 app.py 
 
 ./_dox/NGINX.txt and ./_dox/APACHE.txt have information on configuring a
 webserver to use a reverse proxy to assign a domain name and port (like 80
