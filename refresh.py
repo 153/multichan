@@ -2,6 +2,7 @@ import os
 import tags
 import settings as s
 import utils as u
+import mod
 
 arc = s.archive
 friends = s.friends
@@ -225,6 +226,7 @@ def main():
         pullboard(f)
     mksite()
     linksites()
+    mod.main()
     
 if __name__ == "__main__":
     main()

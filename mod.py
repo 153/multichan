@@ -42,7 +42,9 @@ def main():
             elif len(d) == 4:
                 del_comment(*d[:3], int(d[3]))
         except:
-            print("No file", d)
+            print()
+            pass
     tags.mksite(1)
 
-main()
+if __name__ == "__main__":
+    main()
