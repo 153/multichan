@@ -3,11 +3,11 @@ python -m flask run
 
 app.py:
 	Flask entry point;
-	home for front page,
-	rules page, and about page.
+	front page, rules page,
+	and about page.
 
 settings.py:
-	Configure a few things.
+	Configure a few things. Name, port, URL, etc
 
 utils.py:
 	A few simple utilities. 
@@ -22,3 +22,33 @@ writer.py:
 	 * Create a thread
 	 * Reply to a thread
 	 * Update the board
+
+refresh.py:
+	* rebuilds thread indexes from the bottom up
+	* scrapes remote threads/tags
+	* grabs new posts in followed threads and new threads
+
+backup.py:
+	* backup config and data to " ./bak" directory
+
+mod.py:
+	* executed as " python3 mod.py"
+	* deletes threads/comments marked for deletion
+	* good for mass deletes
+
+ips.txt:
+	* List of IPs attempting Captcha
+	* Lists time an IP was approved to post, if approved
+	* Delete an IP to remove posting privileges
+
+bans.txt:
+	* An IP or range (a:b:c:d and a:b:c ) per line;
+	  attempting to solve captcha always fails for banned
+	  user with no explanation.
+
+delete.txt:
+	* Threads/comments here will be wiped;
+	  remote deleted threads/comments will not be saved.
+
+
+	

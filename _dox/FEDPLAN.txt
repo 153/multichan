@@ -31,7 +31,7 @@ Reserved names:
 	head.txt
 		Thread title and tags.
 	list.txt
-		List of all replies to thread by time.
+		List of all replies to thread by board and time.
 	local.txt
 		Local board's replies to thread.
 	board-example.txt
