@@ -11,7 +11,6 @@ index = "threads/local/list.txt"
 feed = {}
 feed["title"] = " ".join([title, "@", url])
 feed["id"] = url
-feed["link"] = url + "/threads.atom"
 feed["entries"] = []
 
 feed_temp = """<?xml version="1.0" encoding="utf-8"?>
@@ -34,36 +33,45 @@ entry_temp = """  <entry>
 </content>
   </entry>"""
 
-with open(index, "r") as tind:
-    tind = tind.read().splitlines()
+def mkthreads():
+    feed["link"] = url + "/threads.atom"
+    with open(index, "r") as tind:
+        tind = tind.read().splitlines()
 
-tind = [t.split(" ") for t in tind]
-sorted(tind)
-tind = [[*t[:4], " ".join(t[4:])] for t in tind]
+    # Make an index of local threads by sorting them by
+    # newest created thread sorted to oldest. This is more
+    # useful for ATOM feeds than sorting by bumps, and
+    # makes more sense than a global thread feed
+    # (which may come later).
+    
+    tind = [t.split(" ") for t in tind]
+    sorted(tind)
+    tind = [[*t[:4], " ".join(t[4:])] for t in tind]
 
-for t in tind:
-    entry = {}
-    entry["title"] = t[-1]
-    entry["url"] = link = url + "/threads/local/" + t[0]
-    entry["published"] = time.strftime(tstring, time.localtime(int(t[0])))
-    entry["fn"] = "./threads/local/" + t[0] + "/local.txt"
-    with open(entry["fn"], "r") as content:
-        content = content.read().splitlines()[0].split("<>")[2:]
-    entry["content"] = "<>".join(content)
-    entry["content"] = entry["content"]\
-        .replace("<br>", "\n").replace("<", "&lt;").replace(">", "&gt;")
-    feed["entries"].append(entry)
+    for t in tind:
+        entry = {}
+        entry["title"] = t[-1]
+        entry["url"] = link = url + "/threads/local/" + t[0]
+        entry["published"] = time.strftime(tstring, time.localtime(int(t[0])))
+        entry["fn"] = "./threads/local/" + t[0] + "/local.txt"
+        with open(entry["fn"], "r") as content:
+            content = content.read().splitlines()[0].split("<>")[2:]
+        entry["content"] = "<>".join(content)
+        entry["content"] = entry["content"]\
+            .replace("<br>", "\n").replace("<", "&lt;").replace(">", "&gt;")
+        feed["entries"].append(entry)
 
-feed["published"] = feed["entries"][0]["published"]    
+    feed["published"] = feed["entries"][0]["published"]    
 
-atompage = []
-atompage.append(feed_temp.format(**feed))
-for entry in feed["entries"]:
-    atompage.append(entry_temp.format(**entry))
-atompage.append("  </feed>")
-
-atompage = "\n".join(atompage)
-print(atompage)
-
-with open(fn, "w") as fn:
-    fn.write(atompage)
+    atompage = []
+    atompage.append(feed_temp.format(**feed))
+    for entry in feed["entries"]:
+        atompage.append(entry_temp.format(**entry))
+    atompage.append("  </feed>")
+    atompage = "\n".join(atompage)
+    
+    with open(fn, "w") as atom:
+        atom.write(atompage)
+        
+if __name__ == "__main__":
+    mkthreads()
