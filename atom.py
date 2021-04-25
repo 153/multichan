@@ -45,7 +45,7 @@ def mkthreads():
     # (which may come later).
     
     tind = [t.split(" ") for t in tind]
-    sorted(tind)
+    tind = sorted(tind)[::-1]
     tind = [[*t[:4], " ".join(t[4:])] for t in tind]
 
     for t in tind:
