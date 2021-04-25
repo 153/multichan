@@ -14,12 +14,21 @@ it's fairly simple to point a domain name and port 80 or 443 at the
 server.
 
 Modify settings.py setting "name" to set the name of your board;
-add boards you want to link with in the "friends" part of the configuration.
-Then, run `python3 refresh.py` to federate / prepare to federate.
+you should also set your URL to what domain name you are giving
+your multichan server. After that, you can add tags to the tags
+array on line 11 to suggest the themes of your server, and add
+boards you want to link with in the "friends" part of the
+configuration.
+
+Finally, run `python3 refresh.py` to prepare to federate, and
+`python3 app.py` to run your multichan server. You should be able
+to view it at the IP address of the server followed by "colon 5000".
+Solve the captcha at "/captcha" and try making a post. 
 
 The script `backup.py` creates a directory, `./bak/`, which contains
-the current site's settings file, whitelist file, post log, and thread
-database. ( settings.py , ips.txt , log.txt , ./threads/ )
+the current site's settings file, whitelist file, delete file,
+ban file, post log, and thread database. ( settings.py , ips.txt ,
+log.txt , ./delete.txt , ./bans.txt , ./threads/ )
 
 Users must solve a captcha in order to publish a thread or comment.
 Users who attempt to solve the captcha are logged in `ips.txt` by
@@ -29,15 +38,12 @@ provides their IP address.
 
 The file `log.txt` contains a list in the format
 `board thread replynum ipaddress`, which can be used to help block
-spammers. It does not filter spam from remote boards; in the future,
-a list for threads / comments to block from remote boards will be
-available. An expansion of the admin system will include `spam.txt`
-(terms to blacklist), `ban.txt` (IPs to blacklist), and possibly other
-features.
+spammers. It does not filter spam from remote boards; to do that,
+modify the `delete.txt` file. A web-based admin panel is coming.
 
-Tags can be manually set by the administrator by modifying the
+Tags can be manually set by the administrator per-thread by modifying the
 `./threads/site/thread/head.txt` file's second line with space seperated
-keywords, and then executing `python3 tags.py` or `python3 init.py`. 
+keywords, and then executing `python3 tags.py` and/or `python3 refresh.py`. 
 
 # Directory structure
 ```
