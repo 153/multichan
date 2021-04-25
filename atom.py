@@ -30,7 +30,7 @@ entry_temp = """  <entry>
 <published>{published}</published>
 <updated>{published}</updated>
 <content type="text">
-abcde
+{content}
 </content>
   </entry>"""
 
@@ -46,6 +46,12 @@ for t in tind:
     entry["title"] = t[-1]
     entry["url"] = link = url + "/threads/local/" + t[0]
     entry["published"] = time.strftime(tstring, time.localtime(int(t[0])))
+    entry["fn"] = "./threads/local/" + t[0] + "/local.txt"
+    with open(entry["fn"], "r") as content:
+        content = content.read().splitlines()[0].split("<>")[2:]
+    entry["content"] = "<>".join(content)
+    entry["content"] = entry["content"]\
+        .replace("<br>", "\n").replace("<", "&lt;").replace(">", "&gt;")
     feed["entries"].append(entry)
 
 feed["published"] = feed["entries"][0]["published"]    

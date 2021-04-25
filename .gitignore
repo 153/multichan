@@ -3,9 +3,11 @@
 __pycache__/
 *.py[cod]
 static/cap/*png
+static/feed.atom
+settings.py
 log.txt
 ips.txt
-settings.txt
+bans.txt
 threads/
 threads/*
 archive/
