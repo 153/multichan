@@ -65,24 +65,18 @@ in ./threads/ :
 ```
 
 # Help! My board is broken!
-Resetting / initializing a board is fairly simple,
-but is not possible from the script yet. Begin by
-clearing out the directory `./threads/boardname/`
-where boardname is either `local` or some remote board
-that is named in the settings file.
+Move your threads directory somewhere safe and make a new one.
 
 In the `./threads/` directory:
 
-1. Make a new directory, `boardname/0/`
-2. Create `boardname/0/head.txt`
+1. Make a new directory, `local/0/`
+2. Create `local/0/head.txt`
 3. Enter `Hello world`, newline, `none`
-4. Create `boardname/0/boardname.txt`
+4. Create `local/0/local.txt`
 5. Enter `0<>none<>none`
-6. Create `boardname/0/list.txt`
-7. Enter `boardname 0`
-8. `python3`
-9. `import refresh`
-10. `refresh.mkboard(boardname)`
+6. Create `local/0/list.txt`
+7. Enter `local 0`
+8. Enter `python3 refresh.py`
 
 Removing files from ./archive/ which contain `boardname`
 (e.g. `rm ./archive/*boardname*` ) may also be useful.
