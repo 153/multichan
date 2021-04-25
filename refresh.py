@@ -50,7 +50,7 @@ def ldboard(board, write=0):
         replies = "/".join([thread, meta[1]])
         if not os.path.isfile(info):
             t = thread.split("/")[-1]
-            orig = "/".join([friends[board], "api",
+            orig = "/".join([friends[board], "raw",
                              "local", t, "head.txt"])
             u.wget(orig, info)
         with open(info, "r") as info:
@@ -86,7 +86,7 @@ def pullboard(board):
         return
     fn = arc + board + ".new"
     old = arc + board 
-    url = "/".join([f[board], "api", "local"])
+    url = "/".join([f[board], "raw", "local"])
     indurl = url + "/list.txt"
     newp = [x.split(" ") for x in
            u.wget(indurl, fn).splitlines()
@@ -157,8 +157,8 @@ def linksites():
         # changes - threads with new replies from self
         # boards - boards that need their index rewritten
         
-        furl = "/".join([friends[f], "api", "friends.txt"])
-        lurl = "/".join([friends[f], "api", "list.txt"])
+        furl = "/".join([friends[f], "raw", "friends.txt"])
+        lurl = "/".join([friends[f], "raw", "list.txt"])
         ffn = arc + "friends." + f
         if not os.path.exists(ffn):
             with open(ffn, "w") as fi:
@@ -200,7 +200,7 @@ def linksites():
             changes.append(n)
 
         for c in changes:
-            url = "/".join([friends[f], "api", common2[c[0]],
+            url = "/".join([friends[f], "raw", common2[c[0]],
                            c[1], "local.txt"])
             ldir = "/".join(["./threads", c[0], c[1]])
             local = "/".join([ldir, f + ".txt"])

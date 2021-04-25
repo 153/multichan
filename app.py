@@ -61,10 +61,12 @@ def friends():
     
 
 @app.route('/api/')
+@app.route('/raw/')
 def api_help():
     return base_static("help.txt")
     
 @app.route('/api/<path:filename>')
+@app.route('/raw/<path:filename>')
 def base_static(filename):
         return send_from_directory(app.root_path + '/threads/', filename)
 

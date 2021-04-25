@@ -114,6 +114,8 @@ def tag_index():
     
     for t in site_tags:
         links.append(sentry.format(t, site_tags[t]))
+        if site_tags[t] == 1:
+            links[-1] == links[-1].replace("s)", ")")
     links.append("</ul><ul>")
     cnt = 0
     last = 0
@@ -122,6 +124,8 @@ def tag_index():
         if (cnt < last) and (cnt == 1):
             links.append("</ul><ul>")
         links.append(oentry.format(t, all_tags[t]))
+        if all_tags[t] == 1:
+            links[-1] = links[-1].replace("s)", ")")
         last = cnt
     links.append("</ul>")
     result.append("\n".join(links))
