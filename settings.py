@@ -7,6 +7,8 @@ log = "./log.txt"
 wlist = "./ips.txt"
 bans = "./bans.txt"
 delete = "./delete.txt"
+password = b"changeme"
+phash = "057ba03d6c44104863dc7361fe4578965d1887360f90a0895882e58a6248fc86"
 
 tags = ["random",  "nsfw"]
 _short = 120
@@ -16,9 +18,6 @@ _long = 10000
 refreshtime = 60*15 # Check friend boards every 15 minutes
 friends = {
     "0chan": "http://0chan.vip",
-    "52chan": "http://bbs.4x13.net",
-    "ripirc": "http://multi.404.mn",
-    "kuzlol": "http://multich.kuz.lol",
     "local": url
     }
 

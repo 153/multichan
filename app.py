@@ -4,6 +4,7 @@ from viewer import viewer
 from writer import writer
 from whitelist import whitelist
 from tags import tags
+from admin import admin
 import os
 import time
 import daemon
@@ -20,6 +21,7 @@ app.register_blueprint(viewer)
 app.register_blueprint(writer)
 app.register_blueprint(whitelist)
 app.register_blueprint(tags)
+app.register_blueprint(admin)
 
 if not os.path.isdir("./static/cap/"):
     os.mkdir("./static/cap/")
@@ -33,7 +35,6 @@ def not_found(e):
 @app.route('/', strict_slashes=False)
 def hello_world():
     print(request.headers)
-#    links = """
     return p.mk(p.html("home").format(s.name))
 
 @app.route('/rules')
@@ -59,14 +60,18 @@ def friends():
     return p.mk(page)
     
 
-@app.route('/raw/<path:filename>')
+@app.route('/api/')
+def api_help():
+    return base_static("help.txt")
+    
+@app.route('/api/<path:filename>')
 def base_static(filename):
         return send_from_directory(app.root_path + '/threads/', filename)
 
 
 if __name__ == '__main__':
     daemon.run()    
-    app.run(host="0.0.0.0", port=_port, debug=True) 
+    app.run(host="0.0.0.0", port=_port)
     print(time.time.now())
     print(request.headers)
 
