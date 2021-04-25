@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <feed xmlns="http://www.w3.org/2005/Atom">
+<title>multich @ http://localhost</title>
+<author><name>Anonymous</name></author>
+<id>http://localhost</id>
+<link rel="self" href="http://localhost/threads.atom" />
+<updated>1970-01-01T00:00:00+00:00</updated>
+
+  <entry>
+<title>Hello world</title>
+<link rel="alternate" href="http://localhost/threads/local/0" />
+<id>http://localhost/threads/local/0</id>
+<published>1970-01-01T00:00:00+00:00</published>
+<updated>1970-01-01T00:00:00+00:00</updated>
+<content type="text">
+abcde
+</content>
+  </entry>
+  </feed>
