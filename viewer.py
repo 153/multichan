@@ -70,7 +70,7 @@ def all_index():
         t[4] = " ".join(t[4:-1])
         t[0] = f"/threads/{t[-1]}/{t[0]}/"
         if t[-1] == "local":
-            t[-1] = "local &emsp;"
+            pass
         else:
             t[-1] = f"{t[-1]}"
         linkl.append(linkf.format(t[0], t[4], t[3], t[-1]))
@@ -103,7 +103,7 @@ def view(board):
         tops = tlist()
         tops[0] = "<h1>All Sites</h1><ol><li>" + tops[0]
     tops[0] = boardlist() + tops[0]
-    return p.mk("<tr>".join(tops) + "</table>")
+    return p.mk("<tr>".join(tops) + "</table>\n")
 
 #@viewer.route('/threads/<board>/<thread>/')
 def view_t(board, thread):
@@ -230,4 +230,5 @@ def reply_t(board, thread):
             + " before you can post."
     else:
         replf = newr.format(board, thread)
-    return p.mk(str(tpage + replf))
+    tpage += replf
+    return p.mk(str(tpage))

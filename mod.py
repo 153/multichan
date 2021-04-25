@@ -2,7 +2,7 @@ import os
 import shutil
 import tags
 import refresh
-import settings
+import settings as s
 
 def del_comment(host, thread, site, reply):
     path = "/".join(["./threads", host, thread, site]) + ".txt"
@@ -31,7 +31,7 @@ def del_thread(board, thread):
     refresh.mksite()
 
 def main():
-    with open("./delete.txt", "r") as delete:
+    with open(s.delete, "r") as delete:
         delete = delete.read().splitlines()
     delete = [d.split(" ") for d in delete]
     for d in delete:
@@ -41,8 +41,9 @@ def main():
                 del_thread(*d)
             elif len(d) == 4:
                 del_comment(*d[:3], int(d[3]))
+            if d > 1:
+                print(d)
         except:
-            print()
             pass
     tags.mksite(1)
 
