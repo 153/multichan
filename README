@@ -28,13 +28,23 @@ Solve the captcha at "/captcha" and try making a post.
 The script `backup.py` creates a directory, `./bak/`, which contains
 the current site's settings file, whitelist file, delete file,
 ban file, post log, and thread database. ( settings.py , ips.txt ,
-log.txt , ./delete.txt , ./bans.txt , ./threads/ )
+log.txt , ./delete.txt , ./bans.txt , ./threads/ ).
+To delete comments / threads, add them to " `./delete.txt` " in the format
+"site thread" or "site thread site comment". Run `python3 mod.py` to
+delete offending files; leave entries from remote boards in `delete.txt`
+to prevent them from being re-downloaded.
+
+Edit the files in ./html/ to add some customization.
 
 Users must solve a captcha in order to publish a thread or comment.
 Users who attempt to solve the captcha are logged in `ips.txt` by
 default; a user who is unable to solve the captcha can have the key
 provided by the administrator or have the test overriden if the user
-provides their IP address.
+provides their IP address. To ban a user, remove their IP from `ips.txt`
+(find it via `log.txt` ) and then add either their IP address ( `a.b.c.d` )
+or their ip range ( `a.b.c` ). You can follow it with a comment or not,
+your choice. Now, if the banned user tries to post, they'll get nothing
+but failed captcha messages. How frustrating!
 
 The file `log.txt` contains a list in the format
 `board thread replynum ipaddress`, which can be used to help block
