@@ -16,12 +16,53 @@ def front():
 
 @admin.route('/admin/<pw>')
 def login(pw):
+    page = ""
     hpw = bytes(pw, "utf-8")
     hashed = hash(hpw)
     if hashed != s.phash:
         return "password?"
     cook = f"""<meta http-equiv="set-cookie" content="p={pw}">\n"""
-    return cook + "welcome"
+    page += "<pre>"
+    page += """* <a href="#log">log</a>
+* <a href="#delete">delete</a>
+* <a href="#bans">bans</a>
+* <a href="#friends">friends</a>
+* tags
+* threads
+* an example thread
+"""
+    # Show the comment / thread log
+    page += "<h1 id='log'>#log</h1>"
+    page += "site   | thread | reply | ip\n"  
+    with open("../0chan.vip/log.txt", "r") as log:
+        log = log.read().splitlines()[::-1]
+    for n, x in enumerate(log):
+        x = x.split(" ")
+        x[-1] = ".".join(x[-1].split(".")[:2])
+        log[n] = " ".join(x)
+    page += "\n".join(log)
+    
+    # Show the trash posts
+    page += "</pre><hr><h1 id='delete'>#delete</h1><pre>"
+    with open("../0chan.vip/delete.txt", "r") as delete:
+        delete = delete.read().splitlines()[::-1]
+        page += "\n".join(delete)
+        
+    # Show the bans
+    page += "</pre><hr><h1 id='bans'>#bans</h1><pre>"
+    with open("../0chan.vip/bans.txt", "r") as bans:
+        bans = bans.read()
+    page += bans
+    
+    # Show friends
+    page += "</pre><hr><h1 id='friends'>#friends</h1><pre>"
+    with open("../0chan.vip/threads/friends.txt", "r") as friends:
+        friends = friends.read()
+    page += friends
+    
+    page += "</pre>"
+    return p.mk(page)
+
 
 
 if __name__ == "__main__":
