@@ -1,0 +1,16 @@
+api/list.txt
+api/tags.txt
+api/friends.txt
+
+api/local/list.txt
+api/local/tags.txt
+api/board/list.txt
+api/board/tags.txt
+
+api/local/0/head.txt
+api/local/0/list.txt
+api/local/0/local.txt
+
+api/board/number/head.txt
+api/board/number/list.txt
+api/board/number/board.txt
