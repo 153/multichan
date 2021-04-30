@@ -24,6 +24,7 @@ def login(pw):
     cook = f"""<meta http-equiv="set-cookie" content="p={pw}">\n"""
     page += "<pre>"
     page += """* <a href="#log">log</a>
+* <a href="#ips">ips</a>
 * <a href="#delete">delete</a>
 * <a href="#bans">bans</a>
 * <a href="#friends">friends</a>
@@ -47,7 +48,12 @@ def login(pw):
     with open("../0chan.vip/delete.txt", "r") as delete:
         delete = delete.read().splitlines()[::-1]
         page += "\n".join(delete)
-        
+
+    page += "</pre><hr><h1 id='ips'>#ips</h1><pre>"
+    with open("../0chan.vip/ips.txt", "r") as ips:
+        ips = ips.read()
+    page += "time     | ip       | captcha | approved time\n"
+    page += ips
     # Show the bans
     page += "</pre><hr><h1 id='bans'>#bans</h1><pre>"
     with open("../0chan.vip/bans.txt", "r") as bans:

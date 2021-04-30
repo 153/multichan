@@ -7,7 +7,9 @@ log = "./log.txt"
 wlist = "./ips.txt"
 bans = "./bans.txt"
 delete = "./delete.txt"
-password = b"changeme"
+
+#changeme
+#sha256 of password
 phash = "057ba03d6c44104863dc7361fe4578965d1887360f90a0895882e58a6248fc86"
 
 tags = ["random",  "nsfw"]
