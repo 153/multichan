@@ -1,15 +1,16 @@
+Easy how-to-install:
+
 1. git clone https://bitbucket.org/796f/multichan
 2. pip3 install -r requirements.txt
 3. edit settings.py
-4. python3 refresh.py # This sets up federation / syncing
-5. python3 app.py 
+4. python3 app.py 
 
 ./_dox/NGINX.txt and ./_dox/APACHE.txt have information on configuring a
-webserver to use a reverse proxy to assign a domain name and port (like 80
-or 443) to the multichan server.
+webserver to use a reverse proxy to assign a domain name and port (like
+80 or 443) to the multichan server.
 
 # Basic info
-Script runs by default at 127.0.0.1 port 5000. Using nginx or lighttpd,
+Script runs by default at 127.0.0.1 port 5150. Using nginx or lighttpd,
 it's fairly simple to point a domain name and port 80 or 443 at the
 server.
 
@@ -22,17 +23,20 @@ configuration.
 
 Finally, run `python3 refresh.py` to prepare to federate, and
 `python3 app.py` to run your multichan server. You should be able
-to view it at the IP address of the server followed by "colon 5000".
+to view it at the IP address of the server followed by "colon 5150".
+This would be http://localhost:5150/ on the machine running it.  
 Solve the captcha at "/captcha" and try making a post. 
 
 The script `backup.py` creates a directory, `./bak/`, which contains
 the current site's settings file, whitelist file, delete file,
 ban file, post log, and thread database. ( settings.py , ips.txt ,
 log.txt , ./delete.txt , ./bans.txt , ./threads/ ).
+
 To delete comments / threads, add them to " `./delete.txt` " in the format
-"site thread" or "site thread site comment". Run `python3 mod.py` to
-delete offending files; leave entries from remote boards in `delete.txt`
-to prevent them from being re-downloaded.
+"site thread" or "site thread site comment". For example, "local 0" or
+"local 0 test 3" (to remove the 3rd comment from server "test" in local's
+thread "0"). Run `python3 mod.py` to delete offending files; leave entries
+from remote boards in `delete.txt`to prevent them from being re-downloaded.
 
 Edit the files in ./html/ to add some customization.
 
@@ -87,12 +91,12 @@ In the `./threads/` directory:
 
 1. Make a new directory, `local/0/`
 2. Create `local/0/head.txt`
-3. Enter `Hello world`, newline, `none`
+3. Write `Hello world`, newline, `none`
 4. Create `local/0/local.txt`
-5. Enter `0<>none<>none`
+5. Write `0<>none<>none`
 6. Create `local/0/list.txt`
-7. Enter `local 0`
-8. Enter `python3 refresh.py`
+7. Write `local 0`
+8. Execute `python3 refresh.py` in multich directory.
 
-Removing files from ./archive/ which contain `boardname`
-(e.g. `rm ./archive/*boardname*` ) may also be useful.
+Removing files from ./archive/ (e.g. `rm ./archive/*` ) may also be
+useful.

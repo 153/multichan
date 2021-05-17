@@ -5,9 +5,12 @@ from writer import writer
 from whitelist import whitelist
 from tags import tags
 from admin import admin
+from cookies import cook
+
 import os
 import time
 import daemon
+import refresh
 import pagemaker as p
 import settings as s
 
@@ -22,6 +25,7 @@ app.register_blueprint(writer)
 app.register_blueprint(whitelist)
 app.register_blueprint(tags)
 app.register_blueprint(admin)
+app.register_blueprint(cook)
 
 if not os.path.isdir("./static/cap/"):
     os.mkdir("./static/cap/")
@@ -72,9 +76,10 @@ def base_static(filename):
 
 
 if __name__ == '__main__':
+    refresh.main()
     daemon.run()    
     app.run(host="0.0.0.0", port=_port)
     print(time.time.now())
     print(request.headers)
 
-#app.run(debug=True)
+app.run(debug=True)
