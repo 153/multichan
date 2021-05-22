@@ -128,3 +128,14 @@ def showtag(tag):
     _title = " ".join(["Tag", tag, "@", title])
     return mkatom(_title, f"/tags/{tag}",
                   "/atom/tag/{tag}.atom", threads)
+
+@atom.route('/atom/')
+def splash():
+    return """<pre>Generate an ATOM feed of the known network:
+  - /atom/global.atom
+
+Generate an ATOM feed of SITE_NAME (ex: local)
+  - /atom/SITE_NAME.atom
+
+Generate an ATOM feed of TAG_NAME (ex: random)
+  - /atom/tag/TAG_NAME.atom</pre>"""

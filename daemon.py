@@ -3,7 +3,6 @@ import threading
 import refresh
 import settings
 import mod
-import atom
 
 def linker():
     cnt = 0
@@ -13,7 +12,6 @@ def linker():
             mod.main()
         except:
             pass
-        atom.mkthreads()
         cnt += 1
         print(cnt)
         
