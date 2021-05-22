@@ -1,5 +1,8 @@
 import time
+from flask import Blueprint, request
 import settings as s
+
+atom = Blueprint("atom", __name__)
 
 tstring = "%Y-%m-%dT%H:%M:%S+00:00"
 
@@ -11,14 +14,14 @@ index = "threads/local/list.txt"
 
 feed = {}
 feed["title"] = " ".join([title, "@", url])
-feed["id"] = url
+feed["url"] = url
 feed["entries"] = []
 
 feed_temp = """<?xml version="1.0" encoding="utf-8"?>
   <feed xmlns="http://www.w3.org/2005/Atom">
 <title>{title}</title>
 <author><name>Anonymous</name></author>
-<id>{id}</id>
+<id>{url}</id>
 <link rel="self" href="{link}" />
 <updated>{published}</updated>
 """
@@ -34,16 +37,10 @@ entry_temp = """  <entry>
 </content>
   </entry>"""
 
-# global
-# site
-# tag
-# thread
+# server_to_list   ldglobal()
+# site_to_list     ldsite("site")
+# tag_to_list      ldtag("tag")
 
-# comments
-
-# site_to_list     ldsite
-# tag_to_list      ldtag
-# thread_to_list   ldtag
 # list_to_atom     
 
 def getpost(board, thread, board2, num):
@@ -51,6 +48,8 @@ def getpost(board, thread, board2, num):
 
 def ldsite(site="local"):
     # sitename, unixtime, atomtime, title, comment
+    if site not in friends.keys():
+        return None
     fn = "./threads/" + site + "/list.txt"
     with open(fn, "r") as index:
         index = index.read().splitlines()
@@ -80,59 +79,52 @@ def ldtag(tag="random"):
         tags = tags.read().splitlines()
     tags = [t.split() for t in tags]
     tagdb = {t[0]: t[1:] for t in tags}
-    if tag in tagdb:
-        tag = tagdb[tag]
-    else:
+    if tag not in tagdb:
         return
-    tag = [t.split("-") for t in tag]
-    index = [t for t in globalindex if t[:2] in tag]
-    return None
+    tag = [t.split("-") for t in tagdb[tag]]
+    tagindex = [t for t in globalindex if t[:2] in tag]
+    return tagindex
 
 def ldthread():
     return None
 
-def mkthreads():
-    feed["link"] = url + "/threads.atom"
-    with open(index, "r") as tind:
-        tind = tind.read().splitlines()
-
-    # Make an index of local threads by sorting them by
-    # newest created thread sorted to oldest. This is more
-    # useful for ATOM feeds than sorting by bumps, and
-    # makes more sense than a global thread feed
-    # (which may come later).
-    
-    tind = [t.split(" ") for t in tind]
-    tind = sorted(tind)[::-1]
-    tind = [[*t[:4], " ".join(t[4:])] for t in tind]
-
-    for t in tind:
+def mkatom(title, link, atomloc, index):
+    feed = {}
+    feed["title"] = title
+    feed["url"] = url + link
+    feed["link"] = url + atomloc
+    feed["published"] = index[0][2]
+    body = []
+    for i in index:
         entry = {}
-        entry["title"] = t[-1]
-        entry["url"] = link = url + "/threads/local/" + t[0]
-        entry["published"] = time.strftime(tstring, time.localtime(int(t[0])))
-        entry["fn"] = "./threads/local/" + t[0] + "/local.txt"
-        with open(entry["fn"], "r") as content:
-            content = content.read().splitlines()[0].split("<>")[2:]
-        entry["content"] = "<>".join(content)
-        entry["content"] = entry["content"]\
-            .replace("<br>", "\n").replace("<", "&lt;").replace(">", "&gt;")
-        feed["entries"].append(entry)
-
-    feed["published"] = feed["entries"][0]["published"]    
-
-    atompage = []
-    atompage.append(feed_temp.format(**feed))
-    for entry in feed["entries"]:
-        atompage.append(entry_temp.format(**entry))
-    atompage.append("  </feed>")
-    atompage = "\n".join(atompage)
+        entry["title"] = i[3]
+        entry["url"] = "/".join([url, "threads", i[0], i[1]])
+        entry["published"] = i[2]
+        entry["content"] = i[4]\
+            .replace("<br>", "\n")\
+            .replace("<", "&lt;").replace(">", "&gt;")
+        body.append(entry_temp.format(**entry))
+    head = feed_temp.format(**feed)    
+    atom = "\n".join([head, "\n".join(body), "</feed>"])
+    return atom
     
-    with open(fn, "w") as atom:
-        atom.write(atompage)
-        
-if __name__ == "__main__":
-#    mkthreads()
-#    ldsite("52chan")
-#    ldglobal()
-    ldtag("irc")
+@atom.route('/atom/global.atom')
+def showglobal():
+    threads = ldglobal()
+    _title = "Known network @ " + title
+    return mkatom(_title, "/threads/",
+                  "/atom/global.atom", threads)
+
+@atom.route('/atom/<board>.atom')
+def showsite(board):
+    threads = ldsite(board)
+    _title = " ".join([board, "@", title])
+    return mkatom(_title, f"/threads/{board}",
+                  "/atom/{board}.atom", threads)
+
+@atom.route('/atom/tag/<tag>.atom')
+def showtag(tag):
+    threads = ldtag(tag)
+    _title = " ".join(["Tag", tag, "@", title])
+    return mkatom(_title, f"/tags/{tag}",
+                  "/atom/tag/{tag}.atom", threads)
