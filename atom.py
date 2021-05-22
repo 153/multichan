@@ -6,6 +6,7 @@ tstring = "%Y-%m-%dT%H:%M:%S+00:00"
 fn = "./static/threads.atom"
 url = s.url
 title = s.name
+friends = s.friends
 index = "threads/local/list.txt"
 
 feed = {}
@@ -32,6 +33,63 @@ entry_temp = """  <entry>
 {content}
 </content>
   </entry>"""
+
+# global
+# site
+# tag
+# thread
+
+# comments
+
+# site_to_list     ldsite
+# tag_to_list      ldtag
+# thread_to_list   ldtag
+# list_to_atom     
+
+def getpost(board, thread, board2, num):
+    return None
+
+def ldsite(site="local"):
+    # sitename, unixtime, atomtime, title, comment
+    fn = "./threads/" + site + "/list.txt"
+    with open(fn, "r") as index:
+        index = index.read().splitlines()
+    index = sorted(index)[::-1]
+    for n, i in enumerate(index):
+        i = i.split(" ")
+        fn = "/".join(["./threads", site, i[0], site + ".txt"])
+        with open(fn, "r") as op:
+            op = op.read().splitlines()
+        op = op[0].split("<>")[2]
+        i[4] = " ".join(i[4:])
+        i[1] = time.strftime(tstring, time.localtime(int(i[0])))
+        index[n] = [site, i[0], i[1], i[4], op]
+    return index
+
+def ldglobal():
+    # sitename, unixtime, atomtime, title, comment
+    flist = friends.keys()
+    globalindex = [ldsite(f) for f in flist]
+    globalindex = [x for y in globalindex for x in y]
+    globalindex.sort(key = lambda x: x[1], reverse=True)
+    return globalindex
+
+def ldtag(tag="random"):
+    globalindex = ldglobal()
+    with open("./threads/tags.txt", "r") as tags:
+        tags = tags.read().splitlines()
+    tags = [t.split() for t in tags]
+    tagdb = {t[0]: t[1:] for t in tags}
+    if tag in tagdb:
+        tag = tagdb[tag]
+    else:
+        return
+    tag = [t.split("-") for t in tag]
+    index = [t for t in globalindex if t[:2] in tag]
+    return None
+
+def ldthread():
+    return None
 
 def mkthreads():
     feed["link"] = url + "/threads.atom"
@@ -74,4 +132,7 @@ def mkthreads():
         atom.write(atompage)
         
 if __name__ == "__main__":
-    mkthreads()
+#    mkthreads()
+#    ldsite("52chan")
+#    ldglobal()
+    ldtag("irc")
