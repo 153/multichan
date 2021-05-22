@@ -25,7 +25,7 @@ entry_temp = """  <entry>
 <id>{url}</id>
 <published>{published}</published>
 <updated>{published}</updated>
-<content type="text">
+<content type="html">
 {content}
 </content>
   </entry>"""
@@ -90,7 +90,6 @@ def mkatom(title, link, atomloc, index):
         entry["url"] = "/".join([url, "threads", i[0], i[1]])
         entry["published"] = i[2]
         entry["content"] = i[4]\
-            .replace("<br>", "\n")\
             .replace("<", "&lt;").replace(">", "&gt;")
         body.append(entry_temp.format(**entry))
     head = feed_temp.format(**feed)    
