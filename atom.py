@@ -6,16 +6,9 @@ atom = Blueprint("atom", __name__)
 
 tstring = "%Y-%m-%dT%H:%M:%S+00:00"
 
-fn = "./static/threads.atom"
 url = s.url
 title = s.name
 friends = s.friends
-index = "threads/local/list.txt"
-
-feed = {}
-feed["title"] = " ".join([title, "@", url])
-feed["url"] = url
-feed["entries"] = []
 
 feed_temp = """<?xml version="1.0" encoding="utf-8"?>
   <feed xmlns="http://www.w3.org/2005/Atom">
@@ -41,11 +34,6 @@ entry_temp = """  <entry>
 # site_to_list     ldsite("site")
 # tag_to_list      ldtag("tag")
 
-# list_to_atom     
-
-def getpost(board, thread, board2, num):
-    return None
-
 def ldsite(site="local"):
     # sitename, unixtime, atomtime, title, comment
     if site not in friends.keys():
@@ -66,10 +54,11 @@ def ldsite(site="local"):
     return index
 
 def ldglobal():
-    # sitename, unixtime, atomtime, title, comment
     flist = friends.keys()
     globalindex = [ldsite(f) for f in flist]
     globalindex = [x for y in globalindex for x in y]
+    for n, g in enumerate(globalindex):
+        globalindex[n][3] = ": ".join([g[0], g[3]])
     globalindex.sort(key = lambda x: x[1], reverse=True)
     return globalindex
 
