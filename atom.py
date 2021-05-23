@@ -33,6 +33,7 @@ entry_temp = """  <entry>
 # server_to_list   ldglobal()
 # site_to_list     ldsite("site")
 # tag_to_list      ldtag("tag")
+# list_to_feed     mkatom(title, html-url, atom-url, list)
 
 def ldsite(site="local"):
     # sitename, unixtime, atomtime, title, comment
@@ -58,7 +59,7 @@ def ldglobal():
     globalindex = [ldsite(f) for f in flist]
     globalindex = [x for y in globalindex for x in y]
     for n, g in enumerate(globalindex):
-        globalindex[n][3] = ": ".join([g[0], g[3]])
+        globalindex[n][3] = f"[{g[0]}] {g[3]}"
     globalindex.sort(key = lambda x: x[1], reverse=True)
     return globalindex
 
@@ -110,12 +111,12 @@ def showsite(board):
     return mkatom(_title, f"/threads/{board}",
                   "/atom/{board}.atom", threads)
 
-@atom.route('/atom/tag/<tag>.atom')
+@atom.route('/atom/tags/<tag>.atom')
 def showtag(tag):
     threads = ldtag(tag)
     _title = " ".join(["Tag", tag, "@", title])
     return mkatom(_title, f"/tags/{tag}",
-                  "/atom/tag/{tag}.atom", threads)
+                  "/atom/tags/{tag}.atom", threads)
 
 @atom.route('/atom/')
 def splash():
@@ -126,4 +127,4 @@ Generate an ATOM feed of SITE_NAME (ex: local)
   - /atom/SITE_NAME.atom
 
 Generate an ATOM feed of TAG_NAME (ex: random)
-  - /atom/tag/TAG_NAME.atom</pre>"""
+  - /atom/tags/TAG_NAME.atom</pre>"""
