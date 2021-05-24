@@ -69,7 +69,7 @@ def friends():
 @app.route('/api/')
 @app.route('/raw/')
 def api_help():
-    return base_static("help.txt")
+    return base_static("help.html")
     
 @app.route('/api/<path:filename>')
 @app.route('/raw/<path:filename>')

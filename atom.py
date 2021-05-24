@@ -111,20 +111,22 @@ def showsite(board):
     return mkatom(_title, f"/threads/{board}",
                   "/atom/{board}.atom", threads)
 
-@atom.route('/atom/tags/<tag>.atom')
+@atom.route('/atom/tag/<tag>.atom')
 def showtag(tag):
     threads = ldtag(tag)
-    _title = " ".join(["Tag", tag, "@", title])
+    _title = " ".join(["Tag", "#"+tag, "@", title])
     return mkatom(_title, f"/tags/{tag}",
-                  "/atom/tags/{tag}.atom", threads)
+                  "/atom/tag/{tag}.atom", threads)
 
 @atom.route('/atom/')
 def splash():
-    return """<pre>Generate an ATOM feed of the known network:
-  - /atom/global.atom
+    return """<style>a {color:green}</style>
+<pre>Generate an ATOM feed of the known network:
+  - <a href="/atom/global.atom">/atom/global.atom</a>
 
 Generate an ATOM feed of SITE_NAME (ex: local)
+  - <a href="/atom/local.atom">/atom/local.atom</a>
   - /atom/SITE_NAME.atom
 
 Generate an ATOM feed of TAG_NAME (ex: random)
-  - /atom/tags/TAG_NAME.atom</pre>"""
+  - /atom/tag/TAG_NAME.atom</pre>"""
