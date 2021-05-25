@@ -14,7 +14,7 @@ _long = 10000
 
 images = True
 ihost = "https://i.imgur.com/"
-torsock = "socks5://127.0.0.1:9050"
+torport = 9050
 
 refreshtime = 60*15 # Check friend boards every 15 minutes
 friends = {

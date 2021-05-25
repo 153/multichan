@@ -19,18 +19,18 @@ def pclean(post):
     post = post.split("<br>")
 
 def wget(url, fn, w=1):
-    # for tor
     try:
         page = urllib.request.urlopen(url)
         page = page.read().decode('utf-8')
     except:
         page = ""
     if ".onion" in url:
-        session = requests.session()
-        session.proxies = {"http": s.torsock}
+        from requests_tor import RequestsTor
+        rt = RequestsTor(tor_ports=(s.torport,))
         try:
-            page = requests.get(url).text
-        except:
+            page = rt.get(url).text
+        except Exception as e:
+            print(e)
             page = ""        
     if not w:
         return page
