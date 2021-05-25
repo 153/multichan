@@ -12,8 +12,10 @@ tags = ["random",  "nsfw"]
 _short = 120
 _long = 10000
 
-images = False
+images = True
 ihost = "https://i.imgur.com/"
+torsock = "socks5://127.0.0.1:9050"
+
 refreshtime = 60*15 # Check friend boards every 15 minutes
 friends = {
     "0chan": "http://0chan.vip",

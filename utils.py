@@ -1,6 +1,7 @@
 import time
 import urllib.request
 import settings as s
+import requests
 
 tstring = "%Y-%m-%d %H:%M"
 
@@ -18,11 +19,19 @@ def pclean(post):
     post = post.split("<br>")
 
 def wget(url, fn, w=1):
+    # for tor
     try:
         page = urllib.request.urlopen(url)
         page = page.read().decode('utf-8')
     except:
         page = ""
+    if ".onion" in url:
+        session = requests.session()
+        session.proxies = {"http": s.torsock}
+        try:
+            page = requests.get(url).text
+        except:
+            page = ""        
     if not w:
         return page
     with open(fn, "w") as fn:
@@ -41,7 +50,7 @@ def imgur(inp):
         if 0 < img.find("<") < term:
             term = img.find("<")
         img = img[:term]
-    if (len(img) < 15) and ("." in img):
+    if (3 < len(img) < 15) and ("." in img):
         img = host + img
         img2 = f"<a href='{img}'><img src='{img}'></a>"
         inp = inp.replace(img, " ", 1)
