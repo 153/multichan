@@ -95,7 +95,9 @@ def ldthread(host, thread):
             slice = slice.read().splitlines()
         slice = [[hosts[n], *s.split("<>")] for s in slice]
         data.append(slice)
-    data = [x for y in data for x in y][::-1]
+    data = [x for y in data for x in y]
+    print(data)
+    data.sort(key=lambda x:x[1], reverse=1)
     for n, d in enumerate(data):
         data[n][2] = unix2atom(d[1])
         data[n].insert(3, f"Reply from {d[0]}")
