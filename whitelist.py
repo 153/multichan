@@ -73,14 +73,14 @@ def approve(ip=0, key=""):
         
 
 @whitelist.route('/captcha/')
-def show_captcha(hide=0):
+def show_captcha(hide=0, redir=''):
     ip = get_ip()
     mylog = addlog(ip)
     logtxt = json.dumps(mylog)
     out = ""
     if not hide:
         out = p.html("captcha")
-    out += p.html("captcha-form").format(mylog[ip][1])
+    out += p.html("captcha-form").format(mylog[ip][1], redir)
     if hide:
         return out
     return p.mk(out)
@@ -92,7 +92,7 @@ def refresh():
     return "<meta http-equiv='refresh' content='0;URL=/captcha'>"
 
 @whitelist.route('/captcha/check', methods=['POST', 'GET'])
-def check():
+def check(redir=""):
     key = request.args.get('key').lower()
     ip = get_ip()
     log = ldlog()
@@ -104,7 +104,7 @@ def check():
     if out == "true":
         out = "You filled out the captcha correctly!"
         out += "<p>Please <a href='/rules'>review the rules</a> before posting."
-        out += "<hr><a href='javascript:history.back()'>back</a>"
+        out += f"<hr><a href='{redir}'>back</a>"
         if os.path.isfile(f"./static/cap/{ip}.png"):
             os.remove(f"./static/cap/{ip}.png")
 

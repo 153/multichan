@@ -143,8 +143,6 @@ def update_board(board, thread, now, wr=1):
             tpath.write(newl)
         refresh.mksite()
     
-    
-#@writer.route('/create', methods=['POST', 'GET'])
 @writer.route('/create/', methods=['POST', 'GET'])
 @writer.route('/create/<t>', methods=['POST', 'GET'])
 def new_thread(t="random"):
