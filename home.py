@@ -16,14 +16,38 @@ def rules():
 def about():
     return p.mk(p.html("about"))
 
-@home.route('/stats')
-def counter():
+@home.route('/stats/')
+def counter():    
     with open("./static/counter.txt", "r") as cnt:
         cnt = int(cnt.read().strip())
     with open("./static/counter.txt", "w") as update:
         update.write(str(cnt + 1))
-    return p.mk(" ".join(["You are visitor #", str(cnt+1),
-                "to this stats page at", s.url]))
+    with open(s.bans, "r") as bans:
+        bans = bans.read().splitlines()
+    with open(s.delete, "r") as dele:
+        dele = dele.read().splitlines()
+
+    with open("./threads/list.txt", "r") as threads:
+        threads = threads.read().splitlines()
+    tcnt = str(len(threads))
+    lcnt = str(len([t for t in threads if t[:6] == "local "]))
+    rcnt = str(sum([int(t.split(" ")[3]) for t in threads]))
+    acnt = str(sum([int(t.split(" ")[4]) for t in threads]))
+    dcnt = str(len(dele))
+    bcnt = str(len(bans))
+
+    page = []
+    page.append(" ".join([f"You are visitor #{cnt+1}",
+                          "to this stats page at", s.url, "<ul>"]))
+    page.append(" ".join(["<li>", str(len(s.friends)), "friend servers"]))
+    page.append(" ".join(["<li>", lcnt, "local threads"]))                
+    page.append(" ".join(["<li>", tcnt, "known threads<p>"]))
+    page.append(" ".join(["<li>", rcnt, "local replies"]))
+    page.append(" ".join(["<li>", acnt, "total replies<p>"]))
+    page.append(" ".join(["<li>", dcnt, "deleted posts"]))
+    page.append(" ".join(["<li>", bcnt, "banned addresses"]))
+    page.append("</ul>")
+    return p.mk("\n".join(page))
 
 @home.route('/friends')
 def friends():
