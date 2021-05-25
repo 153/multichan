@@ -29,13 +29,15 @@ def nametrip(name):
         name = "<b><a> !".join(name) + "</a></b>"
     return name
     
-def log(board, thread, post):
-    ip = whitelist.get_ip() + "\n"
-    line = " ".join([board, thread, post, ip])
+def log(board, thread, postnum, reply):
+    ip = whitelist.get_ip()
+    if not s.logcomment:
+        reply = ""
+    line = " ".join([board, thread, postnum, ip, reply])
     iplog = ""
     with open(s.log, "r") as logger:
         postlog = logger.read()
-    postlog += line
+    postlog += line + "\n"
     with open(s.log, "w") as logger:    
         logger.write(postlog)        
     
@@ -48,18 +50,20 @@ def mk_op(title="", tag="random", author="Anonymous", msg=""):
     author = author.replace("&", "&amp;").replace("<", "&lt;")
     msg = msg.replace("&", "&amp;").replace("<", "&lt;")
     msg = msg.replace("\n","<br>").replace("\r","")
+    
     if not title.strip() or not msg.strip():
         return "Please write a message to create a new conversation."
     if not author:
         author = "Anonymous"
+        
     author = nametrip(author)
     pat = re.compile(r'^[ A-Za-z0-9_-]*$')
     tag = " ".join(list(set(re.findall(r'\w+', tag))))
     if len(tag) == 0:
         tag = "random"    
     # author, tstamp, msg
-    tnow = str(int(time.time()))
 
+    tnow = str(int(time.time()))
     t_loc = ["local", tnow]
     b_pat = f"./{tdir}/local/"
     t_pat = b_pat + tnow + "/"
@@ -81,17 +85,19 @@ def mk_op(title="", tag="random", author="Anonymous", msg=""):
     li = "\n".join(li) + "\n"
     with open(files["list"], "w") as listf:
         listf.write(li)
+    
+    rline = "<>".join([tnow, author, msg])
     with open(files["op"], "w") as opf:
-        opf.write("<>".join([tnow, author, msg]) + "\n")
+        opf.write(rline + "\n")
     with open(b_pat + "list.txt", "r") as bind:
         bind = bind.read().splitlines()
     upd = [t_loc[1], t_loc[1], "1 1", title]
     bindex = [b for b in bind if len(b) > 4]
-    bindex.append(" ".join(upd))
+    bindex = [" ".join(upd)] + bindex
     bindex = "\n".join(bindex)
     with open(b_pat + "list.txt", "w") as bind:
         bind.write(bindex)
-    log("local", tnow, "1")
+    log("local", tnow, "1", rline)
 
     refresh.mksite()
     tags.mkboard("local")
@@ -121,7 +127,7 @@ def rep_t(board, thread, now, author, msg):
         cnt = len(t)
     with open(tdir + "list.txt", "a") as tlist:
         tlist.write(f"local {tnow}\n")
-    log(board, thread, str(cnt))
+    log(board, thread, str(cnt), rline[:-2])
 
 def update_board(board, thread, now, wr=1):
     tpath = f"./threads/{board}/list.txt"

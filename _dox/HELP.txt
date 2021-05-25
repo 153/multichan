@@ -1,4 +1,4 @@
-# Deploy server at 127.0.0.1:5000
+# Deploy server at 127.0.0.1:5150
 python -m flask run
 
 app.py:
@@ -40,6 +40,11 @@ ips.txt:
 	* List of IPs attempting Captcha
 	* Lists time an IP was approved to post, if approved
 	* Delete an IP to remove posting privileges
+	* attempt-time   ip-address   captcha-code   time-approved
+
+log.txt:
+        * IP log of new comments/threads on current server
+	* board thread reply-number ipaddress
 
 bans.txt:
 	* An IP or range (a:b:c:d and a:b:c ) per line;

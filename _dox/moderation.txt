@@ -1,0 +1,23 @@
+1. log.txt
+   Lists all comments and posts from local board.
+       (board thread),  local reply number,  ipaddress,  time<>name<>comment
+
+2. ips.txt
+   Lists IP addresses which have seen the CAPTCHA field.
+       time-captcha-generated,  ipaddress,  captcha,  time-succeeded
+   Entries with 4 columns can post freely.
+   IP addresses with 3 columns or not in list can't post.
+
+3. delete.txt
+   Either removes a thread or places "deleted" comment on a comment.
+   If the authoring board is remote, will be deleted again after
+   syncing with remote board.
+       board number                 (delete a thread)
+       board number board number    (delete a comment)
+
+4. bans.txt
+   IPs in this newline seperated list will always fail the captcha.
+   Optionally, a reason can be added after the IP address.
+   Ban a range of IPs by only entering the first 3 values.
+       1.2.3.4      Ban the IP address 1.2.3.4
+       1.2.3        Ban all of 1.2.3.1 - 1.2.3.255

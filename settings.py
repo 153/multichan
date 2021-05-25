@@ -3,10 +3,12 @@ url = "http://localhost"
 _port = 5150
 
 archive = "./archive/"
-log = "./log.txt"
+
 wlist = "./ips.txt"
-bans = "./bans.txt"
+log = "./log.txt"
 delete = "./delete.txt"
+bans = "./bans.txt"
+logcomment = True
 
 tags = ["random",  "nsfw"]
 _short = 120
@@ -27,7 +29,7 @@ friends = {
 
 # secure tripcode hash
 salt = "heoiehtiheohteohte"
-# password hash : changeme
-# sha256 hash of input
+
+# password sha256 hash : "changeme"
+# not used yet! x
 phash = "057ba03d6c44104863dc7361fe4578965d1887360f90a0895882e58a6248fc86"
-# not used yet! 

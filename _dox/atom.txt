@@ -1,0 +1,13 @@
+Generate an ATOM feed of the known network:
+  - /atom/global.atom
+
+Generate an ATOM feed of SITE_NAME (ex: local)
+  - /atom/local.atom
+  - /atom/SITE_NAME.atom
+
+Generate an ATOM feed of TAG_NAME (ex: random)
+  - /atom/tag/TAG_NAME.atom
+
+Generate an ATOM FEED of THREAD from SITE (ex: local/0)
+  - /atom/local/0.atom
+  - /atom/SITE/THREAD.atom
