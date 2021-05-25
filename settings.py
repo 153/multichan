@@ -1,6 +1,5 @@
 name = "multich"
 url = "http://localhost"
-images = False
 _port = 5150
 
 archive = "./archive/"
@@ -13,7 +12,8 @@ tags = ["random",  "nsfw"]
 _short = 120
 _long = 10000
 
-
+images = False
+ihost = "https://i.imgur.com/"
 refreshtime = 60*15 # Check friend boards every 15 minutes
 friends = {
     "0chan": "http://0chan.vip",

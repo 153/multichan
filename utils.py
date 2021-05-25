@@ -30,11 +30,10 @@ def wget(url, fn, w=1):
     return page
 
 def imgur(inp):
-    host = "https://i.imgur.com/"
-    img = inp.split(host)[1]
     if not s.images:
         return inp
-    
+    host = s.ihost
+    img = inp.split(host)[1]
     if " " or "<" in img:
         term = len(img)
         if 0 < img.find(" "):
@@ -46,7 +45,7 @@ def imgur(inp):
         img = host + img
         img2 = f"<a href='{img}'><img src='{img}'></a>"
         inp = inp.replace(img, " ", 1)
-        inp = "<br><br>".join([img2, inp])
+        inp = "<br><br>".join([inp, img2])
     
     return inp
 
