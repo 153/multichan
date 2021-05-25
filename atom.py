@@ -109,14 +109,16 @@ def ldcmts():
     with open(s.log, "r") as log:
         log = log.read().splitlines()[:-20:-1]
     log = [x.split()for x in log]
-    print(log)
     results = []
     for x in log:
         # board thread num ip    time author comment
         print(x)
         reply = x[4].split("<>")
+        try:
+            int(reply[0])
+        except:
+            continue
         reply[2] += " " + " ".join(x[5:])
-        print(reply)
         url = x[1] + f"#{s.url}/" + x[2]
         result = [x[0], url, unix2atom(reply[0]),
                   f"Reply to {x[0]}/{x[1]}", reply[2]]
@@ -128,10 +130,11 @@ def ldcmts():
 
 def mkatom(title, link, atomloc, index):
     feed = {}
+    if len(index) < 1:
+        return
     feed["title"] = title
     feed["url"] = url + link
     feed["link"] = url + atomloc
-    print(index[0])
     feed["published"] = index[0][2]
     body = []
     for i in index:
