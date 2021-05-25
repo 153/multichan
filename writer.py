@@ -12,6 +12,7 @@ import pagemaker as p
 
 writer = Blueprint("writer", __name__)
 tdir = "threads"
+
 with open("templ/newt.t", "r") as newtt:
     newtt = newtt.read()
 
@@ -160,7 +161,10 @@ def new_thread(t="random"):
                 + "Posting thread.....<p>" \
                 + "<a href='/threads/'>(back)</a></h1></center>"
 
-    # if not t=tag , t = random
+    # if not t=tag , t = random        
     if not len(t):
         t = "random"
+        
+    if not whitelist.approve():
+        return(p.mk(whitelist.show_captcha(1) + newtt.format(t)))
     return p.mk(newtt.format(t))

@@ -12,7 +12,7 @@ from flask import request
 whitelist = Blueprint("whitelist", __name__)
 image = ImageCaptcha(fonts=['droid.ttf'])
 conf = s.wlist
-klen = 4
+klen = 5
 tnow = int(time.time())
 
 def get_ip():
@@ -73,12 +73,17 @@ def approve(ip=0, key=""):
         
 
 @whitelist.route('/captcha/')
-def show_captcha():
+def show_captcha(hide=0):
     ip = get_ip()
     mylog = addlog(ip)
     logtxt = json.dumps(mylog)
-    html = p.html("captcha").format(mylog[ip][1])
-    return p.mk(html)
+    out = ""
+    if not hide:
+        out = p.html("captcha")
+    out += p.html("captcha-form").format(mylog[ip][1])
+    if hide:
+        return out
+    return p.mk(out)
 
 @whitelist.route('/captcha/refresh')
 def refresh():
@@ -96,10 +101,11 @@ def check():
     if out == "false":
         out = "You have filled the captcha incorrectly."
         out += "<p>Please <a href='/captcha'>solve the captcha.</a>"
-        out += "<meta http-equiv='refresh' content='4;URL=/captcha'>"
     if out == "true":
         out = "You filled out the captcha correctly!"
         out += "<p>Please <a href='/rules'>review the rules</a> before posting."
-        out += "<meta http-equiv='refresh' content='4;URL=/'>"
+        out += "<hr><a href='javascript:history.back()'>back</a>"
+        if os.path.isfile(f"./static/cap/{ip}.png"):
+            os.remove(f"./static/cap/{ip}.png")
 
     return out

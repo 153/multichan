@@ -1,5 +1,6 @@
 from flask import Flask, request, send_from_directory
 
+from home import home
 from viewer import viewer
 from writer import writer
 from whitelist import whitelist
@@ -21,12 +22,13 @@ app = Flask(__name__,
             static_folder = "static",)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
+app.register_blueprint(home)
 app.register_blueprint(viewer)
 app.register_blueprint(writer)
 app.register_blueprint(whitelist)
 app.register_blueprint(tags)
-#app.register_blueprint(admin)
-#app.register_blueprint(cook)
+# app.register_blueprint(admin)
+# app.register_blueprint(cook)
 app.register_blueprint(atom)
 
 if not os.path.isdir("./static/cap/"):
@@ -36,35 +38,7 @@ if not os.path.isdir("./archive/"):
 
 @app.errorhandler(404)
 def not_found(e):
-    return e
-
-@app.route('/', strict_slashes=False)
-def hello_world():
-    print(request.headers)
-    return p.mk(p.html("home").format(s.name))
-
-@app.route('/rules')
-def rules():
-    return p.mk(p.html("rules"))
-
-@app.route('/about')
-def about():
-    return p.mk(p.html("about"))
-
-@app.route('/friends')
-def friends():
-    title = "<h1>Friends of " + s.name
-    title += "</h1><h4>" + s.url + "</h4>"
-    title +=  "Friends are other multichan websites that "
-    title += "this server downloads threads and comments from."
-    flist = []
-    fstring = "<li> <a href='{1}'>{0}</a> {1}"
-    for f in s.friends:
-        flist.append(fstring.format(f, s.friends[f]))
-    flist = "<ul>" + "\n".join(flist) + "</ul>"
-    page = title + flist
-    return p.mk(page)
-    
+    return p.mk(p.html("404"))
 
 @app.route('/api/')
 @app.route('/raw/')
@@ -76,7 +50,6 @@ def api_help():
 def base_static(filename):
         return send_from_directory(app.root_path + '/threads/', filename)
 
-
 if __name__ == '__main__':
     refresh.main()
     daemon.run()    
@@ -84,4 +57,4 @@ if __name__ == '__main__':
     print(time.time.now())
     print(request.headers)
 
-app.run(debug=True)
+app.run()

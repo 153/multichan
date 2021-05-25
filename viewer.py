@@ -228,8 +228,9 @@ def reply_t(board, thread):
     tpage = view_t(board, thread)
     canpost = whitelist.approve()
     if not canpost:
-        replf = "<p>You need to solve <a href='/captcha'>the captcha</a>" \
-            + " before you can post."
+        replf = whitelist.show_captcha(1)
+#        replf = "<p>You need to solve <a href='/captcha'>the captcha</a>" \
+#            + " before you can post."
     else:
         replf = newr.format(board, thread)
     tpage += replf

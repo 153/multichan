@@ -3,15 +3,16 @@ import os
 import shutil
 
 files = ["./settings.py", "./threads/",
-         s.wlist, s.log, s.bans, s.delete,         
-         "./html/home.html"]
+         "./home.py", "./html/", "./static/",
+         s.wlist, s.log, s.bans, s.delete]
 loc = "./bak/"
 
 if not os.path.isdir(loc):
-    os.mkdir(loc)    
+    os.mkdir(loc)
+    
 def copy(src, dst):
     try:
-        shutil.copytree(src, dst + "threads/")
+        shutil.copytree(src, dst + src)
     except:
         shutil.copy(src, dst)
 
