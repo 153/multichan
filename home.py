@@ -29,17 +29,23 @@ def counter():
 
     with open("./threads/list.txt", "r") as threads:
         threads = threads.read().splitlines()
+    with open("./threads/tags.txt", "r") as tags:
+        tags = tags.read().splitlines()
     tcnt = str(len(threads))
     lcnt = str(len([t for t in threads if t[:6] == "local "]))
     rcnt = str(sum([int(t.split(" ")[3]) for t in threads]))
     acnt = str(sum([int(t.split(" ")[4]) for t in threads]))
     dcnt = str(len(dele))
     bcnt = str(len(bans))
+    tags = str(len(tags))
+    atags = str(len(s.tags))
 
     page = []
     page.append(" ".join([f"You are visitor #{cnt+1}",
                           "to this stats page at", s.url, "<ul>"]))
     page.append(" ".join(["<li>", str(len(s.friends)), "friend servers"]))
+    page.append(" ".join(["<li>", atags, "featured tags"]))
+    page.append(" ".join(["<li>", tags, "unique tags<p>"]))
     page.append(" ".join(["<li>", lcnt, "local threads"]))                
     page.append(" ".join(["<li>", tcnt, "known threads<p>"]))
     page.append(" ".join(["<li>", rcnt, "local replies"]))
