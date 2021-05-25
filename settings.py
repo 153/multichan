@@ -1,5 +1,6 @@
 name = "multich"
 url = "http://localhost"
+images = False
 _port = 5150
 
 archive = "./archive/"
@@ -17,7 +18,7 @@ refreshtime = 60*15 # Check friend boards every 15 minutes
 friends = {
     "0chan": "http://0chan.vip",
     "52chan": "http://bbs.4x13.net",
-    "ripirc": "http://multi.404.mn",
+    "ripirc": "http://ripirc.org",
     "kuzlol": "http://multich.kuz.lol",
     "local": url
     }

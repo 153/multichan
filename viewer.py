@@ -129,6 +129,8 @@ def view_t(board, thread):
             bfn = bfn.read().splitlines()
         for n, x in enumerate(bfn):
             x = x.split("<>")
+            if "imgur" in x[2]:
+                x[2] = u.imgur(x[2])                
             tdb[x[0]] = [b, *x, n]
 
     threadp = []
