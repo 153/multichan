@@ -130,7 +130,10 @@ def view_t(board, thread):
         for n, x in enumerate(bfn):
             x = x.split("<>")
             if "imgur" in x[2]:
-                x[2] = u.imgur(x[2])                
+                try:
+                    x[2] = u.imgur(x[2])
+                except:
+                    continue
             tdb[x[0]] = [b, *x, n]
 
     threadp = []

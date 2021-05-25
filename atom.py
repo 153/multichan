@@ -33,7 +33,12 @@ entry_temp = """  <entry>
 # server_to_list   ldglobal()
 # site_to_list     ldsite("site")
 # tag_to_list      ldtag("tag")
+# thread_to_list   ldthread(host, thread)
 # list_to_feed     mkatom(title, html-url, atom-url, list)
+
+def unix2atom(unix):
+    atom = time.strftime(tstring, time.localtime(int(unix)))
+    return atom
 
 def ldsite(site="local"):
     # sitename, unixtime, atomtime, title, comment
@@ -75,14 +80,33 @@ def ldtag(tag="random"):
     tagindex = [t for t in globalindex if t[:2] in tag]
     return tagindex
 
-def ldthread():
-    return None
+def ldthread(host, thread):
+    hosts = []
+    data = []
+    thread_dir = "/".join(["./threads", host, thread])
+    index = thread_dir + "/list.txt"
+    with open(index, "r") as index:
+        index = index.read().splitlines()
+    index = [i.split(" ") for i in index]
+    hosts = list(set([i[0] for i in index]))
+    files = ["/".join([thread_dir, host + ".txt"]) for host in hosts]
+    for n, i in enumerate(files):
+        with open(i, "r") as slice:
+            slice = slice.read().splitlines()
+        slice = [[hosts[n], *s.split("<>")] for s in slice]
+        data.append(slice)
+    data = [x for y in data for x in y][::-1]
+    for n, d in enumerate(data):
+        data[n][2] = unix2atom(d[1])
+        data[n].insert(3, f"Reply from {d[0]}")
+    return data
 
 def mkatom(title, link, atomloc, index):
     feed = {}
     feed["title"] = title
     feed["url"] = url + link
     feed["link"] = url + atomloc
+    print(index[0])
     feed["published"] = index[0][2]
     body = []
     for i in index:
@@ -118,6 +142,16 @@ def showtag(tag):
     return mkatom(_title, f"/tags/{tag}",
                   "/atom/tag/{tag}.atom", threads)
 
+@atom.route('/atom/<host>/<thread>.atom')
+def showthread(host, thread):
+    threads = ldthread(host, thread)
+    with open("/".join(["./threads", host, thread, "head.txt"]), "r") as head:
+        head = head.read().splitlines()
+    _title = head[0]
+    print(threads)
+    return mkatom(_title, f"/threads/{host}/{thread}",
+                  "/atom/{host}/{thread}.atom", threads)
+
 @atom.route('/atom/')
 def splash():
     return """<style>a {color:green}</style>
@@ -129,4 +163,9 @@ Generate an ATOM feed of SITE_NAME (ex: local)
   - /atom/SITE_NAME.atom
 
 Generate an ATOM feed of TAG_NAME (ex: random)
-  - /atom/tag/TAG_NAME.atom</pre>"""
+  - /atom/tag/TAG_NAME.atom
+
+Generate an ATOM FEED of THREAD from SITE (ex: local/0)
+  - <a href="/atom/local/0.atom">/atom/local/0.atom</a>
+  - /atom/SITE/THREAD.atom
+ </pre>"""
