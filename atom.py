@@ -199,6 +199,7 @@ Generate an ATOM feed of SITE_NAME (ex: local)
   - /atom/SITE_NAME.atom
 
 Generate an ATOM feed of TAG_NAME (ex: random)
+  - <a href="/atom/tag/random.atom">/atom/tag/random.atom</a>
   - /atom/tag/TAG_NAME.atom
 
 Generate an ATOM feed of THREAD from SITE (ex: local/0)
