@@ -11,3 +11,7 @@ Generate an ATOM feed of TAG_NAME (ex: random)
 Generate an ATOM FEED of THREAD from SITE (ex: local/0)
   - /atom/local/0.atom
   - /atom/SITE/THREAD.atom
+  
+Generate an ATOM feed of last 20 comments from local site:
+  - /atom/log.atom
+   

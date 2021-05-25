@@ -1,9 +1,11 @@
 Easy how-to-install:
 
-1. git clone https://bitbucket.org/796f/multichan
+1. git clone https://github.com/153/multichan
 2. pip3 install -r requirements.txt
 3. edit settings.py
-4. python3 app.py 
+4. python3 app.py
+
+   Also at https://bitbucket.org/796f/multichan/
 
 ./_dox/NGINX.txt and ./_dox/APACHE.txt have information on configuring a
 webserver to use a reverse proxy to assign a domain name and port (like
