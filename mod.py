@@ -34,7 +34,7 @@ def main():
     with open(s.delete, "r") as delete:
         delete = delete.read().splitlines()
     delete = [d.split(";")[0] if ";" in d else d for d in delete]
-    delete = [d.split(" ") for d in delete]
+    delete = [d.strip().split(" ") for d in delete]
     for d in delete:
         print(d)
         try:
