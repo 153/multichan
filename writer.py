@@ -37,7 +37,7 @@ def log(board, thread, postnum, reply):
     iplog = ""
     with open(s.log, "r") as logger:
         postlog = logger.read()
-    postlog += line + "\n"
+    postlog += line
     with open(s.log, "w") as logger:    
         logger.write(postlog)        
     
@@ -127,7 +127,7 @@ def rep_t(board, thread, now, author, msg):
         cnt = len(t)
     with open(tdir + "list.txt", "a") as tlist:
         tlist.write(f"local {tnow}\n")
-    log(board, thread, str(cnt), rline[:-2])
+    log(board, thread, str(cnt), rline)
 
 def update_board(board, thread, now, wr=1):
     tpath = f"./threads/{board}/list.txt"

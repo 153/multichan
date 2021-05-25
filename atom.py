@@ -101,6 +101,31 @@ def ldthread(host, thread):
         data[n].insert(3, f"Reply from {d[0]}")
     return data
 
+def ldcmts():
+    # sitename, unixtime, atomtime, title, comment
+    # site thread number ipaddress time<>name<>comment
+    if not s.logcomment:
+        return ""
+    with open(s.log, "r") as log:
+        log = log.read().splitlines()[:-20:-1]
+    log = [x.split()for x in log]
+    print(log)
+    results = []
+    for x in log:
+        # board thread num ip    time author comment
+        print(x)
+        reply = x[4].split("<>")
+        reply[2] += " " + " ".join(x[5:])
+        print(reply)
+        url = x[1] + f"#{s.url}/" + x[2]
+        result = [x[0], url, unix2atom(reply[0]),
+                  f"Reply to {x[0]}/{x[1]}", reply[2]]
+        
+        # sitename, unixtime, atomtime, title, comment
+        results.append(result)
+    return results
+    
+
 def mkatom(title, link, atomloc, index):
     feed = {}
     feed["title"] = title
@@ -148,9 +173,15 @@ def showthread(host, thread):
     with open("/".join(["./threads", host, thread, "head.txt"]), "r") as head:
         head = head.read().splitlines()
     _title = head[0]
-    print(threads)
     return mkatom(_title, f"/threads/{host}/{thread}",
                   "/atom/{host}/{thread}.atom", threads)
+
+@atom.route('/atom/log.atom')
+def showlog():
+    posts = ldcmts()
+    _title = "Last 20 comments @ " + title
+    return mkatom(_title, "/threads/", "/atom/log.atom", posts)
+    
 
 @atom.route('/atom/')
 def splash():
@@ -165,7 +196,10 @@ Generate an ATOM feed of SITE_NAME (ex: local)
 Generate an ATOM feed of TAG_NAME (ex: random)
   - /atom/tag/TAG_NAME.atom
 
-Generate an ATOM FEED of THREAD from SITE (ex: local/0)
+Generate an ATOM feed of THREAD from SITE (ex: local/0)
   - <a href="/atom/local/0.atom">/atom/local/0.atom</a>
   - /atom/SITE/THREAD.atom
+
+Generate an ATOM feed of last 20 comments from local site:
+  - <a href="/atom/log.atom">/atom/log.atom</a>
  </pre>"""
