@@ -10,10 +10,14 @@
 
 3. delete.txt
    Either removes a thread or places "deleted" comment on a comment.
-   If the authoring board is remote, will be deleted again after
+   After an entry, you can add a note, prefixed with ";".
+   If the authoring board is remote, entry will be deleted again after
    syncing with remote board, or when running "mod.py".
        board number                 (delete a thread)
        board number board number    (delete a comment)
+       board number ; spam 	    (deleted a thread for reason "spam")
+
+
 
 4. bans.txt
    IPs in this newline seperated list will always fail the captcha.
