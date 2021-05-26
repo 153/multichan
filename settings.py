@@ -8,6 +8,7 @@ wlist = "./ips.txt"
 log = "./log.txt"
 delete = "./delete.txt"
 bans = "./bans.txt"
+backup = "./bak/"
 logcomment = True
 
 tags = ["random",  "nsfw"]

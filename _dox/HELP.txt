@@ -1,20 +1,53 @@
-# Deploy server at 127.0.0.1:5150
-python -m flask run
+# multichan modules
+
+ * app.py
+ * settings.py
+ * daemon.py
+ 
+ * utils.py
+ * viewer.py
+ * writer.py
+ * refresh.py
+ * whitelist.py
+
+ * pagemaker.py
+ * home.py
+ * tags.py
+ * atom.py
+ * tripcode.py
+
+ * backup.py
+ * mod.py
+
+* ips.txt
+* log.txt
+* delete.txt
+* bans.txt
+
 
 app.py:
-	Flask entry point;
-	front page, rules page,
-	and about page.
+	 * Flask entry point
+	 * Handle 404 page, static, /api/
 
 settings.py:
-	Configure a few things. Name, port, URL, etc
+	 * Configure a few things. Name, URL, etc
+	 * Set "friends" to download posts from
+	 * Set how often to scrape remote servers
+	 * Decide whether multichan is text or imageboard
+
+daemon.py:
+	 * Sync and rebuild databases -- refresh.linksites()
+	 * Make sure entries in delete.txt are deleted
 
 utils.py:
-	A few simple utilities. 
+	 * A few simple utilities.
+	 * Unix time to ISO8601
+	 * HTTP get / get over Tor
+	 * Image URL to image attachment
 
 viewer.py:
 	 * List boards
-	 * List threads
+	 * List boards' threads
 	 * List all threads
 	 * Display a thread
 
@@ -28,13 +61,43 @@ refresh.py:
 	* scrapes remote threads/tags
 	* grabs new posts in followed threads and new threads
 
+whitelist.py:
+	* maintains a list of who's allowed to post and who's banned
+	* generates CAPTCHA images
+
+--
+pagemaker.py:
+	 * wrap page in header and footer with mk()
+	 * prepare file like ./html/file.html with html("file")
+home.py:
+	 * Homepage
+	 * Rules page, About page, Friends page
+	 * /stats/
+
+tags.py:
+	 * load tag lists
+	 * build tag lists from head.txt from bottom up
+	 * present tag index / tag's threads
+
+atom.py:
+	 * make ATOM feeds for site, board, thread, tag, comments
+	 * show index of ATOM feeds
+
+tripcode.py:
+	 * generate tripcodes and secure tripcodes
+	 * command line tripcodes like "python3 tripcode.py3 hello"
+	 
+--
 backup.py:
-	* backup config and data to " ./bak" directory
+	* backup config, threads, html, static data to " ./bak/"
 
 mod.py:
 	* executed as " python3 mod.py"
 	* deletes threads/comments marked for deletion
 	* good for mass deletes
+
+--
+See also ./_dox/moderation.txt
 
 ips.txt:
 	* List of IPs attempting Captcha
@@ -47,13 +110,13 @@ log.txt:
 	* board thread reply-number ipaddress
 
 bans.txt:
-	* An IP or range (a:b:c:d and a:b:c ) per line;
-	  attempting to solve captcha always fails for banned
-	  user with no explanation.
+	* On IP or range (a.b.c.d and a.b.c ) per line;
+	* Banned users always fail captcha
+	* Banned users should not be present in log.txt
 
 delete.txt:
-	* Threads/comments here will be wiped;
-	  remote deleted threads/comments will not be saved.
+	* Threads/comments here will be erased or wiped
+	* A reason can be given after ";" semicolon
 
 
 	

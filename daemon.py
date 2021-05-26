@@ -13,8 +13,7 @@ def linker():
         except:
             pass
         cnt += 1
-        print(cnt)
-        
+        print(cnt)        
         time.sleep(settings.refreshtime)
 
 def run():

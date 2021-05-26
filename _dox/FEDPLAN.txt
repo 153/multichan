@@ -4,7 +4,7 @@ mktag(board)
 mkall()
 
 Reserved names:
-	 list, head, local, tags
+	 list, head, global, local
 
 /raw/
 	friends.txt

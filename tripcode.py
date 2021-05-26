@@ -1,5 +1,6 @@
 import settings as s
 import crypt
+import sys
 
 def mk(pw):
     pw = pw[:8]
@@ -14,4 +15,5 @@ def sec(pw):
     return trip[-12:]
 
 if __name__ == "__main__":
-    print(sec("faggot"))
+    print(" !" + mk(sys.argv[1]))
+    print(" !!" + sec(sys.argv[1]))

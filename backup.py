@@ -2,10 +2,9 @@ import settings as s
 import os
 import shutil
 
-files = ["./settings.py", "./threads/",
-         "./home.py", "./html/", "./static/",
+files = ["./settings.py", "./threads/", "./html/", "./static/",
          s.wlist, s.log, s.bans, s.delete]
-loc = "./bak/"
+loc = s.backup
 
 if not os.path.isdir(loc):
     os.mkdir(loc)

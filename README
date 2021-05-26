@@ -1,0 +1,104 @@
+Easy how-to-install:
+
+1. git clone https://github.com/153/multichan
+2. pip3 install -r requirements.txt
+3. edit settings.py
+4. python3 app.py
+
+   Also at https://bitbucket.org/796f/multichan/
+
+./_dox/NGINX.txt and ./_dox/APACHE.txt have information on configuring a
+webserver to use a reverse proxy to assign a domain name and port (like
+80 or 443) to the multichan server.
+
+# Basic info
+Script runs by default at 127.0.0.1 port 5150. Using nginx or lighttpd,
+it's fairly simple to point a domain name and port 80 or 443 at the
+server.
+
+Modify settings.py setting "name" to set the name of your board;
+you should also set your URL to what domain name you are giving
+your multichan server. After that, you can add tags to the tags
+array on line 11 to suggest the themes of your server, and add
+boards you want to link with in the "friends" part of the
+configuration.
+
+Finally, run `python3 refresh.py` to prepare to federate, and
+`python3 app.py` to run your multichan server. You should be able
+to view it at the IP address of the server followed by "colon 5150".
+This would be http://localhost:5150/ on the machine running it.  
+Solve the captcha at "/captcha" and try making a post. 
+
+The script `backup.py` creates a directory, `./bak/`, which contains
+the current site's settings file, whitelist file, delete file,
+ban file, post log, and thread database. ( settings.py , ips.txt ,
+log.txt , ./delete.txt , ./bans.txt , ./threads/ ).
+
+To delete comments / threads, add them to " `./delete.txt` " in the format
+"site thread" or "site thread site comment". For example, "local 0" or
+"local 0 test 3" (to remove the 3rd comment from server "test" in local's
+thread "0"). Run `python3 mod.py` to delete offending files; leave entries
+from remote boards in `delete.txt`to prevent them from being re-downloaded.
+
+Edit the files in ./html/ to add some customization.
+
+Users must solve a captcha in order to publish a thread or comment.
+Users who attempt to solve the captcha are logged in `ips.txt` by
+default; a user who is unable to solve the captcha can have the key
+provided by the administrator or have the test overriden if the user
+provides their IP address. To ban a user, remove their IP from `ips.txt`
+(find it via `log.txt` ) and then add either their IP address ( `a.b.c.d` )
+or their ip range ( `a.b.c` ). You can follow it with a comment or not,
+your choice. Now, if the banned user tries to post, they'll get nothing
+but failed captcha messages. How frustrating!
+
+The file `log.txt` contains a list in the format
+`board thread replynum ipaddress`, which can be used to help block
+spammers. It does not filter spam from remote boards; to do that,
+modify the `delete.txt` file. A web-based admin panel is coming.
+
+Tags can be manually set by the administrator per-thread by modifying the
+`./threads/site/thread/head.txt` file's second line with space seperated
+keywords, and then executing `python3 tags.py` and/or `python3 refresh.py`. 
+
+# Directory structure
+```
+in ./threads/ :
+
+./site/######/head
+	title
+	tag1 tag2 tag3 ...
+./site/######/sitename
+	time<>name<>comment	
+./site/######/list
+	site time
+
+./site/list
+	optime lastreply localreplies allreplies title
+./site/tags
+        tag thread thread thread ...	
+
+./list
+	site optime lastreply localreplies allreplies title
+./friends
+	site url
+./tags
+	tag site-thread ...
+```
+
+# Help! My board is broken!
+Move your threads directory somewhere safe and make a new one.
+
+In the `./threads/` directory:
+
+1. Make a new directory, `local/0/`
+2. Create `local/0/head.txt`
+3. Write `Hello world`, newline, `none`
+4. Create `local/0/local.txt`
+5. Write `0<>none<>none`
+6. Create `local/0/list.txt`
+7. Write `local 0`
+8. Execute `python3 refresh.py` in multich directory.
+
+Removing files from ./archive/ (e.g. `rm ./archive/*` ) may also be
+useful.

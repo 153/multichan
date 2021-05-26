@@ -12,3 +12,24 @@ Tag owner:
 1. Allow tag owner to untag, delete, and ban
 2. Allow "tag namespaces" (group of tags in controlled creation space)
 
+Federated moderation:
+--------
+1. Share bans and deletes publicly
+2. In mod panel, show suggested bans/deletes
+3. In mod panel, show suggested servers to follow
+4. Specific URL blacklist for image embed
+
+Maintenance:
+--------
+1. Automated renaming of expired/moved host URL
+
+Markup expansion:
+--------
+1. Allow multiple image hosts
+2. Youtube embed
+3. < backwards quote (8chan style)
+
+Alternate backend:
+--------
+1. Scrape Kareha, Emanon, Multich, etc to JSON.
+2. Convert JSON to Multich.
