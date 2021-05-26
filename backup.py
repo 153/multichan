@@ -3,7 +3,7 @@ import os
 import shutil
 
 files = ["./settings.py", "./threads/", "./html/", "./static/",
-         s.wlist, s.log, s.bans, s.delete]
+         s.archive, s.wlist, s.log, s.bans, s.delete]
 loc = s.backup
 
 if not os.path.isdir(loc):
