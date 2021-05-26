@@ -101,7 +101,7 @@ def tag_index():
     tdb = tags_load()
     sentry = "<li><b><a href='/tags/{0}/'>{0}</a></b> ({1} discussions)"
     oentry = "<li><a href='/tags/{0}/'>{0}</a> ({1} discussions)"
-    result =  ["<h1>Conversation tags</h1>",
+    result =  ["<div><h1>Conversation tags</h1>",
                "Bolded tags are the default tags selected by the site admin."]
     result.append("<br>Tags can be combined with the '+' plus sign in URL.")
     links = ["<ul>"]
@@ -127,7 +127,7 @@ def tag_index():
         if all_tags[t] == 1:
             links[-1] = links[-1].replace("s)", ")")
         last = cnt
-    links.append("</ul>")
+    links.append("</ul></div>")
     result.append("\n".join(links))
     result = p.mk("\n".join(result))
     return result
@@ -143,10 +143,10 @@ def tag_page(topic):
         topic = topic.split("+")
     else:
         topic = [topic]
-    result.append("<h1> #" + " #".join(topic) + "</h1>")
+    result.append("<div><h1> #" + " #".join(topic) + "</h1>")
     result.append(" <a href='/create/" + ot + "'>+ create new</a><br>")
     result.append("<i>Note: tags can be combined using the "
-                  "+ (plus sign) in the URL</i>")
+                  "+ (plus sign) in the URL</i></div>")
     result.append("<p><table>")
     result.append("<tr><th>origin<th>title<th>replies")
     threads = tags_threads(topic)
