@@ -36,3 +36,4 @@ friends = {
     "kuzlol": "http://multich.kuz.lol",
     "local": url
     }
+git remote add github ssh://git@github.com/153/multichan.git
