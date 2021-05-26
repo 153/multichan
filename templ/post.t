@@ -1,3 +1,5 @@
+  <!-- replynumber, timestamp, author, message, host -->
+
 <div class="post">
      <div class="meta">  {0} ))
        Name: {2}  @ {1}

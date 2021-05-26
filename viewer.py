@@ -229,11 +229,10 @@ def reply_t(board, thread):
         redir = f"/threads/{board}/{thread}"
         return f"<center><h1><a href='{redir}'>View updated thread</a></h1></center>"
     tpage = view_t(board, thread)
+    tpage + "<p>"
     canpost = whitelist.approve()
     if not canpost:
         replf = whitelist.show_captcha(1, f"/threads/{board}/{thread}/")
-#        replf = "<p>You need to solve <a href='/captcha'>the captcha</a>" \
-#            + " before you can post."
     else:
         replf = newr.format(board, thread)
     tpage += replf

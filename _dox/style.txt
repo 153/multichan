@@ -1,20 +1,22 @@
 ./html/top.html
-<header>
-</header>
+  <header>
+  </header>
 
 ./templ/thread.t
-./templ/post.t
-<.thread>
-<.thread-title>
-<.thread-meta>
-<.post local/remote>
-<.post-meta>
-<.msg>
-</.post>
-</.thread>
+  <.thread>
+    <.thread-title>
+    <.thread-meta>
+      ./templ/post.t
+        <.post local/remote>
+        <.post-meta>
+        <.msg>
+        </.post>
+  </.thread>
 
-<.reply>
-</.reply>
+./templ/newr.t
+  <form .reply>
+  <table></table>
+  </form>
 
 <.footer>
 </.footer>
