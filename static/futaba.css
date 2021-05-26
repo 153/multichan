@@ -45,7 +45,8 @@
      text-align: right;
  }
  a { color:  #d24;font-weight bold}
- .msg >  img {
+
+ .msg  img {
      border: 1px solid #880000;     
      max-width: 500px;
      max-height: 500px;
