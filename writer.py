@@ -88,7 +88,7 @@ def mk_op(title="", tag="random", author="Anonymous", msg=""):
     
     rline = "<>".join([tnow, author, msg]) + "\n"
     with open(files["op"], "w") as opf:
-        opf.write(rline + "\n")
+        opf.write(rline)
     with open(b_pat + "list.txt", "r") as bind:
         bind = bind.read().splitlines()
     upd = [t_loc[1], t_loc[1], "1 1", title]

@@ -1,4 +1,4 @@
-<form action="." method="post">
+<p><form action="." method="post">
 <table>
 <tr>
   <td> Title:
