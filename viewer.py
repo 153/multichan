@@ -31,8 +31,8 @@ def boardlist(li=0):
     for x in boards2:
         boards.append(f"\n<a href='/threads/{x}'>{x}</a>")
     boards.insert(0, "\n<a href='/threads/'>Global</a>")
-    boards = "\nSites: " + " \n&diams; ".join(boards) + "<hr>"
-    boards = "<div style='text-align: right'>" + boards + "\n</div>"
+    boards = "\nSites: " + " \n&diams; ".join(boards)
+    boards = "<header style='text-align: right'>" + boards + "\n</header>"
     return boards
 
 def tlist(board=''):
@@ -79,8 +79,8 @@ def all_index():
 @viewer.route('/threads/')
 def view_all():
     tops = all_index()
-    tops[0] = f"<header>({len(tops)} discussions) &diams; " \
-        + "<a href='/create'>Add new</a></header><hr>" \
+    tops[0] = f"<header><hr>({len(tops)} discussions) &diams; " \
+        + "<a href='/create'>Add new</a></header>" \
         + "<h1>All Sites</h1><table>" \
         + "<tr><th>origin<th>title<th>replies" \
         + "<tr>" + tops[0]
@@ -198,7 +198,7 @@ def view_t(board, thread):
 
         p = postt.format(*p)
         threadp.append(p)
-    tinfo["messages"] = "<p>".join(threadp)
+    tinfo["messages"] = "".join(threadp)
     tinfo["title"] = meta[0]
 #    threadp.insert(0, f"<h1>{meta[0]}</h1>")
 #    threadp[0] += "source: "
@@ -229,7 +229,7 @@ def reply_t(board, thread):
         redir = f"/threads/{board}/{thread}"
         return f"<center><h1><a href='{redir}'>View updated thread</a></h1></center>"
     tpage = view_t(board, thread)
-    tpage + "<p>"
+    tpage
     canpost = whitelist.approve()
     if not canpost:
         replf = whitelist.show_captcha(1, f"/threads/{board}/{thread}/")

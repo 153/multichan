@@ -86,7 +86,7 @@ def mk_op(title="", tag="random", author="Anonymous", msg=""):
     with open(files["list"], "w") as listf:
         listf.write(li)
     
-    rline = "<>".join([tnow, author, msg])
+    rline = "<>".join([tnow, author, msg]) + "\n"
     with open(files["op"], "w") as opf:
         opf.write(rline + "\n")
     with open(b_pat + "list.txt", "r") as bind:
