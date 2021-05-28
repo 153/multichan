@@ -1,11 +1,20 @@
-Easy how-to-install:
+Irc:
+* irc.rizon.net #0chan
+* http://qchat.rizon.net/?channels=0chan
+* irc.freenode.net #multich
+* irc.libera.chat #multich
+
+Matrix:
+* #multich:privacytools.io
+
+# Easy how-to-install:
 
 1. git clone https://github.com/153/multichan
 2. pip3 install -r requirements.txt
 3. edit settings.py
 4. python3 app.py
 
-   Also at https://bitbucket.org/796f/multichan/
+Also at https://bitbucket.org/796f/multichan/
 
 ./_dox/NGINX.txt and ./_dox/APACHE.txt have information on configuring a
 webserver to use a reverse proxy to assign a domain name and port (like
@@ -19,9 +28,8 @@ server.
 Modify settings.py setting "name" to set the name of your board;
 you should also set your URL to what domain name you are giving
 your multichan server. After that, you can add tags to the tags
-array on line 11 to suggest the themes of your server, and add
-boards you want to link with in the "friends" part of the
-configuration.
+array to suggest the themes of your server, and add boards you want
+to link with in the "friends" part of the configuration.
 
 Finally, run `python3 refresh.py` to prepare to federate, and
 `python3 app.py` to run your multichan server. You should be able
@@ -45,7 +53,7 @@ Edit the files in ./html/ to add some customization.
 Users must solve a captcha in order to publish a thread or comment.
 Users who attempt to solve the captcha are logged in `ips.txt` by
 default; a user who is unable to solve the captcha can have the key
-provided by the administrator or have the test overriden if the user
+provided by the administrator or have the test overridden if the user
 provides their IP address. To ban a user, remove their IP from `ips.txt`
 (find it via `log.txt` ) and then add either their IP address ( `a.b.c.d` )
 or their ip range ( `a.b.c` ). You can follow it with a comment or not,
@@ -58,8 +66,17 @@ spammers. It does not filter spam from remote boards; to do that,
 modify the `delete.txt` file. A web-based admin panel is coming.
 
 Tags can be manually set by the administrator per-thread by modifying the
-`./threads/site/thread/head.txt` file's second line with space seperated
+`./threads/site/thread/head.txt` file's second line with space separated
 keywords, and then executing `python3 tags.py` and/or `python3 refresh.py`. 
+
+# Planned features
+* Anti-spam
+* Multiple permitted external media hosts
+* Web admin panel
+* User owned "boards" (like 8chan)
+* Textboard archive --> Multich relay
+* "chan" style board view
+* "tree" style board view (usenet, reddit, ayashii)
 
 # Directory structure
 ```

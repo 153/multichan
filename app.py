@@ -5,9 +5,10 @@ from viewer import viewer
 from writer import writer
 from whitelist import whitelist
 from tags import tags
+from atom import atom
+from boards import boards
 #from admin import admin
 #from cookies import cook
-from atom import atom
 
 import os
 import time
@@ -26,10 +27,11 @@ app.register_blueprint(home)
 app.register_blueprint(viewer)
 app.register_blueprint(writer)
 app.register_blueprint(whitelist)
+app.register_blueprint(boards)
 app.register_blueprint(tags)
+app.register_blueprint(atom)
 # app.register_blueprint(admin)
 # app.register_blueprint(cook)
-app.register_blueprint(atom)
 
 if not os.path.isdir("./static/cap/"):
     os.mkdir("./static/cap/")

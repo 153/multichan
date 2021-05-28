@@ -41,7 +41,7 @@ def counter():
     atags = str(len(s.tags))
 
     page = []
-    page.append(" ".join([f"You are visitor #{cnt+1}",
+    page.append(" ".join([f"<p><div>You are visitor #{cnt+1}",
                           "to this stats page at", s.url, "<ul>"]))
     page.append(" ".join(["<li>", str(len(s.friends)), "friend servers"]))
     page.append(" ".join(["<li>", atags, "featured tags"]))
@@ -52,12 +52,12 @@ def counter():
     page.append(" ".join(["<li>", acnt, "total replies<p>"]))
     page.append(" ".join(["<li>", dcnt, "deleted posts"]))
     page.append(" ".join(["<li>", bcnt, "banned addresses"]))
-    page.append("</ul>")
+    page.append("</ul></div>")
     return p.mk("\n".join(page))
 
 @home.route('/friends')
 def friends():
-    title = "<h1>Friends of " + s.name
+    title = "<div><h1>Friends of " + s.name
     title += "</h1><h4>" + s.url 
     if s.images:
         title += f"<br>images: <a href='{s.ihost}'>{s.ihost}</a>"
@@ -69,5 +69,5 @@ def friends():
     for f in s.friends:
         flist.append(fstring.format(f, s.friends[f]))
     flist = "<ul>" + "\n".join(flist) + "</ul>"
-    page = title + flist
+    page = title + flist + "</div>"
     return p.mk(page)
