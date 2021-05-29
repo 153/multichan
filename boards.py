@@ -124,34 +124,62 @@ def mod_thread(board, key):
 
 @boards.route('/b/<board>/<host>/<thread>/')
 def load_thread(board, host, thread):
-    board = "meta"
-    host = "0chan"
-    thread = "0"
+    # load local.txt
+    # build {"host": {"time": post} , {"time": post}}
+    posts = {}
+    data = {}
+    _thread = []
+
+    # load list.txt
+    # build {host: [reply, reply] }
+    # hide.txt  filter list.txt
+    # build [post, post, post]
+    origin = [host, thread] # 0chan, 0
     
     path = f"./threads/{host}/{thread}/"
     hide = f"./boards/{board}/hide.txt"
     with open(path + "list.txt", "r") as path:
         path = path.read().splitlines()
         path = [p.split(" ") for p in path]
-    hosts = list(set([p[0] for p in path if len(p) > 1]))
-    print(hosts)
-
     with open(hide, "r") as hide:
         hide = hide.read().splitlines()
         hide = [h.split(" ") for h in hide]
+    hide = [h for h in hide if h[:2] == origin]
+    print(hide) # posts to filter 
+    for p in path:
+        # site time
+        if p[0] not in posts.keys():
+            posts[p[0]] = []
+        posts[p[0]].append(p[1])
+
+    # posts[host][reply]
+    data = posts.copy()
+    for d in data:
+        whereis = f"./threads/{host}/{thread}/{d}.txt"
+        with open(whereis, "r") as files:
+            files = files.read().splitlines()
+            files = [[d, *f.split("<>")] for f in files]
+            data[d].append(files)
+    # data[host][rep] = [post, goes, here]
+            
+    for h in hide:
+        data[h[2]][int(h[3])] = [data[h[2]][int(h[3])][0],
+                                 "<i>deleted</i>",
+                                 "<i>message deleted by admin</i>"]
+
+    print("!!\n", path) # h/t/list.txt
+    print("!!!", posts) # h/t/board.txt
+    print("!", hide)
+    print("!!!!", data)
 
     # import list.txt
     # build {"host": [post, post. post] } dict
     # remove host[num] using hide.txt
     # rebuild array using [host][num]
-    
-    hide = [[h[2], int(h[3])] for h in hide \
-            if h[:2] == [host, thread]]
 
-    print("hide\n", hide)
-    print("path\n", path)
+    print(data)
 
-    return True
+    return "<pre>" + str(data)
     
 
 #    # host/thread / list.txt -> 0chan, 52chan, kuzlol
