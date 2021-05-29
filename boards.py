@@ -4,6 +4,8 @@ import tags as t
 import pagemaker as p
 import settings as s
 import tripcode as tr
+import whitelist
+import time
 
 boards = Blueprint("boards", __name__)
 index_p = "./boards/list.txt"
@@ -62,7 +64,7 @@ def board_index(board):
     
     for n, entry in enumerate(info):
         item = [entry[0], entry[1]]
-        url = "/".join(["/threads", *item])
+        url = "/".join([f"/b/{board}", *item])
         link_data = [url, entry[5], entry[4]]
         if item in to_sticky:
             stickies.append(sticky.format(*link_data))
@@ -122,18 +124,14 @@ def mod_thread(board, key):
         return "0"
     return "1"
 
-@boards.route('/b/<board>/<host>/<thread>/')
 def load_thread(board, host, thread):
-    # load local.txt
-    # build {"host": {"time": post} , {"time": post}}
-    posts = {}
-    data = {}
-    _thread = []
+    # Board view of host:thread 
 
-    # load list.txt
-    # build {host: [reply, reply] }
-    # hide.txt  filter list.txt
-    # build [post, post, post]
+    # path = [] # [[host, time]]
+    posts = {} # {"host": [time, time, time]}
+    data = {} # {"host": [[host, time, author, message]] } 
+    _thread = [] # [[host, time, author, message]]
+
     origin = [host, thread] # 0chan, 0
     
     path = f"./threads/{host}/{thread}/"
@@ -152,42 +150,75 @@ def load_thread(board, host, thread):
             posts[p[0]] = []
         posts[p[0]].append(p[1])
 
-    # posts[host][reply]
-    data = posts.copy()
+    # posts[host][reply, reply, reply]
+    data = posts.copy() 
     for d in data:
         whereis = f"./threads/{host}/{thread}/{d}.txt"
         with open(whereis, "r") as files:
             files = files.read().splitlines()
             files = [[d, *f.split("<>")] for f in files]
-            data[d].append(files)
+            data[d] = files
     # data[host][rep] = [post, goes, here]
+    # {"host": ["host", "time", "author", "message"]}
             
     for h in hide:
-        data[h[2]][int(h[3])] = [data[h[2]][int(h[3])][0],
+        if [host, thread] != [h[0], h[1]]:
+            continue
+        print(h[2], h[3], "\n")
+        print( data[h[2]][int(h[3])-1] )
+        data[h[2]][int(h[3])-1] = [data[h[2]][int(h[3])-1][0],
+                                 data[h[2]][int(h[3])-1][1],
                                  "<i>deleted</i>",
                                  "<i>message deleted by admin</i>"]
 
-    print("!!\n", path) # h/t/list.txt
-    print("!!!", posts) # h/t/board.txt
-    print("!", hide)
-    print("!!!!", data)
-
-    # import list.txt
-    # build {"host": [post, post. post] } dict
-    # remove host[num] using hide.txt
-    # rebuild array using [host][num]
-
-    print(data)
-
-    return "<pre>" + str(data)
+    print("path=====\n", path) # h/t/list.txt
+    print("posts====\n", posts) # h/t/board.txt
+    print("hide=====\n", hide)
+    print("data=====\n", data)
     
+    cnt = {} 
+    for p in path:
+        h = p[0]
+        if h not in cnt:
+            cnt[h] = 0
+        _thread.append(data[h][cnt[h]])
+        cnt[h] += 1
+    return _thread
+    # data["host"][cnt] = ["host", "time", "author", "message"]
+    # _thread = list.txt x ["host", "time", "author", "message"]
 
-#    # host/thread / list.txt -> 0chan, 52chan, kuzlol
-#    { "host": [
-#        ["name", "reply"],
-#        ["name", "reply"]],
-#       "host2":[] }
-
+@boards.route('/b/<board>/<host>/<thread>/')
+def show_thread(board, host, thread):
+    # 
+    datetime = "%a, %b %d, %Y, @ %I%p"
+    tindex = load_thread(board, host, thread) # [[host, time, author, comment]]
+    tindex = [[x[0], time.strftime(datetime, time.localtime(int(x[1]))),
+               *x[2:]] for x in tindex]
+    head = f"./threads/{host}/{thread}/head.txt"
+    with open(head, "r") as head:
+        head = head.read().splitlines()[0]
+    page = []
+    page.append(f"{s.name} <a href='/b/{board}'>/{board}/</a>")
+    page.append(f"<h2>{head}</h2>")
+    cnt = {}
+    for t in tindex:
+        if t[0] not in cnt:
+            cnt[t[0]] = 0
+        cnt[t[0]] += 1
+        t = " ".join(["<div>", "/".join([t[0], str(cnt[t[0]]) ]), "||",
+                      "at", t[1], "...", t[2], "wrote...<p>",
+                      t[3], "<hr>"])
+        page.append(t)
+    canpost = whitelist.approve()
+    with open("./templ/newr.t", "r") as newr:
+        newr = newr.read()
+    if not canpost:
+        replf = whitelist.show_captcha(1, f"/threads/{board}/{thread}/")
+    else:
+        replf = newr.format(board, thread)
+    page.append(replf)
+    return "<br>".join(page)
+        
 @boards.route('/b/<board>/0')
 def front(board):
     with open(f"./threads/{board}/list.txt", "r") as index:
