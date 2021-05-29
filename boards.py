@@ -3,10 +3,19 @@ import viewer as v
 import tags as t
 import pagemaker as p
 import settings as s
+import tripcode as tr
 
 boards = Blueprint("boards", __name__)
-index = "./boards/list.txt"
+index_p = "./boards/list.txt"
 
+local_b = []
+with open(index_p, "r") as index:
+    index = index.read().splitlines()
+index = [i.split(" ") for i in index]
+for i in index:
+    if i[0] == "local":
+        local_b.append(i)
+    
 def board_index(board):
     # mod.txt
     # 0 - hide
@@ -27,7 +36,8 @@ def board_index(board):
     to_hide = [] # 0
     to_sticky = [] # 2
     to_sage = [] # 3
-    
+
+    hidden = []
     normal = [] 
     sages = []
     stickies = []
@@ -37,17 +47,15 @@ def board_index(board):
     for n, m in enumerate(mod):
         entry = m.split(" @ ")
         entry[0] = entry[0].split(" ")
-        if int(entry[1][0]) == 0:
+        if int(entry[1][0]) == 0: # hidden
             to_hide.append(entry[0])
-        elif int(entry[1][0]) == 2:
+        elif int(entry[1][0]) == 2: # sticky
             to_sticky.append(entry[0])
-        elif int(entry[1][0]) == 3:
+        elif int(entry[1][0]) == 3: # sage
             to_sage.append(entry[0])
         else:
             normal.append(entry[0])
-            
-    print(mod)
-    
+                
     link = "<li> <a href='{0}'>{1}</a> ({2} replies)"
     sticky = "<li> &#128204; <a href='{0}'>{1}</a> ({2} replies)"
     sage = "<li> &#9875; <a href='{0}'>{1}</a> ({2} replies)"
@@ -60,7 +68,9 @@ def board_index(board):
             stickies.append(sticky.format(*link_data))
         elif item in to_sage:
             sages.append(sage.format(*link_data))
-        elif item not in to_hide:
+        elif item in to_hide:
+            hidden.append(link.format(*link_data))
+        else:
             normal.append(link.format(*link_data))
 
     links = []
@@ -71,10 +81,7 @@ def board_index(board):
 
 @boards.route('/b/')
 def splash():
-    with open(index, "r") as boards:
-        boards = boards.read().splitlines()
-    boards = [i.split(" ") for i in boards]
-    boards = [i for i in boards if i[0] == "local"]
+    boards = local_b
     template = "<li><a href='/b/{1}'>{1}</a> (managed by <b><code>{2}</code></b>)"
     page = """<h1>User Boards</h1><div class="info">
 Boards are a work in progress system that will allow user-managed 
@@ -100,8 +107,20 @@ def browse(board):
 #    threads = "\n".join(threads)
     page += threads
     page.append("</ul>")
-    
-    return p.mk("\n".join(page))
+    print(page)
+    page = "\n".join([n for n in page if (len(n) != 2)])
+    return p.mk(page)
+
+@boards.route('/b/<board>/<key>')
+def mod_thread(board, key):
+    new_local = []
+    for L in local_b:
+        if tr.sec(key) == L[2]:
+            if L[0] == "local" and L[1] == board:
+                new_local.append(L)
+    if not len(new_local):
+        return "0"
+    return "1"
 
 @boards.route('/b/<board>/<host>/<thread>/')
 def load_thread(board, host, thread):
