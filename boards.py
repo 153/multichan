@@ -31,6 +31,7 @@ def board_index(board):
     normal = [] 
     sages = []
     stickies = []
+    
     with open(mfile, "r") as mod:
         mod = mod.read().splitlines()
     for n, m in enumerate(mod):
@@ -42,6 +43,8 @@ def board_index(board):
             to_sticky.append(entry[0])
         elif int(entry[1][0]) == 3:
             to_sage.append(entry[0])
+        else:
+            normal.append(entry[0])
             
     print(mod)
     
@@ -100,11 +103,37 @@ def browse(board):
     
     return p.mk("\n".join(page))
 
+@boards.route('/b/<board>/<host>/<thread>/')
 def load_thread(board, host, thread):
     board = "meta"
     host = "0chan"
     thread = "0"
-    i = [ ["meta", "0chan", "0", "0chan", "5"] ]
+    
+    path = f"./threads/{host}/{thread}/"
+    hide = f"./boards/{board}/hide.txt"
+    with open(path + "list.txt", "r") as path:
+        path = path.read().splitlines()
+        path = [p.split(" ") for p in path]
+    hosts = list(set([p[0] for p in path if len(p) > 1]))
+    print(hosts)
+
+    with open(hide, "r") as hide:
+        hide = hide.read().splitlines()
+        hide = [h.split(" ") for h in hide]
+
+    # import list.txt
+    # build {"host": [post, post. post] } dict
+    # remove host[num] using hide.txt
+    # rebuild array using [host][num]
+    
+    hide = [[h[2], int(h[3])] for h in hide \
+            if h[:2] == [host, thread]]
+
+    print("hide\n", hide)
+    print("path\n", path)
+
+    return True
+    
 
 #    # host/thread / list.txt -> 0chan, 52chan, kuzlol
 #    { "host": [
