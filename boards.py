@@ -142,7 +142,7 @@ def browse(board):
     page.append(f"<h1>/{board}/</h1>")
     page.append(f"<link rel='alternative' type='application/xml' href='/atom/tag/{board}.atom'>")
     page.append(about)
-    page.append(f"<a href='/create/{board}'>Create a new thread on /{board}/</a>")
+    page.append(f"<p><a href='/create/{board}'>Create a new thread on /{board}/</a>")
     page.append("<hr><ul>")
     threads = board_index(board)
 #    threads = "\n".join(threads)
@@ -199,7 +199,7 @@ def mod_board(board, key):
     for f in files:
         with open(f"./boards/{board}/{f}", "r") as data:
             data = data.read()
-        mod[f] = data
+        mod[f] = data + "\n"
     for f in mod:
         page.append(f)
         if f == "threads.txt":
