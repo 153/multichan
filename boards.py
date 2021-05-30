@@ -145,7 +145,7 @@ def browse(board):
     page.append(f"<p><hr><a href='/create/{board}'>[+] Create a new thread on /{board}/</a>")
     with open(f"./boards/{board}/ihosts.txt", "r") as ihosts:
         ihosts = ihosts.read().strip().splitlines()
-    page.append("<p><b>Approved URLs:</b><ul><li>" + "\n<li> ".join(ihosts))
+    page.append("<p><b>Approved image hosts:</b><ul><li>" + "\n<li> ".join(ihosts))
     page.append("</ul>")
     page.append("<hr><ul>")
     threads = board_index(board)

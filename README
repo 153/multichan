@@ -71,9 +71,6 @@ keywords, and then executing `python3 tags.py` and/or `python3 refresh.py`.
 
 # Planned features
 * Anti-spam
-* Multiple permitted external media hosts
-* Web admin panel
-* User owned "boards" (like 8chan)
 * Textboard archive --> Multich relay
 * "chan" style board view
 * "tree" style board view (usenet, reddit, ayashii)

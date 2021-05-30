@@ -7,11 +7,6 @@ Spam reduction:
 3. Limit how many duplicate comments IP can make in X seconds
 4. Limit how many tags can be in a new thread
 
-Tag owner:
---------
-1. Allow tag owner to untag, delete, and ban
-2. Allow "tag namespaces" (group of tags in controlled creation space)
-
 Federated moderation:
 --------
 1. Share bans and deletes publicly
@@ -25,9 +20,8 @@ Maintenance:
 
 Markup expansion:
 --------
-1. Allow multiple image hosts
-2. Youtube embed
-3. < backwards quote (8chan style)
+1. Youtube embed
+2. < backwards quote (8chan style)
 
 Alternate backend:
 --------
