@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 import viewer as v
 import tags as t
 import pagemaker as p
@@ -9,7 +9,6 @@ import time
 
 boards = Blueprint("boards", __name__)
 index_p = "./boards/list.txt"
-
 with open(index_p, "r") as index:
     index = index.read().splitlines()
 local_b = [i.split(" ") for i in index]
@@ -88,15 +87,29 @@ communities to exist within the Multichannel network.
     page += "<div><ul>" + "\n".join([template.format(*i) for i in boards]) + "</ul></div>"
     return p.mk(page)
 
-@boards.route('/b/<board>/')
+@boards.route('/b/<board>/', methods=['POST', 'GET'])
 @boards.route('/b/<board>/list')
 def browse(board):
+    if request.method == 'POST':
+        user_key = tr.sec(request.form["key"])
+        test = [i for i in local_b if (i[0] == board and i[1] == user_key)]
+        if not len(test):
+            pass
+        print("abcdef")
+        print(request.form["threads.txt"].strip())
+        files = ["hide.txt", "info.txt", "threads.txt"]
+        for f in files:
+            path = "./boards/" + board + "/"
+            data = request.form[f].strip()
+            with open(path+f, "w") as out:
+                out.write(data)
+
     info = f"./boards/{board}/info.txt"
+    with open(info, "r") as about:
+        about = about.read()
     page = ["<div>"]
     page.append(f"<a href='/b'>[back]</a>")
     page.append(f"<h1>/{board}/</h1>")
-    with open(info, "r") as about:
-        about = about.read()
     page.append(about)
     page.append("<hr>")
     page.append(f"<a href='/create/{board}'>Create a new thread on /{board}/</a>")
@@ -118,7 +131,7 @@ def mod_board(board, key):
     if not len(new_local):
         return "0"
     page = ["<style>textarea {", "width: 800px; height:120px;}</style>"]
-    page.append("<form action='.' method='get'>")
+    page.append("<form action='.' method='post'>")
     page.append("<input type='submit' value='Moderate Board'>")
     page.append(f"<input type='hidden' name='board' value='{board}'>")
     page.append(f"<input type='hidden' name='key' value='{key}'>")
@@ -130,6 +143,10 @@ def mod_board(board, key):
         mod[f] = data
     for f in mod:
         page.append(f)
+        if f == "threads.txt":
+            page[-1] += " // format: host thread @ mode ; 0 hide ; 2 sticky; 3 sage"
+        elif f == "hide.txt":
+            page[-1] += " // format: host thread host reply# "
         page.append(f"<textarea name='{f}'>{mod[f]}</textarea>")
     return "<pre>" + "\n".join(page) + "</pre>"
 
