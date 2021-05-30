@@ -142,7 +142,6 @@ def browse(board):
     page.append(f"<h1>/{board}/</h1>")
     page.append(f"<link rel='alternative' type='application/xml' href='/atom/tag/{board}.atom'>")
     page.append(about)
-    page.append("<hr>")
     page.append(f"<a href='/create/{board}'>Create a new thread on /{board}/</a>")
     page.append("<hr><ul>")
     threads = board_index(board)
