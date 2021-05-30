@@ -46,6 +46,7 @@ def ldboard(board, write=0):
     threads = [x.path for x in os.scandir(tdir) if x.is_dir()]
     bind = [] # first, last, local, total, title
     for thread in threads:
+        print(thread)
         info = "/".join([thread, meta[0]])
         replies = "/".join([thread, meta[1]])
         if not os.path.isfile(info):
@@ -54,7 +55,7 @@ def ldboard(board, write=0):
                              "local", t, "head.txt"])
             u.wget(orig, info)
         with open(info, "r") as info:
-            info = info.read()
+            info = info.read().strip()
         if len(info) == 0:
             continue 
         info = info.splitlines()[0]
