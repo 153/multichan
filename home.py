@@ -21,8 +21,10 @@ def about():
 def do_trip():
     if request.method == "POST":
         trip = request.form["trip"]
-        return "<br><br>".join(["!" + tr.mk(trip),
-                      "!!" + tr.sec(trip)])
+        return "<br><br>".join([
+            trip,
+            "!" + tr.mk(trip),
+            "!!" + tr.sec(trip)])
     return """<form action='.' method='post'>
 <input type='text' name='trip'><input type='submit' value='Go'>"""
 

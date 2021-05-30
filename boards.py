@@ -1,3 +1,5 @@
+import time
+import os
 from flask import Blueprint, request
 import viewer as v
 import tags as t
@@ -5,14 +7,25 @@ import pagemaker as p
 import settings as s
 import tripcode as tr
 import whitelist
-import time
+
 
 boards = Blueprint("boards", __name__)
 index_p = "./boards/list.txt"
 with open(index_p, "r") as index:
     index = index.read().splitlines()
 local_b = [i.split(" ") for i in index]
-    
+
+#   /b/
+# splash()
+#   /b/board/
+# browse(board)
+#   /b/board/key
+# mod_board(board, key)
+#   /b/board/host/thread
+# show_thread(board, host, thread)
+# # board_index(board)
+# # load_thread(board, host, thread)
+
 def board_index(board):
     # mod.txt
     # 0 - hide
@@ -78,6 +91,9 @@ def board_index(board):
 
 @boards.route('/b/')
 def splash():
+    with open(index_p, "r") as index:
+        index = index.read().splitlines()
+    local_b = [i.split(" ") for i in index]
     boards = local_b
     template = "<li><a href='/b/{0}'>{0}</a> (managed by <b><code>{1}</code></b>)"
     page = """<h1>User Boards</h1><div class="info">
@@ -92,16 +108,23 @@ communities to exist within the Multichannel network.
 def browse(board):
     if request.method == 'POST':
         user_key = tr.sec(request.form["key"])
+        with open(index_p, "r") as index:
+            index = index.read().splitlines()
+            local_b = [i.split(" ") for i in index]
         test = [i for i in local_b if (i[0] == board and i[1] == user_key)]
         if not len(test):
             pass
         print(request.form["threads.txt"].strip())
         files = ["info.txt", "hide.txt", "threads.txt"]
-        for f in files:
-            path = "./boards/" + board + "/"
-            data = request.form[f].strip()
-            with open(path+f, "w") as out:
-                out.write(data)
+        try:
+            for f in files:
+                path = "./boards/" + board + "/"
+                data = request.form[f].strip()
+                with open(path+f, "w") as out:
+                    out.write(data)
+        except:
+            print(board)
+            
 
     info = f"./boards/{board}/info.txt"
     with open(info, "r") as about:
@@ -117,13 +140,42 @@ def browse(board):
 #    threads = "\n".join(threads)
     page += threads
     page.append("</ul>")
-    print(page)
     page = "\n".join([n for n in page if (len(n) != 2)])
     return p.mk(page)
+
+def mkboard(board, key):
+    key = tr.sec(key)
+    path = "./boards/" + board + "/"
+    try:
+        os.mkdir(path)
+    except:
+        pass
+    with open("./boards/list.txt", "a") as li:
+        li.write(f"{board} {key}\n")
+    try:
+        os.mkdir(path)
+    except:
+        pass
+    files = ["info.txt", "threads.txt", "hide.txt"]
+    for f in files:
+        _path = path + f
+        with open(_path, "w") as fi:
+            print(path)
+            fi.write("")
+    
+        
 
 @boards.route('/b/<board>/<key>')
 def mod_board(board, key):
     new_local = []
+    with open(index_p, "r") as index:
+        index = index.read().splitlines()
+        local_b = [i.split(" ") for i in index]
+    bs = [x[0] for x in local_b]
+    if board not in bs:
+        mkboard(board, key)
+        # abc
+        return str([board, key])
     for L in local_b:
         if tr.sec(key) == L[1] and L[0] == board:
             new_local.append(L)
@@ -161,6 +213,7 @@ def load_thread(board, host, thread):
     
     path = f"./threads/{host}/{thread}/"
     hide = f"./boards/{board}/hide.txt"
+
     with open(path + "list.txt", "r") as path:
         path = path.read().splitlines()
         path = [p.split(" ") for p in path]
@@ -209,9 +262,12 @@ def load_thread(board, host, thread):
 
 @boards.route('/b/<board>/<host>/<thread>/')
 def show_thread(board, host, thread, methods=['POST', 'GET']):
-    # 
     datetime = "%a, %b %d, %Y, @ %-I %p"
+    test = mod_board(board, host)
+    print(board, host, thread)
+    print(host, thread)
     tindex = load_thread(board, host, thread) # [[host, time, author, comment]]
+    print("!", tindex)
     tindex = [[x[0], time.strftime(datetime, time.localtime(int(x[1]))),
                *x[2:]] for x in tindex]
     head = f"./threads/{host}/{thread}/head.txt"

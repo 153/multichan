@@ -9,9 +9,11 @@ def mk(pw):
     return trip[-10:]
 
 def sec(pw):
+    print(pw)
     pw = pw[:10]
     salt = s.salt
     trip = crypt.crypt(pw, salt)
+    print(trip)
     return trip[-12:]
 
 if __name__ == "__main__":
