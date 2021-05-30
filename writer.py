@@ -18,12 +18,12 @@ with open("templ/newt.t", "r") as newtt:
 
 def nametrip(name):
     if "#" in name:
-        name = name.split("#")[:2]
-        if len(name[1]):
-            print(name)
-            name[1] = tripcode.mk(name[1])
+        name = name.split("#")[:3]
+        print(name)
+        if len(name) > 2:
+            name[1] = tripcode.mk(name[1:])
         else:
-            name[1] = " none"
+            name[1] = tripcode.mk(name[1])
         if not len(name[0]):
             name[0] = "Anonymous"
         name = "<b><a> !".join(name) + "</a></b>"

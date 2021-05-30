@@ -21,8 +21,9 @@ logcomment = True      # Whether to store full comment in log.txt
 _short = 120   # Name, title, tag field 
 _long = 10000  # Post message field
 
-images = True
+images = False
 ihost = "https://i.imgur.com/"
+boards = False
 
 # Tor needs to be installed and pip3 install requests_tor package.
 # Only used for .onion friends

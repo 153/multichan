@@ -73,7 +73,11 @@ def friends():
     title = "<div><h1>Friends of " + s.name
     title += "</h1><h4>" + s.url 
     if s.images:
-        title += f"<br>images: <a href='{s.ihost}'>{s.ihost}</a>"
+        title += f"<br>images: <a href='{s.ihost}'>{s.ihost}</a><br>"
+    if s.boards:
+        title += "<br><a href='/b/'>Boards enabled</a>"
+    else:
+        title += "<br>Boards not enabled!"
     title += "</h4>"
     title +=  "Friends are other multichan websites that "
     title += "this server downloads threads and comments from."

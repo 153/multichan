@@ -15,7 +15,7 @@ index_p = "./boards/list.txt"
 with open(index_p, "r") as index:
     index = index.read().splitlines()
 local_b = [i.split(" ") for i in index]
-
+    
 #   /b/
 # splash()
 #   /b/board/
@@ -104,7 +104,9 @@ def splash():
 Boards are a work in progress system that will allow user-managed 
 communities to exist within the Multichannel network.
 </div><p>"""
-    page += "<div><ul>" + "\n".join([template.format(*i) for i in boards]) + "</ul></div>"
+    page += "<div><ul>" \
+        + "\n".join([template.format(*i) for i in boards]) \
+        + "</ul></div>"
     return p.mk(page)
 
 @boards.route('/b/<board>/', methods=['POST', 'GET'])
@@ -118,18 +120,13 @@ def browse(board):
         test = [i for i in local_b if (i[0] == board and i[1] == user_key)]
         if not len(test):
             pass
-        print(request.form["threads.txt"].strip())
-        files = ["info.txt", "hide.txt", "threads.txt"]
+        files = ["info.txt", "hide.txt", "threads.txt", "ihosts.txt"]
         try:
             for f in files:
                 path = "./boards/" + board + "/"
                 data = request.form[f].strip()
-                if f in ["threads.txt", "hide.txt"]:
-                    with open(path+f, "w") as out:
-                        out.write(data)
-                else:
-                    with open(path+f, "w") as out:
-                        out.write(data)
+                with open(path+f, "w") as out:
+                    out.write(data)
 
         except:
             print(board)
@@ -165,12 +162,14 @@ def mkboard(board, key):
         os.mkdir(path)
     except:
         pass
-    files = ["info.txt", "threads.txt", "hide.txt"]
+    files = ["info.txt", "threads.txt", "hide.txt", "ihosts.txt"]
     for f in files:
         _path = path + f
         with open(_path, "w") as fi:
-            print(path)
-            fi.write("")
+            if f == "ihosts.txt":
+                fi.write(s.ihost)
+            else:
+                fi.write("")
     
         
 
@@ -196,7 +195,7 @@ def mod_board(board, key):
     page.append(f"<input type='hidden' name='board' value='{board}'>")
     page.append(f"<input type='hidden' name='key' value='{key}'>")
     mod = {}
-    files = ["info.txt", "threads.txt", "hide.txt"]
+    files = ["info.txt", "threads.txt", "hide.txt", "ihosts.txt"]
     for f in files:
         with open(f"./boards/{board}/{f}", "r") as data:
             data = data.read()
@@ -222,15 +221,18 @@ def load_thread(board, host, thread):
     
     path = f"./threads/{host}/{thread}/"
     hide = f"./boards/{board}/hide.txt"
+    ihost = f"./boards/{board}/ihosts.txt"
 
     with open(path + "list.txt", "r") as path:
         path = path.read().splitlines()
         path = [p.split(" ") for p in path]
+    with open(ihost, "r") as ihosts:
+        ihosts = ihosts.read().splitlines()
+        ihosts = [i.strip() for i in ihosts]
     with open(hide, "r") as hide:
         hide = hide.read().splitlines()
         hide = [h.split(" ") for h in hide]
     hide = [h for h in hide if h[:2] == origin]
-    print(hide) # posts to filter 
     for p in path:
         # site time
         if p[0] not in posts.keys():
@@ -251,8 +253,6 @@ def load_thread(board, host, thread):
     for h in hide:
         if [host, thread] != [h[0], h[1]]:
             continue
-        print(h[2], h[3], "\n")
-        print( data[h[2]][int(h[3])-1] )
         data[h[2]][int(h[3])-1] = [data[h[2]][int(h[3])-1][0],
                                  data[h[2]][int(h[3])-1][1],
                                  "<i>deleted</i>",
@@ -287,6 +287,9 @@ def show_thread(board, host, thread, methods=['POST', 'GET']):
     with open("./templ/post.t", "r") as reply:
         reply = reply.read()
     for t in tindex:
+        with open(f"./boards/{board}/ihosts.txt", "r") as ihosts:
+            ihosts = ihosts.read().splitlines()
+            
         if t[0] not in cnt:
             cnt[t[0]] = 0
         cnt[t[0]] += 1
@@ -296,8 +299,12 @@ def show_thread(board, host, thread, methods=['POST', 'GET']):
         link += f"onclick='quote(\"{ref}\")' id='{ref}'>"
         link += f"&gt;&gt;{b[0]}/{cnt[b[0]]}</a>"
 
-        if s.ihost in t[3]:
-            t[3] = u.imgur(t[3])
+        for i in ihosts:
+            print([i, t[3]])
+            if i in t[3]:
+                t[3] = u.imgur(t[3], i)
+                continue
+
         # 0 reply, # 1 date, #2 name, #3 comment, #4 host
         # 0 host, # 1 time, #2 author, #3 comment
         

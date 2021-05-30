@@ -38,10 +38,9 @@ def wget(url, fn, w=1):
         fn.write(page)
     return page
 
-def imgur(inp):
+def imgur(inp, host=s.ihost):
     if not s.images:
         return inp
-    host = s.ihost
     img = inp.split(host)[1]
     if " " or "<" in img:
         term = len(img)
