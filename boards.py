@@ -190,7 +190,6 @@ def mod_board(board, key):
     bs = [x[0] for x in local_b]
     if board not in bs:
         mkboard(board, key)
-        # abc
         return str([board, key])
     for L in local_b:
         if tr.sec(key) == L[1] and L[0] == board:
@@ -206,7 +205,7 @@ def mod_board(board, key):
     files = ["info.txt", "threads.txt", "hide.txt", "ihosts.txt"]
     for f in files:
         with open(f"./boards/{board}/{f}", "r") as data:
-            data = data.read()
+            data = data.read().strip()
         mod[f] = data + "\n"
     for f in mod:
         page.append(f)
