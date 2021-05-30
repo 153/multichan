@@ -129,7 +129,6 @@ def view_t(board, thread):
             bfn = bfn.read().splitlines()
         for n, x in enumerate(bfn):
             x = x.split("<>")
-            print(x)
             if "imgur" in x[2]:
                 try:
                     x[2] = u.imgur(x[2])
