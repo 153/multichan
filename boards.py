@@ -113,6 +113,8 @@ communities to exist within the Multichannel network.
 @boards.route('/b/<board>/list')
 def browse(board):
     if request.method == 'POST':
+        if not whitelist.approve():
+            return p.mk(whitelist.show_captcha(1))
         user_key = tr.sec(request.form["key"])
         with open(index_p, "r") as index:
             index = index.read().splitlines()
@@ -180,6 +182,8 @@ def mkboard(board, key):
 @boards.route('/b/<board>/<key>')
 def mod_board(board, key):
     new_local = []
+    if not whitelist.approve():
+        return p.mk(whitelist.show_captcha(1))
     with open(index_p, "r") as index:
         index = index.read().splitlines()
         local_b = [i.split(" ") for i in index]
