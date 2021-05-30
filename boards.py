@@ -34,7 +34,7 @@ def board_index(board):
     info = [i for i in info if i[:2] in threads]
     info = [[*i[:5], " ".join(i[5:])] for i in info]
     
-    mfile = f"./boards/{board}/mod.txt"
+    mfile = f"./boards/{board}/threads.txt"
     to_hide = [] # 0
     to_sticky = [] # 2
     to_sage = [] # 3
@@ -93,8 +93,8 @@ communities to exist within the Multichannel network.
     return p.mk(page)
 
 @boards.route('/b/<board>/')
+@boards.route('/b/<board>/list')
 def browse(board):
-    mod = f"./boards/{board}/mod.txt"    
     info = f"./boards/{board}/info.txt"
     page = ["<div>"]
     page.append(f"<a href='/b'>[back]</a>")
@@ -170,11 +170,6 @@ def load_thread(board, host, thread):
                                  data[h[2]][int(h[3])-1][1],
                                  "<i>deleted</i>",
                                  "<i>message deleted by admin</i>"]
-
-    print("path=====\n", path) # h/t/list.txt
-    print("posts====\n", posts) # h/t/board.txt
-    print("hide=====\n", hide)
-    print("data=====\n", data)
     
     cnt = {} 
     for p in path:
@@ -188,7 +183,7 @@ def load_thread(board, host, thread):
     # _thread = list.txt x ["host", "time", "author", "message"]
 
 @boards.route('/b/<board>/<host>/<thread>/')
-def show_thread(board, host, thread):
+def show_thread(board, host, thread, methods=['POST', 'GET']):
     # 
     datetime = "%a, %b %d, %Y, @ %I%p"
     tindex = load_thread(board, host, thread) # [[host, time, author, comment]]
@@ -205,19 +200,19 @@ def show_thread(board, host, thread):
         if t[0] not in cnt:
             cnt[t[0]] = 0
         cnt[t[0]] += 1
-        t = " ".join(["<div>", "/".join([t[0], str(cnt[t[0]]) ]), "||",
-                      "at", t[1], "...", t[2], "wrote...<p>",
+        t = " ".join(["<div> >>" + "/".join([s.friends[t[0]], str(cnt[t[0]]) ]),
+                      "at", t[1] + ",", t[2], "wrote...<p>",
                       t[3], "<hr>"])
         page.append(t)
     canpost = whitelist.approve()
     with open("./templ/newr.t", "r") as newr:
-        newr = newr.read()
+        newr = newr.read().format(host, thread)
     if not canpost:
-        replf = whitelist.show_captcha(1, f"/threads/{board}/{thread}/")
+        replf = whitelist.show_captcha(1, f"/threads/{host}/{thread}/")
     else:
         replf = newr.format(board, thread)
     page.append(replf)
-    return "<br>".join(page)
+    return p.mk("<br>".join(page))
         
 @boards.route('/b/<board>/0')
 def front(board):
