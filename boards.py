@@ -57,14 +57,17 @@ def board_index(board):
     for n, m in enumerate(mod):
         entry = m.split(" @ ")
         entry[0] = entry[0].split(" ")
-        if int(entry[1][0]) == 0: # hidden
-            to_hide.append(entry[0])
-        elif int(entry[1][0]) == 2: # sticky
-            to_sticky.append(entry[0])
-        elif int(entry[1][0]) == 3: # sage
-            to_sage.append(entry[0])
-        else:
-            normal.append(entry[0])
+        try:
+            if int(entry[1][0]) == 0: # hidden
+                to_hide.append(entry[0])
+            elif int(entry[1][0]) == 2: # sticky
+                to_sticky.append(entry[0])
+            elif int(entry[1][0]) == 3: # sage
+                to_sage.append(entry[0])
+            else:
+                normal.append(entry[0])
+        except:
+            pass
                 
     link = "<li> <a href='{0}'>{1}</a> ({2} replies)"
     sticky = "<li> &#128204; <a href='{0}'>{1}</a> ({2} replies)"
@@ -120,8 +123,13 @@ def browse(board):
             for f in files:
                 path = "./boards/" + board + "/"
                 data = request.form[f].strip()
-                with open(path+f, "w") as out:
-                    out.write(data)
+                if f in ["threads.txt", "hide.txt"]:
+                    with open(path+f, "w") as out:
+                        out.write(data)
+                else:
+                    with open(path+f, "w") as out:
+                        out.write(data)
+
         except:
             print(board)
             
