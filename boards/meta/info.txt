@@ -1,4 +1,0 @@
-General threads about this software, individual servers, the general
-cultural of anonymous boards, requests for moderators / developers, etc.
-<p>We have an IRC chatroom <a href="https://qchat.rizon.net/0chan">#0chan
-@ irc.rizon.net</a> for realtime discussions. 
