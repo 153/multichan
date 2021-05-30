@@ -1,9 +1,9 @@
 import time
 import os
 from flask import Blueprint, request
+import pagemaker as p
 import viewer as v
 import tags as t
-import pagemaker as p
 import settings as s
 import tripcode as tr
 import whitelist
