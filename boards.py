@@ -281,7 +281,7 @@ def show_thread(board, host, thread, methods=['POST', 'GET']):
     head = f"./threads/{host}/{thread}/head.txt"
     with open(head, "r") as head:
         head = head.read().splitlines()[0]
-    page = []
+    page = ["<div class='threads'>"]
     page.append(f"{s.name} <a href='/b/{board}'>/{board}/</a>")
     page.append(f"<h2>{head}</h2>")
     cnt = {}
@@ -315,6 +315,7 @@ def show_thread(board, host, thread, methods=['POST', 'GET']):
     else:
         replf = newr.format(board, thread)
     page.append(replf)
+    page.append("</div>")
     return p.mk("<br>".join(page))
         
 @boards.route('/b/<board>/0')
