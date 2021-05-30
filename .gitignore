@@ -1,5 +1,7 @@
 *~
 \#*\#
+*txt
+settings.py
 __pycache__/
 *.py[cod]
 static/cap/*png

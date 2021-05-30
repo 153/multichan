@@ -142,7 +142,7 @@ def browse(board):
     page.append(f"<h1>/{board}/</h1>")
     page.append(f"<link rel='alternative' type='application/xml' href='/atom/tag/{board}.atom'>")
     page.append(about)
-    page.append(f"<p><a href='/create/{board}'>Create a new thread on /{board}/</a>")
+    page.append(f"<p><hr><a href='/create/{board}'>[+] Create a new thread on /{board}/</a>")
     with open(f"./boards/{board}/ihosts.txt", "r") as ihosts:
         ihosts = ihosts.read().strip().splitlines()
     page.append("<p><b>Approved URLs:</b><ul><li>" + "\n<li> ".join(ihosts))
