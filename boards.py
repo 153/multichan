@@ -117,7 +117,11 @@ def mod_board(board, key):
             new_local.append(L)
     if not len(new_local):
         return "0"
-    page = []
+    page = ["<style>textarea {", "width: 800px; height:120px;}</style>"]
+    page.append("<form action='.' method='get'>")
+    page.append("<input type='submit' value='Moderate Board'>")
+    page.append(f"<input type='hidden' name='board' value='{board}'>")
+    page.append(f"<input type='hidden' name='key' value='{key}'>")
     mod = {}
     files = ["hide.txt", "info.txt", "threads.txt"]
     for f in files:
@@ -126,7 +130,7 @@ def mod_board(board, key):
         mod[f] = data
     for f in mod:
         page.append(f)
-        page.append(mod[f])
+        page.append(f"<textarea name='{f}'>{mod[f]}</textarea>")
     return "<pre>" + "\n".join(page) + "</pre>"
 
 def load_thread(board, host, thread):
