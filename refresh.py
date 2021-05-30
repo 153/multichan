@@ -46,7 +46,6 @@ def ldboard(board, write=0):
     threads = [x.path for x in os.scandir(tdir) if x.is_dir()]
     bind = [] # first, last, local, total, title
     for thread in threads:
-        print(thread)
         info = "/".join([thread, meta[0]])
         replies = "/".join([thread, meta[1]])
         if not os.path.isfile(info):

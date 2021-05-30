@@ -141,6 +141,10 @@ def browse(board):
     page.append(f"<link rel='alternative' type='application/xml' href='/atom/tag/{board}.atom'>")
     page.append(about)
     page.append(f"<p><a href='/create/{board}'>Create a new thread on /{board}/</a>")
+    with open(f"./boards/{board}/ihosts.txt", "r") as ihosts:
+        ihosts = ihosts.read().strip().splitlines()
+    page.append("<p><b>Approved URLs:</b><ul><li>" + "\n<li> ".join(ihosts))
+    page.append("</ul>")
     page.append("<hr><ul>")
     threads = board_index(board)
 #    threads = "\n".join(threads)
@@ -303,7 +307,7 @@ def show_thread(board, host, thread, methods=['POST', 'GET']):
             print([i, t[3]])
             if i in t[3]:
                 t[3] = u.imgur(t[3], i)
-                continue
+                break
 
         # 0 reply, # 1 date, #2 name, #3 comment, #4 host
         # 0 host, # 1 time, #2 author, #3 comment
