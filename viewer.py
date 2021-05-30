@@ -19,43 +19,43 @@ with open("templ/newr.t", "r") as newr:
 with open("templ/thread.t", "r") as threadt:
     threadt = threadt.read()    
 
-def boardlist(li=0):
-    boards = [x.path.split("/")[2]for x
+def hostlist(li=0):
+    hosts = [x.path.split("/")[2]for x
               in os.scandir("./threads/") if x.is_dir()]
     if li == 1:
-        return boards
-    boards2 = boards
-    boards.remove("local")
-    boards.insert(0, "local")
-    boards =[]
-    for x in boards2:
-        boards.append(f"\n<a href='/threads/{x}'>{x}</a>")
-    boards.insert(0, "\n<a href='/threads/'>Global</a>")
-    boards = "\nSites: " + " \n&diams; ".join(boards)
-    boards = "<header style='text-align: right'>" + boards + "\n</header>"
-    return boards
+        return hosts
+    hosts2 = hosts
+    hosts.remove("local")
+    hosts.insert(0, "local")
+    hosts =[]
+    for x in hosts2:
+        hosts.append(f"\n<a href='/threads/{x}'>{x}</a>")
+    hosts.insert(0, "\n<a href='/threads/'>Global</a>")
+    hosts = "\n<b>Hosts:</b> " + " \n&diams; ".join(hosts)
+    hosts = "<header style='text-align: right'>" + hosts + "\n</header>"
+    return hosts
 
-def tlist(board=''):
+def tlist(host=''):
     linkf = "<td><a href='{0}'>{1}</a><td>{2}"
     linkl = []
-    if not board: 
+    if not host: 
         all_index()
-    if board not in s.friends:
+    if host not in s.friends:
         all_index()
-#    if board and board in s.friends:
-    with open(f"./threads/{board}/list.txt", "r") as toplist:
+#    if host and host in s.friends:
+    with open(f"./threads/{host}/list.txt", "r") as toplist:
         toplist = toplist.read().splitlines()
     for t in toplist:
         t = t.split(" ")
         t[4] = " ".join(t[4:])
-        t[0] = f"/threads/{board}/{t[0]}/"
+        t[0] = f"/threads/{host}/{t[0]}/"
         linkl.append(linkf.format(t[0], t[4], t[3]))
     return linkl
 
 def all_index():
     linkf = "<td>{3} <td><a href='{0}'>{1}</a><td> {2} "
     linkl = []
-    blist = boardlist(1)
+    blist = hostlist(1)
     toplist = []
     for b in blist:
         with open(f"./threads/{b}/list.txt", "r") as t:
@@ -81,33 +81,33 @@ def view_all():
     tops = all_index()
     tops[0] = f"<header><hr>({len(tops)} discussions) &diams; " \
         + "<a href='/create'>Add new</a></header>" \
-        + "<h1>All Sites</h1><table>" \
+        + "<h1>All Hosts</h1><table>" \
         + "<tr><th>origin<th>title<th>replies" \
         + "<tr>" + tops[0]
-    page = p.mk(boardlist() + "<tr>".join(tops) + "</table>")
+    page = p.mk(hostlist() + "<tr>".join(tops) + "</table>")
     return page
 
-@viewer.route('/threads/<board>/')
-def view(board):
-    # tlist() takes board input
-    if board and board in s.friends:
-        url = s.friends[board]
-        tops = tlist(board)
+@viewer.route('/threads/<host>/')
+def view(host):
+    # tlist() takes host input
+    if host and host in s.friends:
+        url = s.friends[host]
+        tops = tlist(host)
         tops[0] = f"<header>({len(tops)} discussions) &diams; " \
         + "<a href='/create'>Add new</a> &diams; " \
         + f"from <a href='{url}'>{url}</a></header>" \
-        + f"<h1>{board}</h1><table>" \
+        + f"<h1>{host}</h1><table>" \
         + "<tr><th>title<th>replies" \
         + "<tr>" + tops[0]        
     else:
         tops = tlist()
-        tops[0] = "<h1>All Sites</h1><ol><li>" + tops[0]
-    tops[0] = boardlist() + tops[0]
+        tops[0] = "<h1>All Hosts</h1><ol><li>" + tops[0]
+    tops[0] = hostlist() + tops[0]
     return p.mk("<tr>".join(tops) + "</table>\n")
 
-#@viewer.route('/threads/<board>/<thread>/')
-def view_t(board, thread):
-    tpath = f"./threads/{board}/{thread}/"
+#@viewer.route('/threads/<host>/<thread>/')
+def view_t(host, thread):
+    tpath = f"./threads/{host}/{thread}/"
     tinfo = {"title":"", "source":"", "tags":"", "messages":""}
     # Get the list of thread replies and the thread title. 
     with open(tpath + "list.txt", "r") as tind:
@@ -121,9 +121,9 @@ def view_t(board, thread):
 #    meta[1] = "tags: " + meta[1]
     
     # Load the replies.
-    boards = set([t[0] for t in thr])
+    hosts = set([t[0] for t in thr])
     tdb = {}
-    for b in boards:
+    for b in hosts:
         bfn = tpath + b + ".txt"
         with open(bfn, "r") as bfn:
             bfn = bfn.read().splitlines()
@@ -139,13 +139,13 @@ def view_t(board, thread):
     threadp = []
     pnum = 0
     psub = 0
-    cnt = {friends[x]: 0 for x in boards}
+    cnt = {friends[x]: 0 for x in hosts}
     for p in sorted(tdb.keys()):
         p = tdb[p]
         p.append(p[0])
         p[4], p[5] = p[5], p[4]
         aname = friends[p[0]]
-        if p[0] == board:
+        if p[0] == host:
             pnum += 1
             psub = 0
             p[0] = f"<a id='{pnum}' href='#{pnum}' " \
@@ -202,16 +202,16 @@ def view_t(board, thread):
     tinfo["title"] = meta[0]
 #    threadp.insert(0, f"<h1>{meta[0]}</h1>")
 #    threadp[0] += "source: "
-    if board != "local":
+    if host != "local":
         tinfo["source"] += "&#127758;"
-    tinfo["source"] += "<a href='/threads/{0}/'>{0}</a>".format(board)
+    tinfo["source"] += "<a href='/threads/{0}/'>{0}</a>".format(host)
     thread = threadt.format(tinfo["title"], tinfo["source"], tinfo["tags"],
                    tinfo["messages"])    
     
     return thread
 
-@viewer.route('/threads/<board>/<thread>/', methods=['POST', 'GET'])
-def reply_t(board, thread):
+@viewer.route('/threads/<host>/<thread>/', methods=['POST', 'GET'])
+def reply_t(host, thread):
     now = str(int(time.time()))
     if request.method == 'POST':
         if request.form['sub'] == "Reply":
@@ -223,17 +223,17 @@ def reply_t(board, thread):
                 return "please write a message"
             if not whitelist.approve():
                 return "please solve <a href='/captcha'>the captcha</a>"
-            writer.rep_t(board, thread, now,
+            writer.rep_t(host, thread, now,
                          author, request.form["message"])
-        writer.update_board(board, thread, now)
-        redir = f"/threads/{board}/{thread}"
+        writer.update_host(host, thread, now)
+        redir = f"/threads/{host}/{thread}"
         return f"<center><h1><a href='{redir}'>View updated thread</a></h1></center>"
-    tpage = view_t(board, thread)
+    tpage = view_t(host, thread)
     tpage
     canpost = whitelist.approve()
     if not canpost:
-        replf = whitelist.show_captcha(1, f"/threads/{board}/{thread}/")
+        replf = whitelist.show_captcha(1, f"/threads/{host}/{thread}/")
     else:
-        replf = newr.format(board, thread)
+        replf = newr.format(host, thread)
     tpage += replf
     return p.mk(str(tpage))

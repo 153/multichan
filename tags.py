@@ -7,14 +7,14 @@ tags = Blueprint("tags", __name__)
 tlist = s.tags
 flist = s.friends
 
-# tags_board("board")
+# tags_host("host")
 # tags_load()
 
 # tags_view(["tags"])
 # tags_addthread("num", ["tags"])
 
-def tags_load(board=""):
-    tagp = "/".join(["./threads", board, "tags.txt"])
+def tags_load(host=""):
+    tagp = "/".join(["./threads", host, "tags.txt"])
     with open(tagp, "r") as tags:
         tags = tags.read().splitlines()
     tags = [x.split(" ") for x in tags]
@@ -48,10 +48,10 @@ def tags_threads(tags=[]):
             threads.append(t)
     return threads
     
-def mkboard(board):
-    boardp = "/".join(["./threads", board])
-    tagp = boardp + "/tags.txt"
-    threads = [x.path for x in os.scandir(boardp) if x.is_dir()]
+def mkhost(host):
+    hostp = "/".join(["./threads", host])
+    tagp = hostp + "/tags.txt"
+    threads = [x.path for x in os.scandir(hostp) if x.is_dir()]
     tagd = {}
     for thread in threads:
         num = thread.split("/")[3]
@@ -75,7 +75,7 @@ def mksite(remake=0):
     tdb = {x: [] for x in tlist}
     for f in flist:
         if remake:
-            mkboard(f)        
+            mkhost(f)        
         tpath = "/".join(["./threads", f, "tags.txt"])
         with open(tpath, "r") as tag:
             tag = tag.read().splitlines()
@@ -167,7 +167,7 @@ if __name__ == "__main__":
 
 # tags_load() -> db
 # tags_threads([]) -> threads
-# mkboard()
+# mkhost()
 # mksite()
 # tag_index()
 

@@ -7,19 +7,19 @@ import mod
 arc = s.archive
 friends = s.friends
 
-def ldsing(board, thread, sub):
+def ldsing(host, thread, sub):
     error = ["list", "head"]
     if sub in error:
         return
-    tdir = "/".join(["./threads", board, thread])
+    tdir = "/".join(["./threads", host, thread])
     tf = tdir + "/" + sub + ".txt"
     with open(tf, "r") as tf:
         tf = tf.read().splitlines()
     tf = [x.split("<>")[0] for x in tf]
     return tf
 
-def mkthread(board, thread):
-    tdir = "/".join(["./threads", board, thread])
+def mkthread(host, thread):
+    tdir = "/".join(["./threads", host, thread])
     reps = os.listdir(tdir)
     reps = [r for r in reps if r.split(".")[0] in s.friends.keys()]
     reps = [r.split(".")[0] for r in reps]
@@ -27,7 +27,7 @@ def mkthread(board, thread):
     threads = {}
     posts = []        
     for r in reps:
-        threads[r] = ldsing(board, thread, r)
+        threads[r] = ldsing(host, thread, r)
     for t in threads:
         for p in threads[t]:
             posts.append([t, p])
@@ -38,10 +38,10 @@ def mkthread(board, thread):
     with open(lf, "w") as lf:
         lf.write(posts)
 
-def ldboard(board, write=0):
-    # Generate new board index based on existing thread indexes.
+def ldhost(host, write=0):
+    # Generate new host index based on existing thread indexes.
     meta = ["head.txt", "list.txt"]
-    tdir = "/".join(["./threads", board])
+    tdir = "/".join(["./threads", host])
     indpath = "/".join([tdir, meta[1]])
     threads = [x.path for x in os.scandir(tdir) if x.is_dir()]
     bind = [] # first, last, local, total, title
@@ -50,7 +50,7 @@ def ldboard(board, write=0):
         replies = "/".join([thread, meta[1]])
         if not os.path.isfile(info):
             t = thread.split("/")[-1]
-            orig = "/".join([friends[board], "raw",
+            orig = "/".join([friends[host], "raw",
                              "local", t, "head.txt"])
             u.wget(orig, info)
         with open(info, "r") as info:
@@ -73,20 +73,20 @@ def ldboard(board, write=0):
     with open(indpath, "w") as ind:
         ind.write(bind)
 
-def mkboard(board):
-    tdir = "/".join(["./threads", board])
+def mkhost(host):
+    tdir = "/".join(["./threads", host])
     threads = [x.name for x in os.scandir(tdir) if x.is_dir()]
     for thread in threads:
-        mkthread(board, thread)
-    ldboard(board, 1)
+        mkthread(host, thread)
+    ldhost(host, 1)
 
-def pullboard(board):
+def pullhost(host):
     f = s.friends
-    if not board in f:
+    if not host in f:
         return
-    fn = arc + board + ".new"
-    old = arc + board 
-    url = "/".join([f[board], "raw", "local"])
+    fn = arc + host + ".new"
+    old = arc + host 
+    url = "/".join([f[host], "raw", "local"])
     indurl = url + "/list.txt"
     newp = [x.split(" ") for x in
            u.wget(indurl, fn).splitlines()
@@ -104,19 +104,19 @@ def pullboard(board):
         return
     for thread in diff:
         turl = "/".join([url, thread])
-        path = "/".join(["./threads", board, thread])
+        path = "/".join(["./threads", host, thread])
         lurl = turl + "/local.txt"
         hurl = turl + "/head.txt"
-        lfn = path + "/" + board + ".txt"
+        lfn = path + "/" + host + ".txt"
         hfn = path + "/head.txt"
         if not os.path.isdir(path):
             os.mkdir(path)
         u.wget(lurl, lfn)
         u.wget(hurl, hfn)
-        mkthread(board, thread)
-    mkboard(board)
+        mkthread(host, thread)
+    mkhost(host)
     os.rename(fn, old)
-    tags.mkboard(board)
+    tags.mkhost(host)
 
 def mksite():
     fnames = list(friends.keys())
@@ -150,12 +150,12 @@ def linksites():
         
         # furl - remote friendslist url
         # lurl - remote thread index url
-        # ffn - friendslist filename (friends.board)
-        # nffn - new friendslist filename (friends.board.new)
-        # lfn - thread index filename (list.board)
-        # nlfn - new thread index filename (list.board.new)
+        # ffn - friendslist filename (friends.host)
+        # nffn - new friendslist filename (friends.host.new)
+        # lfn - thread index filename (list.host)
+        # nlfn - new thread index filename (list.host.new)
         # changes - threads with new replies from self
-        # boards - boards that need their index rewritten
+        # hosts - hosts that need their index rewritten
         
         furl = "/".join([friends[f], "raw", "friends.txt"])
         lurl = "/".join([friends[f], "raw", "list.txt"])
@@ -177,7 +177,7 @@ def linksites():
         # if a difference is found, {common}/{thread}/{friend}
         # is downloaded, {common}/{thread} & {common} are then
         # rebuilt. This is contingent on {common} being a common
-        # board between client and server. 
+        # host between client and server. 
         with open(nffn, "r") as nf:
             nf = nf.read().splitlines()
         nf = [x.split(" ") for x in nf]
@@ -208,9 +208,9 @@ def linksites():
                 os.mkdir(ldir)
             u.wget(url, local)
             mkthread(c[0], c[1])
-        boards = set([c[0] for c in changes])
-        for b in boards:
-            mkboard(b)
+        hosts = set([c[0] for c in changes])
+        for b in hosts:
+            mkhost(b)
         os.rename(nffn, ffn)
         os.rename(nlfn, lfn)
     mksite()
@@ -219,11 +219,11 @@ def linksites():
 def main():
     for f in friends:
         if f == "local":
-            mkboard("local")
+            mkhost("local")
             continue
         if not os.path.isdir("./threads/" + f):
             os.mkdir("./threads/" + f)
-        pullboard(f)
+        pullhost(f)
     mksite()
     linksites()
     mod.main()
@@ -231,10 +231,10 @@ def main():
 if __name__ == "__main__":
     main()
 
-# mkthread(board, thread)
+# mkthread(host, thread)
 #    modifies thread's list
-# mkboard(board)
-#    makes board/list.txt from mkboard in all subdirs
+# mkhost(host)
+#    makes host/list.txt from mkhost in all subdirs
 # mksite()
-#    makes /list.txt from all board/list.txt
+#    makes /list.txt from all host/list.txt
     

@@ -7,7 +7,7 @@
 	/meta/hide.txt		host thread host comment
 
 /b/meta				4chan-style list of threads
-/b/meta/password		edit info, hide, mod, password
+/b/meta/password		edit info.txt, threads.txt, hide.txt
 /b/meta/list			regular multichan list of trhreads
 
 # 0 - hide thread

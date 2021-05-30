@@ -46,15 +46,15 @@ utils.py:
 	 * Image URL to image attachment
 
 viewer.py:
-	 * List boards
-	 * List boards' threads
+	 * List hosts
+	 * List hosts' threads
 	 * List all threads
 	 * Display a thread
 
 writer.py:
 	 * Create a thread
 	 * Reply to a thread
-	 * Update the board
+	 * Update the database
 
 refresh.py:
 	* rebuilds thread indexes from the bottom up
@@ -80,7 +80,7 @@ tags.py:
 	 * present tag index / tag's threads
 
 atom.py:
-	 * make ATOM feeds for site, board, thread, tag, comments
+	 * make ATOM feeds per global, host, thread, tag, comments
 	 * show index of ATOM feeds
 
 tripcode.py:
@@ -99,20 +99,20 @@ mod.py:
 --
 See also ./_dox/moderation.txt
 
+log.txt:
+        * IP log of new comments/threads on current server
+	* host thread# reply-number ipaddress date<>author<>messages
+	
 ips.txt:
 	* List of IPs attempting Captcha
 	* Lists time an IP was approved to post, if approved
 	* Delete an IP to remove posting privileges
 	* attempt-time   ip-address   captcha-code   time-approved
 
-log.txt:
-        * IP log of new comments/threads on current server
-	* board thread reply-number ipaddress
-
 bans.txt:
 	* On IP or range (a.b.c.d and a.b.c ) per line;
 	* Banned users always fail captcha
-	* Banned users should not be present in log.txt
+	* Banned users should not be present in ip.txt
 
 delete.txt:
 	* Threads/comments here will be erased or wiped

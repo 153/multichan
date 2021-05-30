@@ -6,33 +6,29 @@ mkall()
 Reserved names:
 	 list, head, global, local
 
-/raw/
+/api/
 	friends.txt
-		List of boards being followed by primary board.
+		List of hosts, followed by primary host.
 		Threads and replies to threads will be carried over.
 	list.txt
-		Index of threads showing board, creation time,
+		Index of threads showing host, creation time,
 		last reply time, local replies, total replies, and
 		thread title.
 	tags.txt
 		Index of allowed tags and threads associated with them.
-	list.board-example.old
-		Local copy of remote board's list.txt . (When syncing,
-		list.board-example.new is downloaded; it is renamed when
-		the sync is complete.)
 
-/raw/board-example/
+/api/host-example/
 	list.txt
-		Index of threads originating on (boardname). 
+		Index of threads originating on (host-example). 
 	tags.txt
-		Index of tags and their threads on (boardname).
+		Index of tags and their threads on (host-example).
 
-/raw/board-example/thread-example/
+/api/host-example/thread-example/
 	head.txt
 		Thread title and tags.
 	list.txt
-		List of all replies to thread by board and time.
+		List of all replies to thread by host and time.
 	local.txt
-		Local board's replies to thread.
-	board-example.txt
-		Another board's replies to thread.
+		Local host's replies to thread.
+	host-example.txt
+		Another host's replies to thread.

@@ -5,7 +5,8 @@ Spam reduction:
 1. Limit how many posts IP can make in X seconds
 2. Limit how many threads IP can make in X seconds
 3. Limit how many duplicate comments IP can make in X seconds
-4. Limit how many tags can be in a new thread
+4. Limit how many tags can be on a new thread
+5. Limit how many boards an IP can claim per day
 
 Federated moderation:
 --------
@@ -14,9 +15,16 @@ Federated moderation:
 3. In mod panel, show suggested servers to follow
 4. Specific URL blacklist for image embed
 
+Boards:
+--------
+1. "Sub"tags feature 
+
 Maintenance:
 --------
 1. Automated renaming of expired/moved host URL
+2. refresh.py won't break if remote host faces problems
+3. Refactor boards.py / viewer.py
+4. Make "host" consistent term for Multichan server
 
 Markup expansion:
 --------
