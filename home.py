@@ -1,4 +1,5 @@
-from flask import Blueprint
+from flask import Blueprint, request
+import tripcode as tr
 import pagemaker as p
 import settings as s
 
@@ -15,6 +16,16 @@ def rules():
 @home.route('/about')
 def about():
     return p.mk(p.html("about"))
+
+@home.route('/trip/', methods=['POST', 'GET'])
+def do_trip():
+    if request.method == "POST":
+        trip = request.form["trip"]
+        return "<br><br>".join(["!" + tr.mk(trip),
+                      "!!" + tr.sec(trip)])
+    return """<form action='.' method='post'>
+<input type='text' name='trip'><input type='submit' value='Go'>"""
+
 
 @home.route('/stats/')
 def counter():    

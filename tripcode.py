@@ -17,3 +17,4 @@ def sec(pw):
 if __name__ == "__main__":
     print(" !" + mk(sys.argv[1]))
     print(" !!" + sec(sys.argv[1]))
+

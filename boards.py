@@ -95,9 +95,8 @@ def browse(board):
         test = [i for i in local_b if (i[0] == board and i[1] == user_key)]
         if not len(test):
             pass
-        print("abcdef")
         print(request.form["threads.txt"].strip())
-        files = ["hide.txt", "info.txt", "threads.txt"]
+        files = ["info.txt", "hide.txt", "threads.txt"]
         for f in files:
             path = "./boards/" + board + "/"
             data = request.form[f].strip()
@@ -136,7 +135,7 @@ def mod_board(board, key):
     page.append(f"<input type='hidden' name='board' value='{board}'>")
     page.append(f"<input type='hidden' name='key' value='{key}'>")
     mod = {}
-    files = ["hide.txt", "info.txt", "threads.txt"]
+    files = ["info.txt", "threads.txt", "hide.txt"]
     for f in files:
         with open(f"./boards/{board}/{f}", "r") as data:
             data = data.read()
