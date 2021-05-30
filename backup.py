@@ -2,7 +2,8 @@ import settings as s
 import os
 import shutil
 
-files = ["./settings.py", "./threads/", "./html/", "./static/",
+files = ["./settings.py",
+         "./threads/", "./html/", "./static/", "./boards/",
          s.archive, s.wlist, s.log, s.bans, s.delete]
 loc = s.backup
 
