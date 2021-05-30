@@ -10,13 +10,9 @@ import time
 boards = Blueprint("boards", __name__)
 index_p = "./boards/list.txt"
 
-local_b = []
 with open(index_p, "r") as index:
     index = index.read().splitlines()
-index = [i.split(" ") for i in index]
-for i in index:
-    if i[0] == "local":
-        local_b.append(i)
+local_b = [i.split(" ") for i in index]
     
 def board_index(board):
     # mod.txt
@@ -84,7 +80,7 @@ def board_index(board):
 @boards.route('/b/')
 def splash():
     boards = local_b
-    template = "<li><a href='/b/{1}'>{1}</a> (managed by <b><code>{2}</code></b>)"
+    template = "<li><a href='/b/{0}'>{0}</a> (managed by <b><code>{1}</code></b>)"
     page = """<h1>User Boards</h1><div class="info">
 Boards are a work in progress system that will allow user-managed 
 communities to exist within the Multichannel network.
@@ -114,15 +110,24 @@ def browse(board):
     return p.mk(page)
 
 @boards.route('/b/<board>/<key>')
-def mod_thread(board, key):
+def mod_board(board, key):
     new_local = []
     for L in local_b:
-        if tr.sec(key) == L[2]:
-            if L[0] == "local" and L[1] == board:
-                new_local.append(L)
+        if tr.sec(key) == L[1] and L[0] == board:
+            new_local.append(L)
     if not len(new_local):
         return "0"
-    return "1"
+    page = []
+    mod = {}
+    files = ["hide.txt", "info.txt", "threads.txt"]
+    for f in files:
+        with open(f"./boards/{board}/{f}", "r") as data:
+            data = data.read()
+        mod[f] = data
+    for f in mod:
+        page.append(f)
+        page.append(mod[f])
+    return "<pre>" + "\n".join(page) + "</pre>"
 
 def load_thread(board, host, thread):
     # Board view of host:thread 
@@ -185,7 +190,7 @@ def load_thread(board, host, thread):
 @boards.route('/b/<board>/<host>/<thread>/')
 def show_thread(board, host, thread, methods=['POST', 'GET']):
     # 
-    datetime = "%a, %b %d, %Y, @ %I%p"
+    datetime = "%a, %b %d, %Y, @ %-I %p"
     tindex = load_thread(board, host, thread) # [[host, time, author, comment]]
     tindex = [[x[0], time.strftime(datetime, time.localtime(int(x[1]))),
                *x[2:]] for x in tindex]
@@ -196,14 +201,28 @@ def show_thread(board, host, thread, methods=['POST', 'GET']):
     page.append(f"{s.name} <a href='/b/{board}'>/{board}/</a>")
     page.append(f"<h2>{head}</h2>")
     cnt = {}
+    render = []
+    with open("./templ/post.t", "r") as reply:
+        reply = reply.read()
     for t in tindex:
         if t[0] not in cnt:
             cnt[t[0]] = 0
         cnt[t[0]] += 1
-        t = " ".join(["<div> >>" + "/".join([s.friends[t[0]], str(cnt[t[0]]) ]),
-                      "at", t[1] + ",", t[2], "wrote...<p>",
-                      t[3], "<hr>"])
-        page.append(t)
+        b = [t[0], s.friends[t[0]]]
+        ref = f"{b[1]}/{cnt[b[0]]}"
+        link = f"<a href='#{ref}' "
+        link += f"onclick='quote(\"{ref}\")' id='{ref}'>"
+        link += f"&gt;&gt;{b[0]}/{cnt[b[0]]}</a>"
+        # 0 reply, # 1 date, #2 name, #3 comment, #4 host
+#        t = " ".join(["<div>",
+#                      f"<a href='#{b[1]}/{cnt[b[0]]}'>", 
+#                      f"&gt;&gt;{b[0]}/{cnt[b[0]]}</a>",
+#                      "at", t[1] + ",", t[2], "wrote...<p>",
+#                      t[3], "<hr>"])
+#        page.append(t)
+        # 0 host, # 1 time, #2 author, #3 comment
+        
+        page.append(reply.format(link, t[1], t[2], t[3], ""))
     canpost = whitelist.approve()
     with open("./templ/newr.t", "r") as newr:
         newr = newr.read().format(host, thread)
