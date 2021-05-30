@@ -5,6 +5,7 @@ import pagemaker as p
 import viewer as v
 import tags as t
 import settings as s
+import utils as u
 import tripcode as tr
 import whitelist
 
@@ -272,10 +273,7 @@ def load_thread(board, host, thread):
 def show_thread(board, host, thread, methods=['POST', 'GET']):
     datetime = "%a, %b %d, %Y, @ %-I %p"
     test = mod_board(board, host)
-    print(board, host, thread)
-    print(host, thread)
     tindex = load_thread(board, host, thread) # [[host, time, author, comment]]
-    print("!", tindex)
     tindex = [[x[0], time.strftime(datetime, time.localtime(int(x[1]))),
                *x[2:]] for x in tindex]
     head = f"./threads/{host}/{thread}/head.txt"
@@ -297,13 +295,10 @@ def show_thread(board, host, thread, methods=['POST', 'GET']):
         link = f"<a href='#{ref}' "
         link += f"onclick='quote(\"{ref}\")' id='{ref}'>"
         link += f"&gt;&gt;{b[0]}/{cnt[b[0]]}</a>"
+
+        if s.ihost in t[3]:
+            t[3] = u.imgur(t[3])
         # 0 reply, # 1 date, #2 name, #3 comment, #4 host
-#        t = " ".join(["<div>",
-#                      f"<a href='#{b[1]}/{cnt[b[0]]}'>", 
-#                      f"&gt;&gt;{b[0]}/{cnt[b[0]]}</a>",
-#                      "at", t[1] + ",", t[2], "wrote...<p>",
-#                      t[3], "<hr>"])
-#        page.append(t)
         # 0 host, # 1 time, #2 author, #3 comment
         
         page.append(reply.format(link, t[1], t[2], t[3], ""))
