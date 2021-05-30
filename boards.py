@@ -156,6 +156,8 @@ def browse(board):
     return p.mk(page)
 
 def mkboard(board, key):
+    if not whitelist.approve():
+        return p.mk(whitelist.show_captcha(1))
     key = tr.sec(key)
     path = "./boards/" + board + "/"
     try:
@@ -176,9 +178,7 @@ def mkboard(board, key):
                 fi.write(s.ihost)
             else:
                 fi.write("")
-    
-        
-
+            
 @boards.route('/b/<board>/<key>')
 def mod_board(board, key):
     new_local = []
