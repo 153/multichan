@@ -114,12 +114,15 @@ def ldcmts():
     results = []
     for x in log:
         # board thread num ip    time author comment
-        print(x)
+        if "<b><a>" in x[4]:
+            x[4] += x[5]
+            x.pop(5)
         reply = x[4].split("<>")
         try:
             int(reply[0])
         except:
             continue
+        print(len(x), x)
         reply[2] += " " + " ".join(x[5:])
         url = x[1] + f"#{s.url}/" + x[2]
         result = [x[0], url, unix2atom(reply[0]),
