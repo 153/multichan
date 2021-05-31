@@ -17,17 +17,17 @@ def del_comment(host, thread, site, reply):
     with open(path, "w") as path:
         path.write(comments)
 
-def del_thread(board, thread):
-    path = "/".join(["./threads", board, thread])
-    blistp = "/".join(["./threads", board, "list"]) + ".txt"
-    with open(blistp, "r") as blist:
-        blist = blist.read().splitlines()
-    blist = [b for b in blist if b.split(" ")[0] != thread]
-    blist = "\n".join(blist)
-    with open(blistp, "w") as blistp:
-        blistp.write(blist)
+def del_thread(host, thread):
+    path = "/".join(["./threads", host, thread])
+    hlistp = "/".join(["./threads", host, "list"]) + ".txt"
+    with open(hlistp, "r") as hlist:
+        hlist = hlist.read().splitlines()
+    hlist = [b for b in hlist if b.split(" ")[0] != thread]
+    hlist = "\n".join(hlist)
+    with open(hlistp, "w") as hlistp:
+        hlistp.write(hlist)
     shutil.rmtree(path)
-    refresh.ldboard(board, 1)
+    refresh.ldhost(board, host)
     refresh.mksite()
 
 def main():

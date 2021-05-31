@@ -1,6 +1,6 @@
-import settings as s
 import os
 import shutil
+import settings as s
 
 files = ["./settings.py",
          "./threads/", "./html/", "./static/", "./boards/",
