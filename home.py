@@ -73,7 +73,9 @@ def friends():
     title = "<div><h1>Friends of " + s.name
     title += "</h1><h4>" + s.url 
     if s.images:
-        title += f"<br>images: <a href='{s.ihost}'>{s.ihost}</a><br>"
+        title += f"<p>images: <a href='{s.ihost}'>{s.ihost}</a><br>"
+    else:
+        title += "<p>Images not enabled!"
     if s.boards:
         title += "<br><a href='/b/'>Boards enabled</a>"
     else:
