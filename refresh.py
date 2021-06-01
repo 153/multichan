@@ -181,6 +181,10 @@ def linksites():
         with open(nffn, "r") as nf:
             nf = nf.read().splitlines()
         nf = [x.split(" ") for x in nf]
+        if len(nf) < 1:
+            continue
+        if len(nf[0]) < 6:
+            continue
         nfurls = {x[1]: x[0] for x in nf}
         common = {nfurls[x]: furls[x] for x in nfurls if x in furls}
         common2 = {common[f]: f for f in common}
