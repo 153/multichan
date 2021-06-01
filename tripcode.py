@@ -3,6 +3,7 @@ import crypt
 import sys
 
 def mk(pw):
+    sect = ""
     pw = pw[:8]
     salt = (pw + "H.")[1:3]
     trip = crypt.crypt(pw, salt)
@@ -13,7 +14,6 @@ def sec(pw):
     pw = pw[:10]
     salt = s.salt
     trip = crypt.crypt(pw, salt)
-    print(trip)
     return trip[-12:]
 
 if __name__ == "__main__":

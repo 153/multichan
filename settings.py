@@ -5,7 +5,7 @@ _port = 5150
 # These are the suggested #tags for new posts
 tags = ["random",  "nsfw"]
 
-# Salt -- used for secure tripcode
+# Crypt salt -- used for secure tripcode (2 characters)
 # Admin password -- SHA256("changeme") - Not used yet
 salt = "changeme"
 phash = "057ba03d6c44104863dc7361fe4578965d1887360f90a0895882e58a6248fc86"

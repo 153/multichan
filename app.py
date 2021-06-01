@@ -40,7 +40,7 @@ if not os.path.isdir("./archive/"):
     os.mkdir("./archive/")
 
 @app.errorhandler(404)
-def not_found():
+def not_found(e):
     return p.mk(p.html("404"))
 
 @app.route('/api/')

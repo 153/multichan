@@ -21,12 +21,18 @@ def nametrip(name):
         name = name.split("#")[:3]
         print(name)
         if len(name) > 2:
-            name[1] = tripcode.mk(name[1:])
+            if len(name[1]):
+                name[1] = tripcode.mk(name[1])
+                name[1] += " !!" + tripcode.sec(name[2])
+            else:
+                name[1] = "!" + tripcode.sec(name[2])
+                
+            name = name[:2]
         else:
             name[1] = tripcode.mk(name[1])
         if not len(name[0]):
             name[0] = "Anonymous"
-        name = "<b><a> !".join(name) + "</a></b>"
+        name = " <b><a>!".join(name) + "</a></b>"
     return name
     
 def log(host, thread, postnum, reply):
