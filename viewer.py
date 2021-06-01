@@ -31,7 +31,7 @@ def hostlist(li=0):
     for x in hosts2:
         hosts.append(f"\n<a href='/threads/{x}'>{x}</a>")
     hosts.insert(0, "\n<a href='/threads/'>Global</a>")
-    hosts = "\n<b>Hosts:</b> " + " \n&diams; ".join(hosts)
+    hosts = "\nSites: " + " \n&diams; ".join(hosts)
     hosts = "<header style='text-align: right'>" + hosts + "\n</header>"
     return hosts
 
@@ -81,7 +81,7 @@ def view_all():
     tops = all_index()
     tops[0] = f"<header><hr>({len(tops)} discussions) &diams; " \
         + "<a href='/create'>Add new</a></header>" \
-        + "<h1>All Hosts</h1><table>" \
+        + "<h1>All Sites</h1><table>" \
         + "<tr><th>origin<th>title<th>replies" \
         + "<tr>" + tops[0]
     page = p.mk(hostlist() + "<tr>".join(tops) + "</table>")
@@ -101,7 +101,7 @@ def view(host):
         + "<tr>" + tops[0]        
     else:
         tops = tlist()
-        tops[0] = "<h1>All Hosts</h1><ol><li>" + tops[0]
+        tops[0] = "<h1>All Sites</h1><ol><li>" + tops[0]
     tops[0] = hostlist() + tops[0]
     return p.mk("<tr>".join(tops) + "</table>\n")
 

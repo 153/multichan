@@ -96,7 +96,6 @@ def ldthread(host, thread):
         slice = [[hosts[n], *s.split("<>")] for s in slice]
         data.append(slice)
     data = [x for y in data for x in y]
-    print(data)
     data.sort(key=lambda x:x[1], reverse=1)
     for n, d in enumerate(data):
         data[n][2] = unix2atom(d[1])
@@ -122,7 +121,6 @@ def ldcmts():
             int(reply[0])
         except:
             continue
-        print(len(x), x)
         reply[2] += " " + " ".join(x[5:])
         url = x[1] + f"#{s.url}/" + x[2]
         result = [x[0], url, unix2atom(reply[0]),

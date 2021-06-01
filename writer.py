@@ -29,11 +29,11 @@ def nametrip(name):
         name = "<b><a> !".join(name) + "</a></b>"
     return name
     
-def log(board, thread, postnum, reply):
+def log(host, thread, postnum, reply):
     ip = whitelist.get_ip()
     if not s.logcomment:
         reply = ""
-    line = " ".join([board, thread, postnum, ip, reply])
+    line = " ".join([host, thread, postnum, ip, reply])
     iplog = ""
     with open(s.log, "r") as logger:
         postlog = logger.read()
@@ -100,21 +100,21 @@ def mk_op(title="", tag="random", author="Anonymous", msg=""):
     log("local", tnow, "1", rline)
 
     refresh.mksite()
-    tags.mkboard("local")
+    tags.mkhost("local")
     tags.mksite()
 
-def rep_t(board, thread, now, author, msg):
-    # open board/thread/local
+def rep_t(host, thread, now, author, msg):
+    # open host/thread/local
     # append post json
     # update list.txt
-    # update board/list
+    # update host/list
     author = author.replace("&", "&amp;").replace("<", "&lt;")    
     if not author:
         author = "Anonymous"
     else:
         author = nametrip(author)
     msg = msg[:s._long]
-    tdir = f"./threads/{board}/{thread}/"
+    tdir = f"./threads/{host}/{thread}/"
     tnow = now
     msg = msg.replace("&", "&amp;").replace("<", "&lt;")
     msg = msg.replace("\n","<br>").replace("\r","")
@@ -127,10 +127,10 @@ def rep_t(board, thread, now, author, msg):
         cnt = len(t)
     with open(tdir + "list.txt", "a") as tlist:
         tlist.write(f"local {tnow}\n")
-    log(board, thread, str(cnt), rline)
+    log(host, thread, str(cnt), rline)
 
-def update_board(board, thread, now, wr=1):
-    tpath = f"./threads/{board}/list.txt"
+def update_host(host, thread, now, wr=1):
+    tpath = f"./threads/{host}/list.txt"
     with open(tpath, "r") as tf:
         tf = tf.read().splitlines()
     tnum = thread
