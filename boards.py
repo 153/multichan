@@ -102,7 +102,13 @@ def splash():
     template = "<li><a href='/b/{0}'>{0}</a> (managed by <b><code>{1}</code></b>)"
     page = """<h1>User Boards</h1><div class="info">
 Boards are a work in progress system that will allow user-managed 
-communities to exist within the Multichannel network.
+communities to exist within the Multichan network.
+<br>Register a board by visiting <code>/b/tagname/password</code> , where 
+<i>tagname</i> is a <a href="/tags/">tag</a> that exists and password 
+is a secret password. HTML can be used in <code>intro.txt</code> ; 
+moderating threads is done by adding new entries to 
+<code>threads.txt</code> and moderating comments  is done by adding new 
+entries to <code>hide.txt</code> . One entry per line.
 </div><p>"""
     page += "<div><ul>" \
         + "\n".join([template.format(*i) for i in boards]) \
@@ -145,8 +151,7 @@ def browse(board):
     page.append(f"<p><hr><a href='/create/{board}'>[+] Create a new thread on /{board}/</a>")
     with open(f"./boards/{board}/ihosts.txt", "r") as ihosts:
         ihosts = ihosts.read().strip().splitlines()
-    page.append("<p><b>Approved image hosts:</b><ul><li>" + "\n<li> ".join(ihosts))
-    page.append("</ul>")
+    page.append("<hr><b>Image hosts: </b>" + " &hearts; ".join(ihosts))
     page.append("<hr><ul>")
     threads = board_index(board)
 #    threads = "\n".join(threads)
