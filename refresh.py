@@ -84,12 +84,12 @@ def pullhost(host):
     f = s.friends
     if not host in f:
         return
-    fn = arc + host + ".new"
     old = arc + host 
+    fn = arc + host + ".new"
     url = "/".join([f[host], "raw", "local"])
-    indurl = url + "/list.txt"
+    index = url + "/list.txt"
     newp = [x.split(" ") for x in
-           u.wget(indurl, fn).splitlines()
+           u.wget(index, fn).splitlines()
            if x.strip()]
     if not os.path.exists(old):
         oldp = []
@@ -103,10 +103,10 @@ def pullhost(host):
         os.remove(fn)
         return
     for thread in diff:
-        turl = "/".join([url, thread])
+        thread_url = "/".join([url, thread])
         path = "/".join(["./threads", host, thread])
-        lurl = turl + "/local.txt"
-        hurl = turl + "/head.txt"
+        lurl = thread_url + "/local.txt"
+        hurl = thread_url + "/head.txt"
         lfn = path + "/" + host + ".txt"
         hfn = path + "/head.txt"
         if not os.path.isdir(path):
@@ -157,7 +157,7 @@ def linksites():
         # changes - threads with new replies from self
         # hosts - hosts that need their index rewritten
         
-        furl = "/".join([friends[f], "raw", "friends.txt"])
+        furl = "/".join([friends[f], "raw", "friends.txt"]) # Legacy: rename /raw/ -> /api/
         lurl = "/".join([friends[f], "raw", "list.txt"])
         ffn = arc + "friends." + f
         if not os.path.exists(ffn):
@@ -179,19 +179,19 @@ def linksites():
         # rebuilt. This is contingent on {common} being a common
         # host between client and server. 
         with open(nffn, "r") as nf:
-            nf = nf.read().splitlines()
-        nf = [x.split(" ") for x in nf]
+            nf = [x.split() for x in nf.read().splitlines()]
         if len(nf) < 1:
             continue
-        if len(nf[0]) < 6:
+        if len(nf[0][1]) < 6:
             continue
-        nfurls = {x[1]: x[0] for x in nf}
+        # This breaks if a friend URL is blank
+        nfurls = {x[1]: x[0] for x in nf if len(x) > 1} 
         common = {nfurls[x]: furls[x] for x in nfurls if x in furls}
         common2 = {common[f]: f for f in common}
         with open(lfn, "r") as oldl:
-            oldl = [o.split(" ") for o in oldl.read().splitlines()]
+            oldl = [o.split() for o in oldl.read().splitlines()]
         with open(nlfn, "r") as newl:
-            newl = [n.split(" ") for n in newl.read().splitlines()]
+            newl = [n.split() for n in newl.read().splitlines()]
         changes = []
         for n in newl:
             if n[0] not in common.keys():
