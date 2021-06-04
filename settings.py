@@ -16,10 +16,12 @@ wlist = "./ips.txt"
 log = "./log.txt"
 delete = "./delete.txt"
 bans = "./bans.txt"
-logcomment = True      # Whether to store full comment in log.txt
 
-_short = 120   # Name, title, tag field 
-_long = 10000  # Post message field
+# Spam / flood control 
+_short = 120   # Name, title, tag field length
+_long = 10000  # Post message field length
+post = 60      # Make posters wait 60 seconds between posts
+thread = 60 * 60  # Make posters wait 1 hour between threads 
 
 # Community features: imageboards
 boards = False
@@ -34,7 +36,7 @@ refreshtime = 60*15 # Check friend boards every 15 minutes
 friends = {
     "0chan": "http://0chan.vip",
     "52chan": "http://bbs.4x13.net",
-    "ripirc": "http://ripirc.org",
     "kuzlol": "http://multich.kuz.lol",
+    "ripirc": "http://ripirc.org",
     "local": url
     }

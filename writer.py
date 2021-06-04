@@ -37,8 +37,6 @@ def nametrip(name):
     
 def log(host, thread, postnum, reply):
     ip = whitelist.get_ip()
-    if not s.logcomment:
-        reply = ""
     line = " ".join([host, thread, postnum, ip, reply])
     iplog = ""
     with open(s.log, "r") as logger:
