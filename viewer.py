@@ -222,7 +222,7 @@ def reply_t(host, thread):
             if not whitelist.approve():
                 return "please solve <a href='/captcha'>the captcha</a>"
             tpath = "/".join(["./threads", host, thread, "local.txt"])
-            flood = whitelist.flood()
+            flood = whitelist.flood(s.post)
             if flood: return flood            
             writer.rep_t(host, thread, now, author, message)
         writer.update_host(host, thread, now)
