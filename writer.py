@@ -161,7 +161,7 @@ def new_thread(t="random"):
                 return "You need to solve <a href='/captcha/'>the " \
                             + "captcha</a> before you can post."
         if request.form['sub'] == "Create chat":
-            flood = whitelist.flood(s.thread)
+            flood = whitelist.flood(s.thread, "thread")
             if flood: return flood
             mk_op(title=request.form['title'],
                   tag=request.form['tag'],

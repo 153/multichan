@@ -107,20 +107,27 @@ def check(redir=""):
 
     return out
 
-def flood(limit=60):
-    # Let's prevent a flood and limit how quickly the same IP can post:
+def flood(limit=60, mode="comment"):
+    ip = get_ip()
+    tnow = str(int(time.time()))
     with open(s.log, "r") as log:                
         log = log.read().splitlines()
-    last = log[-1].split()[3:5]
-    last[1] = last[1].split("<>")[0]
-    tnow = str(int(time.time()))
-    ip = get_ip()
-    if last[0] == ip:
-        pause = int(tnow) - int(last[1])
-        diff = limit - pause
-        if diff > 60:
-            diff = f"{diff//60} minutes {diff %60}"
-        if pause < limit:
-            return "<b>Error: flood detected.</b>" \
-    + f"<p>Please wait {diff} seconds before trying to post again."
+    log = [x.split() for x in log]
+    log = [x for x in log if x[3] == ip]
+    threads = [x for x in log if x[2] == "1"]
+    
+    post = log[-1][3:5]
+    thread = threads[-1][3:5]
+    post[1] = post[1].split("<>")[0]
+    thread[1] = thread[1].split("<>")[0]
+    last = post
+    if mode == "thread":
+        last = thread
+    pause = int(tnow) - int(last[1])
+    diff = limit - pause
+    if diff > 60:
+        diff = f"{diff//60} minutes {diff %60}"
+    if pause < limit:
+        return "<b>Error: flood detected.</b>" \
+            + f"<p>Please wait {diff} seconds before trying to post again."
     return False
