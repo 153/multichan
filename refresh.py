@@ -62,6 +62,11 @@ def ldhost(host, write=0):
             replies = replies.read().splitlines()
         replies = [r.split(" ") for r in replies]
         breps = [r[0] for r in replies]
+        try:
+            int(replies[0][1])
+            int(replies[-1][1])
+        except:
+            continue
         tline = [replies[0][1], replies[-1][1],
                  str(breps.count("local")), str(len(replies)),
                  info]
