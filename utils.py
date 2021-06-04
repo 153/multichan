@@ -52,8 +52,8 @@ def imgur(inp, host=s.ihost):
     if (3 < len(img) < 15) and ("." in img):
         img = host + img
         img2 = f"<a href='{img}'><img src='{img}'></a>"
-        inp = inp.replace(img, " ", 1)
-        inp = "<br><br>".join([inp, img2])
+#        inp = inp.replace(img, " ", 1)
+        inp = "<p>".join([inp, img2])
     
     return inp
 
