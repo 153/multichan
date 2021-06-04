@@ -66,8 +66,8 @@ def mk_op(title="", tag="random", author="Anonymous", msg=""):
     if len(tag) == 0:
         tag = "random"    
     # author, tstamp, msg
-
     tnow = str(int(time.time()))
+
     t_loc = ["local", tnow]
     b_pat = f"./{tdir}/local/"
     t_pat = b_pat + tnow + "/"
@@ -161,6 +161,8 @@ def new_thread(t="random"):
                 return "You need to solve <a href='/captcha/'>the " \
                             + "captcha</a> before you can post."
         if request.form['sub'] == "Create chat":
+            flood = whitelist.flood()
+            if flood: return flood
             mk_op(title=request.form['title'],
                   tag=request.form['tag'],
                   author=request.form['author'],

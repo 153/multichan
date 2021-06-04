@@ -222,19 +222,8 @@ def reply_t(host, thread):
             if not whitelist.approve():
                 return "please solve <a href='/captcha'>the captcha</a>"
             tpath = "/".join(["./threads", host, thread, "local.txt"])
-        # Let's prevent a flood and limit how quickly the same IP can post:
-            with open(s.log, "r") as log:                
-                log = log.read().splitlines()
-                last = log[-1].split()[3:5]
-                last[1] = last[1].split("<>")[0]
-                ip = whitelist.get_ip()
-                tnow = str(int(time.time()))
-            if last[0] == ip:
-                pause = int(tnow) - int(last[1])
-                if pause < s.post:
-                    return "<b>Error: flood detected.</b>" \
-         + f"<p>Please wait {s.post-pause} seconds before trying to post again."
-        
+            flood = whitelist.flood()
+            if flood: return flood            
             writer.rep_t(host, thread, now, author, message)
         writer.update_host(host, thread, now)
         redir = f"/threads/{host}/{thread}"

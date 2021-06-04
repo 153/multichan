@@ -54,8 +54,6 @@ def approve(ip=0, key=""):
         bans = bans.read().splitlines()
     bans = [b.split(" ")[0] if " " else b for b in bans]
     iprange = ".".join(ip.split(".")[:3])
-    print(ip, iprange)
-    
     if ip in bans or iprange in bans:
         return False
     if ip in log:
@@ -69,8 +67,7 @@ def approve(ip=0, key=""):
             return True
         else:
             return True
-    return False
-        
+    return False        
 
 @whitelist.route('/captcha/')
 def show_captcha(hide=0, redir=''):
@@ -109,3 +106,18 @@ def check(redir=""):
             os.remove(f"./static/cap/{ip}.png")
 
     return out
+
+def flood():
+    # Let's prevent a flood and limit how quickly the same IP can post:
+    with open(s.log, "r") as log:                
+        log = log.read().splitlines()
+    last = log[-1].split()[3:5]
+    last[1] = last[1].split("<>")[0]
+    tnow = str(int(time.time()))
+    ip = get_ip()
+    if last[0] == ip:
+        pause = int(tnow) - int(last[1])
+        if pause < s.post:
+            return "<b>Error: flood detected.</b>" \
+    + f"<p>Please wait {s.post-pause} seconds before trying to post again."
+    return False
