@@ -105,8 +105,6 @@ def ldthread(host, thread):
 def ldcmts():
     # sitename, unixtime, atomtime, title, comment
     # site thread number ipaddress time<>name<>comment
-    if not s.logcomment:
-        return ""
     with open(s.log, "r") as log:
         log = log.read().splitlines()[:-20:-1]
     log = [x.split()for x in log]
