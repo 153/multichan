@@ -115,8 +115,8 @@ def flood(limit=60, mode="comment"):
     log = [x.split() for x in log]
     log = [x for x in log if x[3] == ip]
     threads = [x for x in log if x[2] == "1"]
-    
-    post = log[-1][3:5]
+    try: post = log[-1][3:5]
+    except: return
     thread = threads[-1][3:5]
     post[1] = post[1].split("<>")[0]
     thread[1] = thread[1].split("<>")[0]
