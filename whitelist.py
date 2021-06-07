@@ -114,14 +114,14 @@ def flood(limit=60, mode="comment"):
         log = log.read().splitlines()
     log = [x.split() for x in log]
     log = [x for x in log if x[3] == ip]
-    elif mode == "comment":
+    if mode == "comment":
         try: post = log[-1][3:5]
-        except: return
+        except: return False
         post[1] = post[1].split("<>")[0]
         last = post
     elif mode == "thread":
         try: threads = [x for x in log if (x[0] == "local") and (x[2] == "1")]
-        except: return
+        except: return False
         thread = threads[-1][3:5]
         thread[1] = thread[1].split("<>")[0]
         last = thread
