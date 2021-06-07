@@ -2,11 +2,9 @@
 ================================
 Spam reduction:
 --------
-1. Limit how many posts IP can make in X seconds
-2. Limit how many threads IP can make in X seconds
-3. Limit how many duplicate comments IP can make in X seconds
-4. Limit how many tags can be on a new thread
-5. Limit how many boards an IP can claim per day
+1. Limit how many duplicate comments IP can make in X seconds
+2. Limit how many tags can be on a new thread
+3. Limit how many boards an IP can claim per day
 
 Federated moderation:
 --------
@@ -22,16 +20,24 @@ Boards:
 Maintenance:
 --------
 1. Automated renaming of expired/moved host URL
-2. refresh.py won't break if remote host faces problems
-3. Refactor boards.py / viewer.py
-4. Make "host" consistent term for Multichan server
+2. Refactor boards.py / writer.py / viewer.py
+3. Make "host" consistent term for Multichan server
 
 Markup expansion:
 --------
-1. Youtube embed
+1. Youtube/video embed
 2. < backwards quote (8chan style)
+3. [code][/code] tags for pre-formatted text
+4. %%spoilers%% 
 
-Alternate backend:
+Alternate frontend:
 --------
-1. Scrape Kareha, Emanon, Multich, etc to JSON.
+1. "Chan" style board view
+2. "Tree" style thread view
+
+
+Tools:
+--------
+1. Simple multichan server/network scraper 
 2. Convert JSON to Multich.
+3. Scrape Kareha, Emanon, Multich, etc to JSON.

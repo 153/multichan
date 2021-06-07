@@ -1,3 +1,5 @@
+Moderation is done primarily via manipulation of text files, currently.
+
 1. log.txt
    Lists all comments and posts from local board.
        (board thread),  local reply number,  ipaddress,  time<>name<>comment
@@ -17,11 +19,10 @@
        board number board number    (delete a comment)
        board number ; spam 	    (deleted a thread for reason "spam")
 
-
-
 4. bans.txt
    IPs in this newline seperated list will always fail the captcha.
-   Optionally, a reason can be added after the IP address.
-   Ban a range of IPs by only entering the first 3 values.
+   Optionally, a private ban reason can be added after the IP address.
+   Admin can ban a range of IPs by only entering the first 3 values.
+   Comments can by added by following the ip address with a " " space.
        1.2.3.4      Ban the IP  1.2.3.4
        1.2.3        Ban all of  1.2.3.0 -- 1.2.3.255
