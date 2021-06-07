@@ -129,7 +129,7 @@ def view_t(host, thread):
             bfn = bfn.read().splitlines()
         for n, x in enumerate(bfn):
             x = x.split("<>")
-            if "imgur" in x[2]:
+            if s.ihost in x[2]:
                 try:
                     x[2] = u.imgur(x[2])
                 except:

@@ -49,6 +49,8 @@ def imgur(inp, host=s.ihost):
         if 0 < img.find("<") < term:
             term = img.find("<")
         img = img[:term]
+    if len(img) < 3:
+        return inp
     if (3 < len(img) < 15) and ("." in img):
         img = host + img
         img2 = f"<a href='{img}'><img src='{img}'></a>"
