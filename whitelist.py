@@ -112,9 +112,11 @@ def flood(limit=60, mode="comment"):
     tnow = str(int(time.time()))
     with open(s.log, "r") as log:                
         log = log.read().splitlines()
-    log = [x.split() for x in log]
+    try: log = [x.split() for x in log]
+    except: return False
     log = [x for x in log if x[3] == ip]
     if mode == "comment":
+        if not log: return False
         try: post = log[-1][3:5]
         except: return False
         post[1] = post[1].split("<>")[0]
@@ -122,6 +124,7 @@ def flood(limit=60, mode="comment"):
     elif mode == "thread":
         try: threads = [x for x in log if (x[0] == "local") and (x[2] == "1")]
         except: return False
+        if not threads: return False
         thread = threads[-1][3:5]
         thread[1] = thread[1].split("<>")[0]
         last = thread
