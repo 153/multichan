@@ -1,4 +1,6 @@
 from flask import Blueprint, request
+from datetime import date
+from datetime import timedelta
 import tripcode as tr
 import pagemaker as p
 import settings as s
@@ -17,13 +19,21 @@ def rules():
 def about():
     return p.mk(p.html("about"))
 
+@home.route('/trip/<trip>', methods=['POST', 'GET'])
 @home.route('/trip/', methods=['POST', 'GET'])
-def do_trip():
+def do_trip(trip):
     if request.method == "POST":
         trip = request.form["trip"]
-        return "<br><br>".join([
-            trip,
+        return "<br>".join([
+            "#" + trip,
             "!" + tr.mk(trip),
+            "<br>##" + trip,
+            "!!" + tr.sec(trip)])
+    elif trip:
+        return "<br>".join([
+            "#" + trip,
+            "!" + tr.mk(trip),
+            "<br>##" + trip,
             "!!" + tr.sec(trip)])
     return """<form action='.' method='post'>
 <input type='text' name='trip'><input type='submit' value='Go'>"""
@@ -90,3 +100,45 @@ def friends():
     flist = "<ul>" + "\n".join(flist) + "</ul>"
     page = title + flist + "</div>"
     return p.mk(page)
+
+def norm2dqn(year, month, day):
+    dqnday = date(1993, 8, 31)
+    norm = date(year, month, day)
+    print(norm-dqnday)
+    return (norm - dqnday).days
+
+def dqn2norm(day):
+    dqnday = date(1993, 8, 31)
+    norm = dqnday + timedelta(days=day)
+    print(norm)
+    return norm
+
+@home.route('/dqn/<mode>/<dokyun>', methods=['POST', 'GET'])
+@home.route('/dqn/', methods=['POST', 'GET'])
+def dqn(dokyun=None, mode=None):
+    if request.method == "POST":
+        dokyun = request.form["dqn"]
+        mode = request.form["mode"]
+    
+    if dokyun:
+        try:
+            if mode == "n":
+                print(dokyun)
+                dokyun = [int(i) for i in dokyun.split("-")]
+                print(dokyun)
+                dokyun = norm2dqn(*dokyun)
+            elif mode == "d":
+                dokyun = int(dokyun)
+                dokyun = dqn2norm(dokyun)
+            return str(dokyun) + "<p><a href='/dqn'>(back)</a>"
+        except:
+            return "<a href='/dqn'>/dqn/yyyy-mm-dd</a>"
+    return """<form action='.' method='post'>
+yyyy-mm-dd for normal; just day for DQN.
+<br><input type="radio" name="mode" value="d">
+<label for="mode">DQN->Normal</label>
+<br><input type="radio" name="mode" value="n">
+<label for="mode">Normal->DQN</label>
+<br><input type='text' name='dqn'>
+<br><input type='submit' value='Go'>
+</form>"""
