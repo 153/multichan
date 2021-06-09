@@ -1,0 +1,241 @@
+<title>Multichan - why, about, how</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body {
+    background-color:  #cc99ff;
+    max-width: 790px;
+    margin: auto;
+    padding: 1.5em;
+  }
+  h1, h2 {
+    color: #440088;
+    text-align: center;
+  }
+  a {color:blue}
+</style>  
+
+<ul>
+  <li> What is Multichan?
+  <li> Textboard software
+  <li> Tags' superiority to ``boards"
+  <li> Why Federation is the future
+  <li> Influences
+</ul>
+
+<h1> What is Multichan? </h1>
+
+Multichan is a federated, tag-based textboard server.
+It is public domain software available here:<br>
+&emsp; &emsp; <a href="https://bitbucket.org/796f/multichan">
+  https://bitbucket.org/796f/multichan</a>
+<br>meaning you can download the software, modify it any way you want,
+and share it or run it however you wish. You can view a live version
+of multichan at <a href="https://0chan.vip">https://0chan.vip</a> .
+<p>
+The name is a reference to 2channel, named originally for being the
+``second channel'' of a popular anonymous textboard in Japan. It was the
+successor to a site called Amezou, which was a popular anonymous
+messageboard. People could use their computers to share ideas and
+communicate completely independently of their offline identity. This
+resulted in Amezou becoming very popular; 2channel was meant to help
+support the Amezou by remaining online when the other site ran out of
+bandwidth or otherwise went offline. It grew to become the largest web
+bulliten board for many years.
+<p>
+Multichan extends on this idea of a plurality of servers by employing
+federation, where all servers can back each other up, creating an system
+of networked discussions. A Multichan server will faithfully copy
+discussions and responses from other Multichan servers which are in its
+friends list. In this way, the network can be understood as simply a
+collection of messages from users, while various websites offer
+different views of this network based on the personal biases of
+independent server operators. A server can offer either a very open 
+view of the community, or a more limited one; this experiment will
+yield interesting results.
+
+
+<br><br><pre>
+     ,--- <a href="//0chan.vip">0chan.vip</a> , bbs.4x13.net , etc
+     |
+     v            v--- Web browser, app, etc 
+  Server <--> Client
+</pre><br>
+
+Clients can create a discussion topic, reply to a discussion, view a
+discussion, or get a list of discussions. Discussions can be assigned a
+tag. A list of tags, or a list of threads under a tag, or a list of
+threads from multiple tags can be viewed. 
+<p>
+Servers share discussions with each other, too. So, what does this all
+mean? Discussions can be held in a server-agnostic fashion. The
+server-agnostic nature of a discussion means that unpopular moderation
+decisions will possibly punish a server by reducing its userbase;
+in time, servers with the least amount of moderation will become the
+most popular, followed by ones that filter out just spam and trolling,
+followed by ones that restrict the tag list / heavily filter new threads
+and responses, etc.
+<p>
+The multichan server can also be used to make your own personal backups
+of the network, even if you don't plan to host a website yourself. In
+the future, more tools will be released to do things with this database.
+
+<h2> Textboard software </h2>
+
+Defining characteristics of textboard software can best be understood by
+comparing them with ``typical" forums.
+<p>
+Textboards: <ul>
+<li> <b>Do not require registration.</b>
+<br> Most web messageboards require, at the very least, a username,
+     email address, and a password in order to make posts. A downside
+     of this is that registration is generally annoying, and it can 
+     constrain a user's freedom to share thoughts because account-based
+     systems lead to the development of personas. The value inherent to
+     a position can be overlooked when the reputation of the speaker is
+     necessarily attached. Binding messages to their poster's identity
+     can also lead people to play games where personas are pitted against
+     each other or become the focus of discussion themselves, which does
+     not generally enhance conversations. Finally, registration can be a 
+     security risk -- emails or passwords can be leaked, or usernames 
+     can become the object of cyber-stalking. 
+<li> <b>Focus on text, rather than images or video.</b>
+<br> If the purpose of a messageboard can be stated simply, it is to 
+     provide a space for conversations to take place. Sometimes, 
+     embedding images can clarify a message. At other times, they are
+     used to stop dialog or provide no value to the conversation, 
+     especially in the form of memes. In some mediums (such as Facebook, 
+     Twitter) recycled images and video substitute discussion entirely. 
+     There is little incentive to post time-wasting / irrelevant media
+     in a text-only forum. Indeed, better software exists for social 
+     media sharing -- Danbooru, Pleroma, etc.
+<li> <b>Sort conversations by active participation.</b>
+<br> For websites that focus on breaking news or new multimedia, 
+     recent activity is not a good sort metric. But for general 
+     discussion-based websites, it does fine. Novelty is not the 
+     defining quality of most discussion topics; indeed, a conversation
+     should be able to continue for days, weeks, or months, if it 
+     continues to be relevant to people.
+<li> <b>Do not have expiration dates for discussion topics.</b>
+<br> In line with the previous point, conversations on textboards 
+     generally take place over days, weeks, or even years. This is in
+     contrast especially with imageboards (on 4chan, conversations 
+     generally do not persist for over 24 hours) but also Reddit, 
+     Facebook, or even Twitter, where the focus is on discussions 
+     started recently, generally within the last week.
+<li> <b>Bore boring people.</b>
+<br> Because textboards are generally adverse to low-effort 
+     contributions (especially media recycling) and encourage
+     anonymity, there is little incentive for boring people to stick
+     around a textboard. 
+<li> <b>Are easy to setup and modify.</b>
+<br> The majority of textboard software rejects the use of SQL servers,
+     favoring flatfile databases. Because the read and write operations
+     on the data is simple, and the data itself is simple, extending or 
+     altering basic functions becomes very easy. All that's historically 
+     been needed to run a textboard is a domain name and CGI-capable 
+     server. Multichan simplifies the installation process further by 
+     including its own webserver, which makes setup as simple as 
+     downloading the software and then running the included script. 
+</ul>
+
+<h2> Tags' superiority to ``boards" </h2>
+
+For over 20 years, 2ch (and in turn 4chan, 8chan, etc) have depended on
+the concept of a board to organize threads. These are based on the idea
+of a newsgroup, which is over 35 years old (stemming from USENET). 2ch's
+system of boards essentially categorize every conversation under a single
+label, such as breaking news, psychology, soft drinks, childcare, Trump,
+sumo, etc etc. The shift from newsgroups to boards is a downside in that
+USENET groups offer a clear hierarchy: eg, <code>alt.tv.talkshows.daytime</code>
+is more specific than <code>alt.tv.talkshows</code> which is more specific
+than <code>alt.tv</code>.
+<p>
+2ch tried to address the limitation of a ``board" (simple index of 
+conversations) by simply creating as many boards as possible. There are
+several hundred 2ch boards in existence today. Essentially running
+hundreds of isolated websites for one community is not pragmatic for
+administration; for readers and commenters, it's only ideal if the user
+is interested in a limited number of topics.
+<p>
+When one or more topics apply to a conversation, there are two simple
+remedies on simple board based websites. One is cross-posting: the
+same conversation is copied to (ex) 3 or 4 places, then 3 or 4 different
+conversations are taking place based on the same topic message. The
+second is multi-board browsing (ex) multiple boards have their
+conversations pooled together into one meta-board. This is problematic
+because it still leads to duplicate threads as a result of cross-posting
+(repeating the same thread in multiple boards to make it visible to more
+people) The only real solution to actually implement tagging, which
+means that the same exact conversations exist in multiple places. This
+best serves the purpose of a board or directory in the first place:
+narrowing the global index of conversations based on a theme.
+<p>
+2ch and 4chan, unlike 8chan, never added the ability to make new boards,
+or to view multiple boards at the same time. Multichan goes a step
+further than 8chan by eliminating boards while making a vast number of 
+tags available. A topic with multiple categories will still be listed in
+these multiple indexes, but if they're viewed together, the topic will
+only be listed once, as it should.
+
+<h2>Why Federation is the future</h2>
+2ch and 4chan have traditionally viewed other servers in the anonymous
+board network with hostility; this anti-social attitude unfortunately
+means that their staff members have to manage too many boards and too
+many users, instead of spreading responsibility. To see how to community
+tries to address this limitation, let's look at imageboard
+directories. <a href="https://www.allchans.org/"> 
+This one</a> (allchans.org) lists about 30 imageboard servers, each of
+which hosts 10-50 boards on average.
+<p>
+iichan was the first board that tried to address the problem of running
+many boards: different site owners volunteered to run some boards, and
+all sites would link to each other, creating a network with many boards
+operated independently by multiple server operators. <br>
+Lynxchan/Vichan are starting to address the problem in a sophisticated
+way by sorting links across the network to other boards by info like
+``posts per hour", users, and last activity.
+<p>
+NNTPchan realized that sharing threads between servers solves one
+problem of imageboards: the same board exists in many places, but each
+board only exists in one; this fractures the userbase. With NNTPchan,
+the more servers that exist, the stronger and more unified the network
+is. 
+<p>
+Archive boards and ghost boards, such as <a href="http://warosu.org/">
+warosu.org</a> add more nuance to how text and imageboards on one site
+respond to those on others. Warosu (fuuka) not only creates a 1:1
+duplication of certain 4chan conversations; it also provides its own
+commenting system for its users to make replies on 4chan conversations
+from Warosu's servers; the creation of Warosu was primarily a response
+to 4chan's overzealous post-removing philosophy. Warosu makes all
+comments available, while users decide for themselves what they want to
+see. This is the archive board. The ghost board is the comments from
+Warosu users themselves, which 4chan never sees.
+<p>
+Once meta-board and meta-site browsing is common, along with board
+archival, federation becomes the next obvious step. While overboards,
+webrings, and archives try to promote equality between servers and
+boards, proper federation goes a step further by eliminating the
+difference. Federation links and archives boards by acknowledging
+that remote archives will receive comments that may be relevant to the
+original discussion at hand.
+
+<h2> Influences </h2>
+
+The influences upon multichan are numerous:
+<ul>
+  <li> <a href="http://2ch.sc">2channel</a> -- the original anonymous
+       textboard website.
+  <li> <a href="http://1chan.us">1chan.us</a> -- uses tags, rather than
+       boards, to organize threads.     
+  <li> <a href="https://www.wired.com/2012/07/wiki-inventor/">Federated
+       Wiki</a> -- the creator of the wiki came to believe federation
+       could solve the problems of users and administrators alike by
+       overcoming the limitations imposed by any single server / central
+       authority.
+  <li> <a href="https://github.com/majestrate/nntpchan">nntpchan</a> --
+       decentralized (federated) imageboard software. Formerly known as
+       <i>overchan</i>.
+</ul>
+<hr>
+<i>last updated 2021-06-09</i> 
