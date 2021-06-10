@@ -2,15 +2,15 @@
 ================================
 Spam reduction:
 --------
-1. Limit how many duplicate comments IP can make in X seconds
-2. Limit how many tags can be on a new thread
-3. Limit how many boards an IP can claim per day
+1. Limit how many tags can be on a new thread
+2. Limit how many boards an IP can claim per day
+   Log board creation times.
 
 Federated moderation:
 --------
-1. Share bans and deletes publicly
-2. In mod panel, show suggested bans/deletes
-3. In mod panel, show suggested servers to follow
+1. Share bans and deletes publicly (opt-in)
+2. In admin panel, show suggested bans/deletes
+3. In admin panel, show suggested servers to follow
 4. Specific URL blacklist for image embed
 
 Boards:
@@ -35,9 +35,9 @@ Alternate frontend:
 1. "Chan" style board view
 2. "Tree" style thread view
 
-
 Tools:
 --------
 1. Simple multichan server/network scraper 
 2. Convert JSON to Multich.
 3. Scrape Kareha, Emanon, Multich, etc to JSON.
+4. Export multichan public data as JSON or tar.gz
