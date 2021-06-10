@@ -21,7 +21,7 @@ def about():
 
 @home.route('/trip/<trip>', methods=['POST', 'GET'])
 @home.route('/trip/', methods=['POST', 'GET'])
-def do_trip(trip):
+def do_trip(trip=None):
     if request.method == "POST":
         trip = request.form["trip"]
         return "<br>".join([
