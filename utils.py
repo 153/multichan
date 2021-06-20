@@ -4,6 +4,7 @@ import settings as s
 import requests
 
 tstring = "%Y-%m-%d %H:%M"
+bees = "<script type='text/javascript' src='//sageru.org/bee.js'></script>"
 
 def unix2hum(unix):
     unix = int(unix)

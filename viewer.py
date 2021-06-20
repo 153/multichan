@@ -102,6 +102,8 @@ def view(host):
     else:
         tops = tlist()
         tops[0] = "<h1>All Sites</h1><ol><li>" + tops[0]
+    if host == "sageru":
+        tops[0] = u.bees + tops[0]
     tops[0] = hostlist() + tops[0]
     return p.mk("<tr>".join(tops) + "</table>\n")
 
@@ -207,7 +209,8 @@ def view_t(host, thread):
     tinfo["source"] += "<a href='/threads/{0}/'>{0}</a>".format(host)
     thread = threadt.format(tinfo["title"], tinfo["source"], tinfo["tags"],
                    tinfo["messages"])    
-    
+    if host == "sageru":
+        thread = u.bees + thread
     return thread
 
 @viewer.route('/threads/<host>/<thread>/', methods=['POST', 'GET'])

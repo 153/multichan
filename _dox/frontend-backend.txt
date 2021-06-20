@@ -1,0 +1,73 @@
+========================================
+frontend:
+========================================
+/			homepage
+   rules		rules/policies
+   about		about page
+   friends		other peers
+
+/threads
+   /			thread index
+   /host/		host's thread index
+   /host/thread/       	show thread, reply	   
+   /create		create a new thread
+
+/tags
+   /			tag index
+   /tag/		tag's thread index
+   /tag+tag2+tag3/	tag OR  tag2  OR tag3
+   /tag^tag2^tag3/	tag AND tag2 AND tag3
+   /tag-tag2-tag3/	tag NOT tag2 NOT tag3
+
+/b
+   /			board index
+   /board/		view board
+   /board/password	board admin panel    
+   /board/host/thread/	view thread
+
+/atom
+   /			  help / index about atom
+   /global.atom		  newest threads in known network
+   /local.atom		  newest threads on local host
+   /hostname.atom	  newest threads on hostname
+   /tag/tagname.atom	  newest threads in #tagname
+   /host/thread.atom	  newest posts in host/thread
+
+========================================
+backend:
+========================================
+settings.py		     url, title, friends, refresh rate, post rate, input length
+log.txt			     host thread reply# ip time<>name<>comment
+delete.txt		     host thread ; comment
+ban.txt			     ip comment
+ips.txt			     time ip captcha solved?
+
+threads/			     
+threads/friends.txt	     name url
+threads/tags.txt	     tag host-thread host-thread ...
+threads/list.txt	     host created lastreply localrep# globalrep# title
+
+threads/host/tags.txt	     tag thread thread ...
+threads/host/list.txt	     created lastreply localrep# globalrep# title
+
+threads/host/thread/head.txt    title\ntag1 tag2
+threads/host/thread/list.txt    host replytime
+threads/host/thread/host.txt    time<>name<>comment
+
+boards/
+   list.txt		     name securetripcode
+   board/info.txt	     markup-supported pad for mods to edit 
+   board/ihosts.txt	     url
+   board/hide.txt	     host time host number
+   board/threads.txt	     host time @ mode
+
+html/
+   top.html
+   bottom.html
+   home.html   
+   404.html
+   rules.html
+   about.html
+   captcha.html   
+   captcha-form.html
+
