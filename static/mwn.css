@@ -1,0 +1,66 @@
+a, .quote {
+     color: white;
+ }
+ body {
+     max-width: 820px;
+     margin-left: auto;
+     margin-right: auto;
+     background: #495262;
+
+//     background-color: #3f3f3f;
+     color: white;
+
+ }
+hr {
+    border-bottom: 2px solid white;
+ }
+ .post {
+     background-color: #585d6b;
+     padding-bottom: 4px;
+     border-bottom: 4px;
+ }
+ .meta {
+     border-bottom: 2px solid white;
+     padding: 4px;
+     background-color: #585d6b;
+ }
+ .msg {
+     padding-left: 12px;
+     padding-right: 8px;
+     text-align: justify;
+ }
+ 
+ img {
+     max-width: 500px;
+     text-align: center;
+ }
+
+ table {
+     border-collapse: collapse;
+ }
+
+ th, td {
+//     background: #64697b;
+//     padding: 4px;
+     border: 0;     
+ }
+ th {
+     text-align: left;
+     padding-right: 40px;
+ }
+ input {
+	 background-color: #c0bed1;
+	 color: #585d6b;
+ }
+ textarea {
+	 background-color: #c0bed1;
+	 color: #585d6b;
+ }
+
+tr:nth-child(odd){ 
+    background: #64697b;
+}
+tr:nth-child(even){
+    background: #585d6b;
+    
+}
