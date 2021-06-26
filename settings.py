@@ -36,8 +36,8 @@ refreshtime = 60*15 # Check friend boards every 15 minutes
 friends = {
     "0chan": "http://0chan.vip",
     "52chan": "http://bbs.4x13.net",
-    "kuzlol": "http://multich.kuz.lol",
     "ripirc": "http://ripirc.org",
     "sageru": "http://multichan.sageru.org",
+#    "kuzlol": "http://multich.kuz.lol",    
     "local": url
     }
