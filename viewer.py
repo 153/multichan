@@ -109,7 +109,11 @@ def view(host):
 
 #@viewer.route('/threads/<host>/<thread>/')
 def view_t(host, thread):
+    lock = 0
     tpath = f"./threads/{host}/{thread}/"
+    if os.path.isfile(tpath+"lock"):
+        lock = 1
+    lock =11
     tinfo = {"title":"", "source":"", "tags":"", "messages":""}
     # Get the list of thread replies and the thread title. 
     with open(tpath + "list.txt", "r") as tind:
@@ -202,6 +206,8 @@ def view_t(host, thread):
         threadp.append(p)
     tinfo["messages"] = "".join(threadp)
     tinfo["title"] = meta[0]
+    if lock:
+        tinfo["title"] = "&#x1F512; " + tinfo["title"]
 #    threadp.insert(0, f"<h1>{meta[0]}</h1>")
 #    threadp[0] += "source: "
     if host != "local":
@@ -232,10 +238,14 @@ def reply_t(host, thread):
         redir = f"/threads/{host}/{thread}"
         return f"<center><h1><a href='{redir}'>View updated thread</a></h1></center>"
     tpage = view_t(host, thread)
-    tpage
     canpost = whitelist.approve()
+    lock = 0
+    if os.path.isfile(f"./threads/{host}/{thread}/lock"):
+        lock = 1
     if not canpost:
         replf = whitelist.show_captcha(1, f"/threads/{host}/{thread}/")
+    elif lock:
+        replf = "<hr> &#x1F512; Thread has been locked. No more comments are allowed."
     else:
         replf = newr.format(host, thread)
     tpage += replf

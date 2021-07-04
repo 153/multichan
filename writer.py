@@ -119,6 +119,8 @@ def rep_t(host, thread, now, author, msg):
         author = nametrip(author)
     msg = msg[:s._long]
     tdir = f"./threads/{host}/{thread}/"
+    if os.path.isfile(tdir + "lock"):
+        return "Error: thread is locked!"
     tnow = now
     msg = msg.replace("&", "&amp;").replace("<", "&lt;")
     msg = msg.replace("\n","<br>").replace("\r","")
