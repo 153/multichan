@@ -113,7 +113,6 @@ def view_t(host, thread):
     tpath = f"./threads/{host}/{thread}/"
     if os.path.isfile(tpath+"lock"):
         lock = 1
-    lock =11
     tinfo = {"title":"", "source":"", "tags":"", "messages":""}
     # Get the list of thread replies and the thread title. 
     with open(tpath + "list.txt", "r") as tind:
@@ -245,7 +244,7 @@ def reply_t(host, thread):
     if not canpost:
         replf = whitelist.show_captcha(1, f"/threads/{host}/{thread}/")
     elif lock:
-        replf = "<hr> &#x1F512; Thread has been locked. No more comments are allowed."
+        replf = "<hr> <div> &#x1F512; Thread has been locked. No more comments are allowed.</div>"
     else:
         replf = newr.format(host, thread)
     tpage += replf
