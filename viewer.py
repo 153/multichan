@@ -188,9 +188,9 @@ def view_t(host, thread):
         replies = ["".join(x) for x in replies]
         for r in replies:
             try:
-                if "http" in r2:
+                if "http" in r:
                     r2 = ">>http://" + r.split("/")[2]
-                elif "https" in r2:
+                elif "https" in r:
                     r2 = ">>https://" + r.split("/")[2]
                 r2 = r.replace(r2, ">>" + fquote[r2])
             except:
