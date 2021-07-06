@@ -4,7 +4,7 @@ import settings as s
 import requests
 
 tstring = "%Y-%m-%d %H:%M"
-bees = "<script type='text/javascript' src='//sageru.org/bee.js'></script>"
+bees = "<script type='text/javascript' src='/bee.js'></script>"
 
 def unix2hum(unix):
     unix = int(unix)
@@ -32,7 +32,9 @@ def wget(url, fn, w=1):
             page = rt.get(url).text
         except Exception as e:
             print(e)
-            page = ""        
+            page = ""
+    if "<!DOCTYPE" == page[:8]:
+        return ""
     if not w:
         return page
     with open(fn, "w") as fn:

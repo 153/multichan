@@ -38,6 +38,5 @@ friends = {
     "52chan": "http://bbs.4x13.net",
     "ripirc": "http://ripirc.org",
     "sageru": "http://multichan.sageru.org",
-#    "kuzlol": "http://multich.kuz.lol",    
     "local": url
     }
