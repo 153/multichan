@@ -283,11 +283,11 @@ def load_thread(board, host, thread):
 
 @boards.route('/b/<board>/<host>/<thread>/')
 def show_thread(board, host, thread, methods=['POST', 'GET']):
-    datetime = "%a, %b %d, %Y, @ %-I %p"
+#    datetime = "%a, %b %d, %Y, @ %-I %p"
+    # datetime = time.strftime(datetime, time.localtime(int(x[1]))),
     test = mod_board(board, host)
     tindex = load_thread(board, host, thread) # [[host, time, author, comment]]
-    tindex = [[x[0], time.strftime(datetime, time.localtime(int(x[1]))),
-               *x[2:]] for x in tindex]
+    tindex = [[x[0], u.unix2hum(x[1]), *x[2:]] for x in tindex]
     head = f"./threads/{host}/{thread}/head.txt"
     with open(head, "r") as head:
         head = head.read().splitlines()[0]
@@ -316,10 +316,13 @@ def show_thread(board, host, thread, methods=['POST', 'GET']):
             if i in t[3]:
                 t[3] = u.imgur(t[3], i)
                 break
-
+        t[3] = t[3].split("<br>")
+        t[3] = "<br>".join([f"<b class='quote'>{x}</b>"
+                          if len(x) and x[0] == ">" else x
+                            for x in t[3]])
+        
         # 0 reply, # 1 date, #2 name, #3 comment, #4 host
         # 0 host, # 1 time, #2 author, #3 comment
-        
         page.append(reply.format(link, t[1], t[2], t[3], ""))
     canpost = whitelist.approve()
     with open("./templ/newr.t", "r") as newr:
