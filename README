@@ -1,11 +1,13 @@
 Irc:
 * irc.rizon.net #0chan
 * http://qchat.rizon.net/?channels=0chan
-* irc.freenode.net #multich
 * irc.libera.chat #multich
 
 Matrix:
 * [#multichan:matrix.org](https://matrix.to/#/#multichan:matrix.org)
+
+Wiki:
+* https://tanasinn.vip/multich
 
 # Easy how-to-install:
 
@@ -74,6 +76,8 @@ keywords, and then executing `python3 tags.py` and/or `python3 refresh.py`.
 * Textboard archive --> Multich relay
 * "chan" style board view
 * "tree" style board view (usenet, reddit, ayashii)
+* Better API
+* Desktop client
 
 # Directory structure
 ```

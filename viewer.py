@@ -31,7 +31,7 @@ def hostlist(li=0):
     for x in hosts2:
         hosts.append(f"\n<a href='/threads/{x}'>{x}</a>")
     hosts.insert(0, "\n<a href='/threads/'>Global</a>")
-    hosts = "\nSites: " + " \n&diams; ".join(hosts)
+    hosts = "\n<b>Hosts:</b> " + " \n&diams; ".join(hosts)
     hosts = "<header style='text-align: right'>" + hosts + "\n</header>"
     return hosts
 

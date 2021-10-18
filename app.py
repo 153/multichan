@@ -58,6 +58,6 @@ if __name__ == '__main__':
     daemon.run()    
     app.run(host="0.0.0.0", port=_port)
     print(time.time.now())
-    print(request.headers)
+    print("!", request)
 
 app.run()

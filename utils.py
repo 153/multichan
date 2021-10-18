@@ -33,7 +33,7 @@ def wget(url, fn, w=1):
         except Exception as e:
             print(e)
             page = ""
-    if "<!DOCTYPE" == page[:8]:
+    if "<!DOCTYPE" in page:
         return ""
     if not w:
         return page
