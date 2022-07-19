@@ -45,6 +45,22 @@ def addlog(ip, ig=0):
             iplog.write(fi)
     return log
 
+def check_db(ip):
+    print("""        headers = {
+            'Key': api_key,
+            'Accept': 'application/json',
+        }
+
+        params = {
+            'maxAgeInDays': days,
+            'ipAddress': IP,
+            'verbose': ''
+        }
+
+        r = requests.get('https://api.abuseipdb.com/api/v2/check',
+                         headers=headers, params=params)
+""")
+
 def approve(ip=0, key=""):
     if not ip:
         ip = get_ip()
@@ -54,8 +70,9 @@ def approve(ip=0, key=""):
         bans = bans.read().splitlines()
     bans = [b.split(" ")[0] if " " else b for b in bans]
     iprange = ".".join(ip.split(".")[:3])
-    if ip in bans or iprange in bans:
-        return False
+    for b in bans:
+        if ip.startswith(b):
+            return False
     if ip in log:
         if len(log[ip]) == 3:
             if log[ip][2] != key:
@@ -136,3 +153,40 @@ def flood(limit=60, mode="comment"):
         return "<b>Error: flood detected.</b>" \
             + f"<p>Please wait {diff} seconds before trying to post again."
     return False
+
+# host thread replynumber ip datetime name message
+# add "ip's post log" -- (group 3) > (group 4)
+
+def flood_control(mode="comment"):
+    user = {"comment" : 60, "thread" : 60*60}
+    site = {"comment" : 20, "thread" : 40*60}
+    
+    user_rate(user[mode], mode)
+
+def get_comment_log():
+    tnow = str(int(time.time()))
+    logpath = s.log 
+    with open(logpath, "r") as log:                
+        log = log.read().splitlines()[-14:-10] # changeme
+    try: log = [x.split() for x in log]
+    except: return False
+    log = [[*L[:4], *L[4].split("<>")] for L in log]
+    for L in log:
+        print(L)
+    
+    return log
+
+def user_rate(limit=60, mode="comment"):
+    ip = get_ip()
+    log = get_comment_log()
+    return
+    log = [i for i in log if i == ip]
+    print(log)
+
+    
+# site_comment_rate 20 seconds  20
+# user_comment_rate 1 minute    60
+# site_thread_rate  40 minutes  60 * 40
+# user_thread_rate  1 hour      60 * 60
+
+# add "recent posts" -- (group 4)
